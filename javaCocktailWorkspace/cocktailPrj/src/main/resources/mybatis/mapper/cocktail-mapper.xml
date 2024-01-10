@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CocktailMapper">
+
+	<!-- 첫 칵테일 등록 -->
+	<insert id="registCocktail">
+		INSERT INTO COCKTAIL (NO, MEMBER_NO, NAME_KOR,
+		NAME_ENG, COMMENTARY,
+		RECIPE_EXPLAN, ITEM, CATEGORY_NO, ALC)
+		VALUES
+		(seq_cocktail_no.CURRVAL, #{memberNo},
+		#{nameKor},#{nameEng},#{commentary}, #{recipeExplan}, #{item},
+		#{categoryNo}, #{alc})
+	</insert>
+	
+<!-- 	칵테일 alc 업데이트 CocktailVo 사용-->
+	<update id="updateAlcCocktail">
+		update cocktail set alc = #{alc}, item=#{item} where no=#{no}
+	</update>
+
+	<!-- 레시피에 재료 동적 insert -->
+	<insert id="registRecipe" parameterType="java.util.List">
+		INSERT ALL
+		<foreach collection="list" item="recipe" separator=" ">
+			INTO RECIPE
+			(COCKTAIL_NO, ING_NO, AMOUNT_NO, AMOUNT)
+
+			VALUES
+			(seq_cocktail_no.nextval,
+			#{recipe.ingNo}, #{recipe.amountNo},
+			#{recipe.amount})
+		</foreach>
+		SELECT * FROM dual
+	</insert>
+
+	<!-- 재료에서 알코올 조회. 입력받은 ing list에서 ingNo로 조회 -->
+	<select id="selectRecipeAlc" resultType="RecipeVo">
+		SELECT COALESCE(alc, 0) AS alc FROM ingredient WHERE
+		<foreach collection="list" item="recipe" separator="OR">
+			<trim prefix="" suffixOverrides="OR">
+				no = #{recipe.ingNo}
+			</trim>
+		</foreach>
+	</select>
+
+</mapper>
