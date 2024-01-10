@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="BookmarkMapper">
+
+	<!-- 북마크 생성 -->
+	<insert id="create">
+		INSERT 
+		INTO BOOKMARK
+		(
+		    NO
+		    ,MEMBER_NO
+		    ,COCKTAIL_NO
+		) 
+		VALUES
+		(
+		    SEQ_BOOKMARK_NO.NEXTVAL
+		    ,#{memberNo}
+		    ,#{cocktailNo}
+		)
+	</insert>
+	
+	<!-- 북마크 상태 조회 -->
+	<select id="status" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM COCKTAIL C
+		JOIN BOOKMARK B ON C.NO = B.COCKTAIL_NO
+		WHERE B.MEMBER_NO = #{memberNo}
+		AND C.NO = #{cocktailNo}
+	</select>
+	
+	<!-- 북마크 삭제 -->
+	<delete id="delete">
+		DELETE 
+		FROM BOOKMARK
+		WHERE MEMBER_NO = #{memberNo}
+		AND COCKTAIL_NO = #{cocktailNo}
+	</delete>
+	
+
+</mapper>
