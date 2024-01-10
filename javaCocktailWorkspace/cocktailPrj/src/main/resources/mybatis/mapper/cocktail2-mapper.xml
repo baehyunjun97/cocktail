@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CocktailMapper2">
+
+	<!-- 칵테일 전체 조회 -->
+	<select id="list" resultType="com.kh.app.cocktail.vo.CocktailVo2">
+	    SELECT DISTINCT
+	        C.NO AS COCKTAIL_NO,
+	        C.NAME_KOR,
+	        C.COMMENTARY,
+            C.ITEM AS ING_CNT,
+            NVL(C.ALC,0) AS ALC,
+	        M.NICK AS WRITER_NAME,
+	        CS.FILE_NAME AS COCKTAIL_FILE_NAME,
+            B.BASE_NAME
+	    FROM COCKTAIL C
+		JOIN MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		JOIN RECIPE R ON C.NO = R.COCKTAIL_NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+	    <where>
+	        <!-- 알콜 필터 -->
+	        <if test="alc == '무알콜'">
+	            AND C.ALC IS NULL
+	        </if>
+	        <if test="alc == '강한 도수'">
+	            AND C.ALC >= 20
+	        </if>
+	        <if test="alc == '약한 도수'">
+	            AND C.ALC &lt; 20
+	        </if> 
+	        <!-- 재료수 필터 -->
+	        <if test="itemMin != null and itemMax != null and itemMin != '' and itemMax != ''">
+	            AND C.ITEM BETWEEN #{itemMin, jdbcType=NUMERIC} AND #{itemMax, jdbcType=NUMERIC}
+	        </if>
+	        <!-- 베이스 주 필터 -->
+	        <if test="baseName != null and baseName != '' and baseName != '베이스주'">
+	            AND B.BASE_NAME = #{baseName}
+	        </if>
+	         <if test="ingNo != null and ingNo != ''">
+	            AND I.NO = #{ingNo}
+	        </if>
+	    </where>
+	    <!-- 최신순으로 조회 -->
+	    <if test="order == null or order == '' or order == '최신순'">
+	        ORDER BY C.NO, CS.FILE_NAME DESC
+	    </if>
+	    <!-- 좋아요순 조회 -->
+	    <if test="order == '좋아요순'">
+	        ORDER BY (SELECT COUNT(*) FROM BOOKMARK B2 WHERE B2.COCKTAIL_NO = C.NO) DESC, CS.FILE_NAME DESC
+	    </if>
+	</select>
+	
+	<select id="ingredientDetail" resultType="com.kh.app.cocktail.vo.CocktailVo2">
+		SELECT DISTINCT
+		    C.NO AS COCKTAIL_NO,
+		    C.NAME_KOR,
+		    C.COMMENTARY,
+		    C.ITEM AS ING_CNT,
+		    COALESCE(C.ALC, 0) AS ALC,
+		    M.NICK AS WRITER_NAME,
+		    CS.FILE_NAME AS COCKTAIL_FILE_NAME,
+		    B.BASE_NAME
+		FROM COCKTAIL C
+		JOIN MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		JOIN RECIPE R ON C.NO = R.COCKTAIL_NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		WHERE C.NO IN (
+		    SELECT C.NO AS COCKTAIL_NO
+		    FROM COCKTAIL C
+		    JOIN MEMBER M ON C.MEMBER_NO = M.NO
+		    JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		    JOIN RECIPE R ON C.NO = R.COCKTAIL_NO
+		    JOIN INGREDIENT I ON R.ING_NO = I.NO
+		    LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		    WHERE R.ING_NO = #{ingNo}
+		)
+		ORDER BY C.NO, CS.FILE_NAME DESC
+	</select>
+	
+	<!-- 칵테일만 상세조회 -->
+	<select id="detail" resultType="com.kh.app.cocktail.vo.CocktailVo2">
+		SELECT 
+		    NVL(C.ALC,0) AS ALC
+		    ,C.NO AS COCKTAIL_NO
+		    ,C.NAME_KOR
+		    ,C.NAME_ENG
+		    ,C.COMMENTARY
+		    ,C.RECIPE_EXPLAN
+		    ,(
+		        SELECT COUNT(*) 
+		        FROM RECIPE R
+		        JOIN INGREDIENT I ON R.ING_NO = I.NO
+		        WHERE R.COCKTAIL_NO = #{cocktailNo}
+		     ) AS ING_CNT
+		    ,(
+		    	SELECT COUNT(*)
+		        FROM COCKTAIL C
+		        JOIN BOOKMARK B ON C.NO = B.COCKTAIL_NO
+		        WHERE C.NO = #{cocktailNo}
+		    ) AS LIKE_CNT
+ <!-- 		     ,(
+		        SELECT COUNT(*)
+		        FROM COCKTAIL C
+		        JOIN BOOKMARK B ON C.NO = B.COCKTAIL_NO
+		        WHERE B.MEMBER_NO = #{memberNo}
+		        AND C.NO = #{memberNo}
+		      ) AS LIKE_YN -->
+		    ,M.NICK AS WRITER_NAME
+		    ,CS.FILE_NAME AS COCKTAIL_FILE_NAME
+		FROM COCKTAIL C
+		JOIN MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		WHERE C.NO = #{cocktailNo}
+	</select>
+	
+	<!-- 검색 -->
+	<select id="search" resultType="com.kh.app.cocktail.vo.CocktailVo2">
+		 SELECT DISTINCT
+	        C.NO AS COCKTAIL_NO,
+	        C.NAME_KOR,
+	        C.COMMENTARY,
+            C.ITEM AS ING_CNT,
+            NVL(C.ALC,0) AS ALC,
+	        M.NICK AS WRITER_NAME,
+	        CS.FILE_NAME AS COCKTAIL_FILE_NAME,
+            B.BASE_NAME
+	    FROM COCKTAIL C
+		JOIN MEMBER M ON C.MEMBER_NO = M.NO
+		JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		JOIN RECIPE R ON C.NO = R.COCKTAIL_NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		<where>
+			<if test="searchName == '' or searchName == null">
+		    	AND C.NAME_KOR LIKE ''
+			</if>
+			<if test="searchName != '' and searchName != null">
+			    AND C.NAME_KOR LIKE '%' || #{searchName} || '%'
+			</if>
+		</where>
+		ORDER BY C.NO, CS.FILE_NAME DESC
+	</select>
+
+</mapper>

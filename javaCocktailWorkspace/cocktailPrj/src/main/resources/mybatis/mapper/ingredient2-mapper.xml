@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="IngredientMapper2">
+	
+	<!-- 칵테일 재료 상세조회 -->
+	<select id="cocktailDetail" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+            R.AMOUNT
+            ,A.NAME AS AMOUNT_NAME
+		    ,I.NAME AS ING_NAME
+		    ,I.EXPLANATION
+		    ,I.SRC AS ING_SRC
+		    ,NVL(I.ALC,0) AS ALC
+		    ,NVL(B.BASE_NAME,'없음') AS BASE_NAME
+		    ,IC.CATEGORY AS ING_CATEGORY_NAME
+		FROM RECIPE R 
+        JOIN AMOUNT A ON R.AMOUNT_NO = A.NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		LEFT JOIN ING_CATEGORY IC ON I.CATEGORY_NO = IC.NO
+		<where>
+			<if test="cocktailNo != null and cocktailNo != ''">
+				AND R.COCKTAIL_NO = #{cocktailNo}
+			</if>
+			<if test="ingNo != null and ingNo != ''">
+				AND I.NO = #{ingNo}
+			</if>
+		</where> 
+		ORDER BY I.NO
+	</select>
+	
+		<!-- 재료 상세조회 -->
+	<select id="detail" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+		    I.NAME AS ING_NAME
+		    ,I.EXPLANATION
+		    ,I.SRC AS ING_SRC
+		    ,NVL(I.ALC,0) AS ALC
+		    ,NVL(B.BASE_NAME,'없음') AS BASE_NAME
+		    ,IC.CATEGORY AS ING_CATEGORY_NAME
+		FROM INGREDIENT I
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		LEFT JOIN ING_CATEGORY IC ON I.CATEGORY_NO = IC.NO
+		<where>
+			<if test="ingNo != null and ingNo != ''">
+				AND I.NO = #{ingNo}
+			</if>
+		</where> 
+		ORDER BY I.NO
+	</select>
+	
+	<!-- 재료 검색조회 -->
+	<select id="search" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+	    SELECT 
+	        I.NO AS ING_NO,
+		    I.NAME AS ING_NAME,
+		    I.EXPLANATION,
+		    I.SRC AS ING_SRC,
+		    IC.CATEGORY AS ING_CATEGORY_NAME
+	    FROM INGREDIENT I
+	    JOIN ING_CATEGORY IC ON I.CATEGORY_NO = IC.NO
+    	<where>
+			<if test="searchName == '' or searchName == null">
+		    	AND I.NAME LIKE ''
+			</if>
+			<if test="searchName != '' and searchName != null">
+			    AND I.NAME LIKE '%' || #{searchName} || '%'
+			</if>
+		</where>
+	    ORDER BY I.NO
+	</select>
+	
+	<!-- 마우스오버 이벤트 발생시 -->
+	<select id="mouseOverEvent" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+			R.AMOUNT
+		    ,NVL(I.ALC,0) AS ALC
+		    ,I.NAME AS ING_NAME
+		    ,NVL(B.BASE_NAME,'없음') AS BASE_NAME
+		     ,A.NAME AS AMOUNT_NAME
+		FROM RECIPE R
+		JOIN AMOUNT A ON R.AMOUNT_NO = A.NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		WHERE R.COCKTAIL_NO = #{cocktailNo}
+	</select>
+	
+	<!-- 재료 전체조회 및 필터 -->
+	<select id="list" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+			I.NO AS ING_NO
+		    ,I.NAME AS ING_NAME
+		    ,I.EXPLANATION
+		    ,I.SRC AS ING_SRC
+		    ,IC.CATEGORY AS ING_CATEGORY_NAME
+		FROM INGREDIENT I
+		LEFT JOIN ING_CATEGORY IC ON I.CATEGORY_NO = IC.NO
+		<where>
+			<if test="ingCategoryName != null and ingCategoryName != ''">
+				AND IC.CATEGORY = #{ingCategoryName}
+			</if>
+		</where>
+		ORDER BY I.NO
+	</select>
+	
+</mapper>
