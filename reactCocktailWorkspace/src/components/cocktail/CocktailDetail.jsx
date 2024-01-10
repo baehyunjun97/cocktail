@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import CocktailImg from './CocktailImg';
+import CocktailProfile from './CocktailProfile';
 import IngredientInfo from '../ingredient/IngredientInfo';
 import RecipeDescription from './RecipeDescription';
 
@@ -27,7 +27,7 @@ const CocktailDetail = () => {
 
     return (
         <StyledDetailDiv>
-            <CocktailImg map={map}/>
+            <CocktailProfile map={map}/>
             <IngredientInfo map={map}/>
             <RecipeDescription map={map}/>
         </StyledDetailDiv>

@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-
+// CocktailProfile의 스타일 설정
 const StyledDetailDiv = styled.div`
     & > div {
         margin-top: 70px;
@@ -106,33 +106,62 @@ const StyledDetailDiv = styled.div`
     }
 `;
 
-const CocktailImg = ({ map }) => {
+// CocktailProfile 함수
+const CocktailProfile = ({ map }) => {
+
+    // 변하는 상태값 [state들]
     const [ingredientVoList, setIngredientVoList] = useState([]);
-    const [cocktailFileNameList, setCocktailFileNameList] = useState([]);
+    const [cocktailFileList, setCocktailFileList] = useState([]);
     const [cocktailVo, setCocktailVo] = useState([]);
     const [mainImg, setMainImg] = useState('');
     const [likeCnt, setLikeCnt] = useState(0);
-    const [isLiked, setIsLiked] = useState(() => {
-        const storedValue = localStorage.getItem('isLiked');
-        return storedValue ? JSON.parse(storedValue) : null;
-    });
-  
+    const [isLiked, setIsLiked] = useState();
+
+    // 칵테일 북마크 조회 ok 
     useEffect(() => {
-      if (map && map.ingredientVoList && map.cocktailVo) {
-        setIngredientVoList(map.ingredientVoList);
-        setCocktailVo(map.cocktailVo);
-        setCocktailFileNameList(map.cocktailVo.cocktailFileNameList);
-        setMainImg(map.cocktailVo.cocktailFileNameList[0]);
-        setLikeCnt(map.cocktailVo.likeCnt);
-      }
-    }, [map]);
-  
-    const vo = useMemo(() => {
-        return {
-          memberNo: "1",
-          cocktailNo: cocktailVo.cocktailNo,
+        
+        let vo = {}; // vo 변수를 useEffect 내에서 선언
+
+        const fetchData = async () => {
+            try {
+                vo = {
+                    memberNo: "1",
+                    cocktailNo: map.cocktailVo.cocktailNo,
+                };
+
+                const response = await fetch("http://127.0.0.1:8888/app/bookmark/status", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(vo)
+                });
+
+                if (!response.ok) {
+                    throw new Error("북마크 여부 조회 fetch함수 오류 발생");
+                }
+
+                const data = await response.json();
+
+                if (data.status === 'o') {
+                    setIsLiked(true);
+                } else if (data.status === 'x') {
+                    setIsLiked(false);
+                } else {
+                    throw new Error("북마크 여부 조회 실패");
+                }
+            } catch (error) {
+                console.log(error);
+            }
         };
-      }, [cocktailVo.cocktailNo]); 
+
+        if (map && map.ingredientVoList && map.cocktailVo) {
+            setIngredientVoList(map.ingredientVoList);
+            setCocktailVo(map.cocktailVo);
+            setCocktailFileList(map.cocktailVo.cocktailFileNameList);
+            setMainImg(map.cocktailVo.cocktailFileNameList[0]);
+            setLikeCnt(map.cocktailVo.likeCnt);
+            fetchData();
+        }
+    }, [map]);
 
     const baseNames = (() => {
         return Array.from({ length: Math.min(10, ingredientVoList.length) }, (_, index) => {
@@ -144,12 +173,17 @@ const CocktailImg = ({ map }) => {
         });
     })();
 
-    const images = cocktailFileNameList.map((fileName,index) => (
+    const images = cocktailFileList.map((fileName,index) => (
         <img onClick={()=>{setMainImg(fileName)}} key={fileName} src={fileName} alt={index+fileName} />
       ));
 
     // 하트 좋아요 요청
     const handleClickHeart = () => {
+
+        const vo = {
+            memberNo: "1",
+            cocktailNo: map.cocktailVo.cocktailNo,
+        }
 
         fetch("http://127.0.0.1:8888/app/bookmark",{
             method : "POST",
@@ -166,12 +200,12 @@ const CocktailImg = ({ map }) => {
             if(data.msg === 'deleteSuccess'){
                 setLikeCnt(Number(likeCnt)-1);
                 setIsLiked(false);
-                localStorage.setItem('isLiked', false);
+                localStorage.setItem('isLiked'+cocktailVo.cocktailNo, false);
             }
             if(data.msg === "createSuccess"){
                 setLikeCnt(Number(likeCnt)+1);
                 setIsLiked(true);
-                localStorage.setItem('isLiked', true);
+                localStorage.setItem('isLiked'+cocktailVo.cocktailNo, true);
             }
             if(data.msg === 'bad'){
                 throw new Error("좋아요 누르기 실패");
@@ -220,4 +254,5 @@ const CocktailImg = ({ map }) => {
     );
 };
 
-export default CocktailImg;
+export default CocktailProfile;
+
