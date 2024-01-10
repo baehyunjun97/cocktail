@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/app/cocktail")
+@RequestMapping("/api/cocktail")
 @CrossOrigin("*") //모든 출처 오픈 (칵테일사진)
 public class CocktailController {
 
