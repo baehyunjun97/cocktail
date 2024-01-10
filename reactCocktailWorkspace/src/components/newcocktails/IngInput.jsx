@@ -23,64 +23,62 @@ const StyledIngInputDiv = styled.div`
   }
 `;
 
-const IngredientForm = ({ index, onDelete }) => {
+const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
   return (
     <div>
       <h2>재료 등록</h2>
       <div>
         재료(넘버):
-        <input type="text" name={`ingNo_${index}`} />
+        <input type="text" name={`ingNo_${index}`} onChange={(e) => handleChangeIng(index, 'ingNo', e.target.value)} />
         <br />
         용량:
-        <input type="text" name={`amount_${index}`} />
+        <input type="text" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} />
         <br />
         계량:
-        <input type="text" name={`amountNo_${index}`} />
+        <input type="text" name={`amountNo_${index}`} onChange={(e) => handleChangeIng(index, 'amountNo', e.target.value)} />
         <br />
-        <button onClick={() => onDelete(index)}>재료 삭제</button>
+        {isLast && <button onClick={() => onDelete(index)}>재료 삭제</button>}
       </div>
     </div>
   );
 };
 
-const IngInput = () => {
+const IngInput = ({ onChangeIngredients }) => {
   const [formCount, setFormCount] = useState(1);
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
     console.log('현재 배열:', ingredients);
-  }, [ingredients]);
+    onChangeIngredients(ingredients); // Notify the parent component about the updated ingredients
+  }, [ingredients, onChangeIngredients]);
 
-  // 재료 추가 버튼 함수
-  const handleAddIngredient = (index) => {
-    const ingNoValue = document.querySelector(`input[name="ingNo_${index}"]`).value;
-    const amountValue = document.querySelector(`input[name="amount_${index}"]`).value;
-    const amountNoValue = document.querySelector(`input[name="amountNo_${index}"]`).value;
+  const handleChangeIng = (index, fieldName, value) => {
+    setIngredients((prevIngredients) => {
+      const updatedIngredients = [...prevIngredients];
+      updatedIngredients[index] = {
+        ...updatedIngredients[index],
+        [fieldName]: value,
+      };
 
-    const formData = {
-      index: index,
-      ingNo: ingNoValue,
-      amount: amountValue,
-      amountNo: amountNoValue,
-    };
+      return updatedIngredients;
+    });
+  };
 
-    // Ing 배열에 폼데이터 넣기
-    setIngredients((prevIngredients) => [...prevIngredients, formData]);
-
-    // 배열크기 증가
+  const handleAddIngredient = () => {
     setFormCount((prevFormCount) => prevFormCount + 1);
   };
 
-  // 재료 삭제 버튼 함수
   const handleDeleteIngredient = (index) => {
-    setIngredients((prevIngredients) => prevIngredients.filter((_, i) => i !== index));
-    setFormCount((prevFormCount) => prevFormCount - 1);
+    if (formCount > 1) {
+      setIngredients((prevIngredients) => prevIngredients.filter((_, i) => i !== index));
+      setFormCount((prevFormCount) => prevFormCount - 1);
+    }
   };
 
   return (
     <StyledIngInputDiv>
       {[...Array(formCount)].map((_, index) => (
-        <IngredientForm key={index} index={index} onDelete={handleDeleteIngredient} />
+        <IngredientForm key={index} index={index} onDelete={handleDeleteIngredient} handleChangeIng={handleChangeIng} isLast={index === formCount - 1}/>
       ))}
 
       <button onClick={() => handleAddIngredient(formCount - 1)} type="button">

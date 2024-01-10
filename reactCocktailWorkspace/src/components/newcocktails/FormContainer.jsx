@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImgUploader from './ImgUploader';
 import styled from 'styled-components';
 import TextInput from './TextInput';
@@ -35,6 +35,12 @@ const StyledFormContainerDiv = styled.div`
 `;
 
 const FormContainer = () => {
+    const [ingredients, setIngredients] = useState([]);
+
+    //재료배열 업데이트
+    const handleIngredientsChange = (updatedIngredients) => {
+        setIngredients(updatedIngredients);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -43,11 +49,13 @@ const FormContainer = () => {
             memberNo: '1',
             nameKor: e.target.name_kor.value,
             nameEng: e.target.name_eng.value,
+            recipe: ingredients,
             commentary: e.target.cocktail_explan.value,
             recipeExplan: e.target.recipe_explan.value,
+            categoryNo: e.target.categoryNo.value,
             };
 
-        fetch("http://127.0.0.1:8888/app/api/cocktail/regist" , {
+        fetch("http://127.0.0.1:8888/app/cocktail/regist" , {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -56,6 +64,7 @@ const FormContainer = () => {
         })
         .then( resp => resp.json() )
         .then( data => {
+            console.log(formData);
             console.log(data);
         } )
         ;
@@ -69,8 +78,9 @@ const FormContainer = () => {
                 <TextInput title="칵테일 이름" maxText="20" data="name_kor" heigth="46px" />
                 <TextInput title="칵테일 영문 이름" maxText="20" data="name_eng" heigth="46px" />
                 <ExplanInput title="칵테일 설명" maxText="200" data="cocktail_explan" heigth="200px" />
-                <IngInput />
+                <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
+                <TextInput title="칵테일 카테고리" maxText="20" data="categoryNo" heigth="46px" />
                 <button className='registButton' onClick={(data) => {console.log(data);}}>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>
