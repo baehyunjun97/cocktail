@@ -20,12 +20,11 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/cocktail")
+@RequestMapping("cocktail")
 @CrossOrigin("*") //모든 출처 오픈 (칵테일사진)
 public class CocktailController {
 
 	private final CocktailService service;
-	
 	
 //	@GetMapping("/regist")
 //	public List<String> viewRegist() {
@@ -33,7 +32,7 @@ public class CocktailController {
 //	}
 
 	//TODO return good은 칵테일 리스트(기본화면)으로 이동시킨다. 가칭 home
-	@PostMapping("/regist")
+	@PostMapping("regist")
 	public Map<String, Object> Regist(@RequestBody CocktailVo vo) throws IOException {
 		
 		Map<String, Object> map = null;

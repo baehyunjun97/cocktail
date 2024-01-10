@@ -44,5 +44,10 @@
 			</trim>
 		</foreach>
 	</select>
+	
+<!-- 	재료 검색 -->
+	<select id="selectIng">
+		select no, name from ingredient where name LIKE '%#{name}%'
+	</select>
 
 </mapper>
