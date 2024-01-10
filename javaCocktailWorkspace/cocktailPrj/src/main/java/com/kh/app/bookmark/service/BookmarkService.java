@@ -21,6 +21,8 @@ public class BookmarkService {
 
 	public Map<String, String> toggleBookmarkAndCheckStatus(FilterVo vo) {
 		
+		System.out.println(vo);
+		
 		Map<String, String> bookmarkMap = new HashMap<>(); 
 		
 		int bookmarkStatus = dao.findBookmarkStatus(sst,vo);
@@ -57,8 +59,6 @@ public class BookmarkService {
 
 	// 북마크 상태 조회
 	public Map<String,String> findBookmarkStatus(FilterVo vo) {
-		
-		System.out.println(vo);
 		
 		// status값을 받아서 할당  1이면 누름 0은 안누름
 		int bookmarkStatus = dao.findBookmarkStatus(sst, vo);
