@@ -23,6 +23,7 @@ const StyledNewCocktailDiv = styled.div`
     grid-auto-rows: auto;
     justify-content: center;
     align-items: center;
+    margin-top: 100px;
 
     //font는 적용 일단 미룸 - 
     font-family: NanumGothic, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -43,7 +44,6 @@ const Newcocktail = () => {
         
         <StyledFormContainer>
             <FormContainer/>
-            
         </StyledFormContainer>
 
     </StyledNewCocktailDiv>
