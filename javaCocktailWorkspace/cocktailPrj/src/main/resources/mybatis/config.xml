@@ -9,5 +9,9 @@
 		<setting name="mapUnderscoreToCamelCase" value="True"/>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.app.cocktail.vo.RecipeVo" alias="RecipeVo"/>
+	</typeAliases>
 
 </configuration>
