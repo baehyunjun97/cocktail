@@ -1,6 +1,7 @@
 package com.kh.app.cocktail.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,12 @@ public class CocktailDao {
 
     // 칵테일 등록
     public int regist(SqlSessionTemplate sst, CocktailVo vo) throws Exception {
-        int registRecipe = registRecipe(sst, vo.getRecipe());
+        int registRecipe = registRecipe(sst, vo);
+        int insertSrc = insertSrc(sst,vo.getUrlPaths()); //list
+        
+        if(insertSrc < 1) {
+        	throw new Exception("이미지 등록 실패");
+        }
         
         if(registRecipe < 1) {
             throw new Exception("레시피 등록 실패");
@@ -27,9 +33,16 @@ public class CocktailDao {
         return sst.insert("CocktailMapper.registCocktail", vo);
     }
 
+    // img src 등록
+	private int insertSrc(SqlSessionTemplate sst, List<String> list) {
+		int result = sst.insert("CocktailMapper.insertSrc", list);
+		System.out.println("Src 등록개수 : "+result);
+		return result;
+	}
+
 	// recipe 등록
-	public int registRecipe(SqlSessionTemplate sst, List<RecipeVo> list) {
-		int result = sst.insert("CocktailMapper.registRecipe", list);
+	public int registRecipe(SqlSessionTemplate sst, CocktailVo vo) {
+		int result = sst.insert("CocktailMapper.registRecipe", vo.getRecipe());
 		System.out.println("레시피 등록개수 : "+result);
 		return result;
 	}

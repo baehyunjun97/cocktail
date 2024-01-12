@@ -42,18 +42,19 @@ public class CocktailController {
 			System.out.println(vo);
 			System.out.println(vo.getImgList()); // multiFile
 
+			//recipeStr(json) => recipe setter
 			String recipeListJsonStr = vo.getRecipeListJsonStr();
-
 			Gson gson = new Gson();
 			RecipeVo[] recipeArray = gson.fromJson(recipeListJsonStr, RecipeVo[].class);
-
-			List<RecipeVo> list = new ArrayList<RecipeVo>();
+			List<RecipeVo> recipeList = new ArrayList<RecipeVo>();
 			for (RecipeVo recipe : recipeArray) {
-				list.add(recipe);
+				recipeList.add(recipe);
 			}
-			vo.setRecipe(list);
+			vo.setRecipe(recipeList);
 
-			saveFile(vo.getImgList(), vo.getNameEng()); // 저장
+			//이미지 저장
+			List<String> filePaths = saveFile(vo.getImgList(), vo.getNameEng()); // 저장
+			vo.setFilePaths(filePaths);
 
 			int result = service.regist(vo);
 			System.out.println("컨트롤러 결과 : " + result);

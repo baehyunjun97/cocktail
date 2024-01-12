@@ -3,6 +3,7 @@ package com.kh.app.cocktail.vo;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +37,8 @@ public class CocktailVo {
 	private List<RecipeVo> recipe; //재료 리스트
 	private String recipeListJsonStr; //재료 리스트
 	
-	private List<String> filePaths; //파일패스들
+	private List<String> filePaths; //파일패스들 (saveFile)
+	private List<String>  urlPaths; //파일 URL 패스들 (DB등록)
 	
 	private String base; // 베이스주 재료 사용여부
 	private int alc; // 알코올 도수 (null == 무알콜)	
