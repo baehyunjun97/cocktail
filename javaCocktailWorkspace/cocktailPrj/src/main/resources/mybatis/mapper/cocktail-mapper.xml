@@ -14,10 +14,11 @@
 		#{nameKor},#{nameEng},#{commentary}, #{recipeExplan}, #{item},
 		#{categoryNo}, #{alc})
 	</insert>
-	
-<!-- 	칵테일 alc 업데이트 CocktailVo 사용-->
+
+	<!-- 칵테일 alc 업데이트 CocktailVo 사용 -->
 	<update id="updateAlcCocktail">
-		update cocktail set alc = #{alc}, item=#{item} where no=#{no}
+		update cocktail set alc = #{alc}, item=#{item} where
+		no=#{no}
 	</update>
 
 	<!-- 레시피에 재료 동적 insert -->
@@ -44,10 +45,21 @@
 			</trim>
 		</foreach>
 	</select>
-	
-<!-- 	재료 검색 -->
+
+	<!-- 칵테일 사진 url 저장 -->
+
+	<insert id="insertSrc">
+
+	</insert>
+
+	<!-- 재료 검색 -->
 	<select id="selectIng">
-		select no, name from ingredient where name LIKE '%#{name}%'
+		insert into cocktail_src (NO, FILE_NAME, COCKTAIL_NO)
+		values
+		(
+		seq_cocktail_src_no.nextval , #{},#{})
+		;
 	</select>
+
 
 </mapper>
