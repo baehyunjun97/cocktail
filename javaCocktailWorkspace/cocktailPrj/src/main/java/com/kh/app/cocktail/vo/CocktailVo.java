@@ -36,6 +36,8 @@ public class CocktailVo {
 	private List<RecipeVo> recipe; //재료 리스트
 	private String recipeListJsonStr; //재료 리스트
 	
+	private List<String> filePaths; //파일패스들
+	
 	private String base; // 베이스주 재료 사용여부
 	private int alc; // 알코올 도수 (null == 무알콜)	
 	

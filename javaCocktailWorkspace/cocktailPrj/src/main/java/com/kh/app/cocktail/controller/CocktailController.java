@@ -81,21 +81,21 @@ public class CocktailController {
 
 		List<String> pathList = new ArrayList<String>();
 
-		String fullPath = null;
+		String imgDir = null;
 		int iter = 1;
 		for (MultipartFile img : f) {
 			// 확장자 추출
 			int pos = img.getOriginalFilename().lastIndexOf(".");
 			String ext = img.getOriginalFilename().substring(pos + 1);
 
-			fullPath = path + cocktailName + "_" + iter + "." + ext;
+			imgDir = path + cocktailName + "_" + iter + "." + ext;
 
-			File target = new File(fullPath);
+			File target = new File(imgDir);
 			img.transferTo(target);
 
-			System.out.println(fullPath);
+			System.out.println(imgDir);
 
-			pathList.add(fullPath);
+			pathList.add(imgDir);
 			iter++;
 		}
 		return pathList;
