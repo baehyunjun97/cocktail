@@ -165,13 +165,13 @@ public class CocktailService2 {
 
 		// 계산한 값을 voList에 할당하는 메소드
 		private void assignAlcoholStrength(List<CocktailVo2> voList) {
-		   
 
 		    // 계산한 값을 voList에 할당
 		    for (CocktailVo2 vo : voList) {
-		        if (Integer.parseInt(vo.getAlc()) < 20) {
+		    	int alc = Integer.parseInt(vo.getAlc());
+		        if (alc < 20 && alc > 1) {
 		        	vo.setAlcoholStrength("약한도수");
-		        } else if (Integer.parseInt(vo.getAlc()) >= 20) {
+		        } else if (alc >= 20) {
 		        	vo.setAlcoholStrength("강한도수");
 		        } else {
 		        	vo.setAlcoholStrength("무알콜");
