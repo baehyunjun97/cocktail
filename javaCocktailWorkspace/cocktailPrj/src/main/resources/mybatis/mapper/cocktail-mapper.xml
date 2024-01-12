@@ -53,13 +53,13 @@
 	</insert>
 
 	<!-- 재료 검색 -->
-	<select id="selectIng">
-		insert into cocktail_src (NO, FILE_NAME, COCKTAIL_NO)
-		values
-		(
-		seq_cocktail_src_no.nextval , #{},#{})
-		;
-	</select>
+<!-- 	<select id="selectIng" resultType="com.kh.app.cocktail.vo.CocktailVo"> -->
+<!-- 		insert into cocktail_src (NO, FILE_NAME, COCKTAIL_NO) -->
+<!-- 		values -->
+<!-- 		( -->
+<!-- 		seq_cocktail_src_no.nextval , #{},#{}) -->
+<!-- 		; -->
+<!-- 	</select> -->
 
 
 </mapper>
