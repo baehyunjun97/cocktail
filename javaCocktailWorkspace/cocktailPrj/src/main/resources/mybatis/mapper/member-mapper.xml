@@ -51,4 +51,11 @@
 			WHERE NO=#{no}
 			AND QUIT_YN='N'
 	</update>
+	
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*) 
+		FROM MEMBER
+		WHERE ID = #{id}
+	</select>
+	
 </mapper>

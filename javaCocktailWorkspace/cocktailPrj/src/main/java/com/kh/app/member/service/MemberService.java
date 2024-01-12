@@ -35,15 +35,14 @@ public class MemberService {
 		String msg = null;
 		
 		// 0아니면 1을 리턴 
-//		int idCheck = dao.idCheck(sst,vo); 
+		int idCheck = dao.idCheck(sst,vo); 
 		
-		// 아이디가 없어야 성공이니 
-//		if(idCheck == 1) {
+//		 아이디가 없어야 성공이니 
+		if(idCheck == 1) {
 //			map.put("msg", "아이디 중복");
-//			msg = "아이디 중복";
-//			return msg;
-//		}
-		
+			msg="overlap";
+			return msg;
+		}	
 		int result = dao.join(sst,vo);
 		
 		if(result==1) {
@@ -54,7 +53,8 @@ public class MemberService {
 			msg = "bad";
 		}
 		
-		return msg;
+		
+		return msg; // 이 메소드를 호출한게 있지? 그호출한 메소드에서 필요한 데이터를 쓰면 됨
 	}
 	
 	//로그인

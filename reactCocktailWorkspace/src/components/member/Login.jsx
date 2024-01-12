@@ -128,8 +128,9 @@ const Login = () => {
         })
         .then((data)=>{
             if(data.msg==="good"){
+                console.log(data.loginMember);
                 alert("로그인 성공")
-                sessionStorage.setItem("loginMemberVo",JSON.stringify(data.loginMemberVo));
+                sessionStorage.setItem("loginMember",JSON.stringify(data.loginMember));
                 navigate('/*')
             }else{
                 alert("로그인 실패")

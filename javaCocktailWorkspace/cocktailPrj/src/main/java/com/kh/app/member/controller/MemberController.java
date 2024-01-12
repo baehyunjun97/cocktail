@@ -35,6 +35,7 @@ public class MemberController {
 		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		String msg = ms.join(vo);
 		return msg;
+		//return ms.join
 	}
 	
 	//로그인

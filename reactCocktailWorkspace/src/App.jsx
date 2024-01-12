@@ -4,7 +4,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import ErrorPage from './components/ErrorPage';
 import RecipeUploadLayout from './components/RecipeUploadLayout';
-import MemberLayout from './components/MemberLayout';
+
+import Join from './components/member/Join';
+import Login from './components/member/Login';
 
 function App() {
   return (
@@ -13,8 +15,8 @@ function App() {
         <Routes>
           <Route path='/recepiUpload' element={<RecipeUploadLayout />} />
           <Route path='/*' element={<Layout />} />
-          <Route path='/memberUpload' element={<MemberLayout />} />
-
+          <Route path='/join' element={<Join />} />
+          <Route path='/login' element={<Login />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
