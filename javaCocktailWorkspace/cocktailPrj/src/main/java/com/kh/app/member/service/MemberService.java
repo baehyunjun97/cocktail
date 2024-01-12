@@ -53,6 +53,27 @@ public class MemberService {
 			msg = "bad";
 		}
 		
+		//아이디 작성 조건
+		if(!id.matches("^[a-zA-Z0-9]+$")) {
+			msg = "bad";
+		}
+		
+		String pwd= vo.getPwd();
+		String pwd2= vo.getPwd2();
+		//비밀번호 작성 조건
+		if(!pwd.matches("[a-zA-Z0-9!@#$%^&*]+$")) {
+			msg = "bad";
+		}
+		//비밀번호 일치여부
+		if(!pwd.equals(pwd2)) {
+			msg = "bad";
+		}
+		
+		String email= vo.getEmail();
+		//이메일 작성 조건
+		if(!email.matches("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$")) {
+			msg = "bad";
+		}
 		
 		return msg; // 이 메소드를 호출한게 있지? 그호출한 메소드에서 필요한 데이터를 쓰면 됨
 	}
