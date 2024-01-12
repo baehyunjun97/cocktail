@@ -1,6 +1,10 @@
 package com.kh.app.cocktail.vo;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +24,6 @@ public class CocktailVo {
 	private String memberNo; //작성자 번호
 	
 	private String memberName; // 작성자 이름(join)
-	private String filePath; // 칵테일 사진 (1~3장)
 	
 	private String ingNo; // 재료 넘버
 	private String ingName; // 재료 이름
@@ -29,7 +32,9 @@ public class CocktailVo {
 	private String ingDelYn; // 재료 사용여부
 	private String ingCategory; // 재료 사용여부
 	
+	private List<MultipartFile> imgList; //이미지 리스트
 	private List<RecipeVo> recipe; //재료 리스트
+	private String recipeListJsonStr; //재료 리스트
 	
 	private String base; // 베이스주 재료 사용여부
 	private int alc; // 알코올 도수 (null == 무알콜)	

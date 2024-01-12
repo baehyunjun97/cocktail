@@ -36,45 +36,51 @@ const StyledFormContainerDiv = styled.div`
 
 const FormContainer = () => {
     const [ingredients, setIngredients] = useState([]);
+    const [img, setImg] = useState([]);
 
     //재료배열 업데이트
     const handleIngredientsChange = (updatedIngredients) => {
         setIngredients(updatedIngredients);
     };
+    //사진배열 업데이트
+    const handleImgSetting = (updatedImg) => {
+        setImg(updatedImg);
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        const formData = {
-            memberNo: '1',
-            nameKor: e.target.name_kor.value,
-            nameEng: e.target.name_eng.value,
-            recipe: ingredients,
-            commentary: e.target.cocktail_explan.value,
-            recipeExplan: e.target.recipe_explan.value,
-            categoryNo: e.target.categoryNo.value,
-            };
-
-        fetch("http://127.0.0.1:8888/app/cocktail/regist" , {
+    
+        let formData = new FormData();
+          for(let i=0; i<img.length;i++){
+            formData.append('imgList', img[i]); 
+          }
+					formData.append('memberNo', '1');
+					formData.append('nameKor', e.target.name_kor.value);
+					formData.append('nameEng', e.target.name_eng.value);
+          formData.append('recipeListJsonStr', JSON.stringify(ingredients));
+					formData.append('commentary', e.target.cocktail_explan.value);
+					formData.append('recipeExplan', e.target.recipe_explan.value);
+					formData.append('categoryNo', e.target.categoryNo.value);
+    
+          console.log('Form Data[0]:', formData);
+          console.log('Registered Images:', img);
+    
+          // Add your fetch logic here
+          fetch("http://127.0.0.1:8888/app/cocktail/regist", {
             method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-              },
-            body: JSON.stringify(formData),
-        })
-        .then( resp => resp.json() )
-        .then( data => {
-            console.log(formData);
-            console.log(data);
-        } )
-        ;
-    };
+            body: formData,
+          })
+            .then(resp => resp.json())
+            .then(data => {
+              console.log(formData);
+            });
+        };
     
     return (
         <>
         <StyledFormContainerDiv>
             <form onSubmit={handleSubmit}>
-                <ImgUploader/>
+                <ImgUploader onRegisteredImagesChange={handleImgSetting} />
                 <TextInput title="칵테일 이름" maxText="20" data="name_kor" heigth="46px" />
                 <TextInput title="칵테일 영문 이름" maxText="20" data="name_eng" heigth="46px" />
                 <ExplanInput title="칵테일 설명" maxText="200" data="cocktail_explan" heigth="200px" />

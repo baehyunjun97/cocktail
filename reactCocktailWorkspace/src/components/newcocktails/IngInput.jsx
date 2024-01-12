@@ -10,6 +10,15 @@ const StyledIngInputDiv = styled.div`
   flex-direction: column;
   gap: 10px;
 
+  & h2{
+      line-height: 16px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: rgb(79, 79, 79);
+      padding-top: 1rem;
+      padding-bottom: 0.5rem;
+  }
+
   & input {
     width: 100%;
     padding: 12.5px 15px;
@@ -20,6 +29,17 @@ const StyledIngInputDiv = styled.div`
     height: 46px;
     color: rgb(48, 48, 48);
     font-weight: 600;
+  }
+
+  & button{
+    margin-top: 5px;
+    padding: 3px;
+    border: 2px solid rgb(131, 131, 131);
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: rgb(110, 110, 110);
+    font-weight: 550;
+    cursor: auto;
   }
 `;
 

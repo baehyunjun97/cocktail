@@ -2,6 +2,7 @@ import React from 'react';
 import FormContainer from './newcocktails/FormContainer';
 import HeadContainer from './newcocktails/HeadContainer';
 import styled from 'styled-components';
+import { useState } from 'react';
 
 const StyledFormContainer = styled.div`
     height: 100%;
@@ -38,12 +39,13 @@ const StyledNewCocktailDiv = styled.div`
 
 
 const Newcocktail = () => {
+
     return(
     <StyledNewCocktailDiv>
         <HeadContainer/>
         
         <StyledFormContainer>
-            <FormContainer/>
+            <FormContainer />
         </StyledFormContainer>
 
     </StyledNewCocktailDiv>
