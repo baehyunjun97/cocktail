@@ -35,9 +35,10 @@ public class MemberDao {
 	public List<CocktailVo3> bookmark(SqlSessionTemplate sst, CocktailVo3 cvo) {
 		return sst.selectList("MypageMapper.bookmark",cvo);
 	}
-
+	
+	//아이디 중복체크
 	public int idCheck(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectOne("MypageMapper.idCheck",vo);
+		return sst.selectOne("MemberMapper.idCheck",vo);
 	}
 //	아이디 단 한개야 
 //	SELECT COUNT(*) 카운터를 이용해서 조회 0 아니면 1이 나옴
