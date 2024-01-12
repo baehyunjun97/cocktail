@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import FilterButton from './FilterButton';
 import CocktailItems from './CocktailItems';
-import RangeFilter from './RangeFilter';
+import FilterButton from './FilterButton';
+import RangeFilterButton from './RangeFilterButton';
 
+// 스타일은 따로 안나눔 ..
 const StyledListDiv = styled.div`
     margin-top: 50px;
     display: flex;
@@ -133,34 +134,34 @@ const StyledListDiv = styled.div`
 `;
 
 // 컴포넌트 시작
-
 const CocktailList = () => {
 
-    // 스테이트로 화면 관리
+    // 응답받은 데이터를 받을 배열 스테이트
     const [voList, setVoList] = useState([]);
 
-    // 모달 구별
+    // 모달을 구별하여 누를때 마다 각자의 모달이 닫히게 설정
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisible2, setModalVisible2] = useState(false);
     const [isModalVisible3, setModalVisible3] = useState(false);
     const [isModalVisible4, setModalVisible4] = useState(false);
 
-    // 필터이름 
-    const [filterNames, setFilterNames] = useState({
-        filterName1: "도수",
-        filterName2: "재료 수",
-        filterName3: "베이스주",
-        filterName4: "최신순",
+    // 필터 타이틀객체
+    const [filterTitles, setFilterTitles] = useState({
+        filterTitle1: "도수",
+        filterTitle2: "재료 수",
+        filterTitle3: "베이스주",
+        filterTitle4: "최신순",
     });
 
-    // 모달 필터설정
-    const filters = {
-        filter1 : ['전체','무알콜','약한 도수','강한 도수'],
-        filter2 : ['전체조회','조회하기'],
-        filter3 : ['전체','럼','보드카','위스키','진','데킬라','브랜디','소주'],
-        filter4 : ['최신순','좋아요순'],
+    // 필터내용
+    const filterContents = {
+        filterContent1 : ['전체','무알콜','약한 도수','강한 도수'],
+        filterContent2 : ['전체조회','조회하기'],
+        filterContent3 : ['전체','럼','보드카','위스키','진','데킬라','브랜디','소주'],
+        filterContent4 : ['최신순','좋아요순'],
     }
 
+    // 필터 타이틀에 재료 수 부분의 숫자 ~ 숫자에서  ~를 빼고 숫자만 가져옴 
     function getBeforeTilde(str) {
         const parts = str.split('~');
         return parts;
@@ -169,33 +170,22 @@ const CocktailList = () => {
     // 렌더링 시 화면 변경
     useEffect(()=>{
 
-        console.log(filterNames.filterName2);
+        // filterTitles에서 ~부분을 없애고 숫자를 배열로 리턴받음
+        const result = getBeforeTilde(filterTitles.filterTitle2);
 
-        const result = getBeforeTilde(filterNames.filterName2);
-
-        // item값을 임시로 저장
+        // item값을 저장
         let itemMin = result[0];
         let itemMax = result[1];
 
-        if(itemMin === "재료수" || itemMax === "재료수"){
-            itemMin = null;
-            itemMax = null;
-        }
-
-        if(typeof itemMin == "undefined" || typeof itemMax == "undefined"){
-            itemMin = null;
-            itemMax = null;
-        }
-
         // 요청 보냄
-        fetch(`http://127.0.0.1:8888/app/cocktail/list?alc=${filterNames.filterName1}&itemMin=${itemMin}&itemMax=${itemMax}&baseName=${filterNames.filterName3}&order=${filterNames.filterName4}`)
+        fetch(`http://127.0.0.1:8888/app/cocktail/list?alc=${filterTitles.filterTitle1}&itemMin=${itemMin}&itemMax=${itemMax}&baseName=${filterTitles.filterTitle3}&order=${filterTitles.filterTitle4}`)
         .then(resp => resp.json())
         .then((data) => {
             setVoList(data);
         })
 
-        // 의존성 배열 filterNames이 변경되면 useEffect 실행
-    }, [filterNames])
+        // 의존성 배열 filterTitles가 변경되면 useEffect 실행
+    }, [filterTitles])
 
     return (
         <StyledListDiv>
@@ -204,40 +194,41 @@ const CocktailList = () => {
                 <FilterButton
                     setModalVisible = {setModalVisible}
                     isModalVisible={isModalVisible}
-                    setFilterNames = {setFilterNames}
-                    filterNames = {filterNames}
+                    setFilterTitles = {setFilterTitles}
+                    filterTitles = {filterTitles}
                     index={1}
                     setVoList = {setVoList}
-                    filters = {filters.filter1}
+                    filterContents = {filterContents.filterContent1}
                 />
                 {/* props로 데이터 전달 */}
-                <RangeFilter 
+                <RangeFilterButton 
                     setModalVisible = {setModalVisible2}
                     isModalVisible={isModalVisible2}
-                    setFilterNames = {setFilterNames}
-                    filterNames = {filterNames}
+                    setFilterTitles = {setFilterTitles}
+                    filterTitles = {filterTitles}
                     index={2}
                     setVoList = {setVoList}
-                    filters = {filters.filter2}
+                    filterContents = {filterContents.filterContent2}
                 />
+                {/* props로 데이터 전달 */}
                 <FilterButton
                     setModalVisible = {setModalVisible3}
                     isModalVisible={isModalVisible3}
-                    setFilterNames = {setFilterNames}
-                    filterNames = {filterNames}
+                    setFilterTitles = {setFilterTitles}
+                    filterTitles = {filterTitles}
                     index={3}
                     setVoList = {setVoList}
-                    filters = {filters.filter3}
+                    filterContents = {filterContents.filterContent3}
                 />
                 {/* props로 데이터 전달 */}
                 <FilterButton
                     setModalVisible = {setModalVisible4}
                     isModalVisible={isModalVisible4}
-                    setFilterNames = {setFilterNames}
-                    filterNames = {filterNames}
+                    setFilterTitles = {setFilterTitles}
+                    filterTitles = {filterTitles}
                     index={4}
                     setVoList = {setVoList}
-                    filters = {filters.filter4}
+                    filterContents = {filterContents.filterContent4}
                 />
             </div>
             <CocktailItems cocktailVoList={voList} />
@@ -246,6 +237,7 @@ const CocktailList = () => {
 };
 
 export default CocktailList;
+
 
 
 

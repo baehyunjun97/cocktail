@@ -108,8 +108,9 @@ const StyledDetailDiv = styled.div`
 `;
 
 // CocktailProfile 함수
-const CocktailProfile = ({ map }) => {
+const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
 
+    // navigate생성
     const navigate = useNavigate();
 
     // 변하는 상태값 [state들]
@@ -120,6 +121,7 @@ const CocktailProfile = ({ map }) => {
     const [likeCnt, setLikeCnt] = useState(0);
     const [isLiked, setIsLiked] = useState();
 
+    // useEffect 
     const navigateCallback = useCallback(() => {
         navigate("/error");
     }, [navigate]);
@@ -133,7 +135,7 @@ const CocktailProfile = ({ map }) => {
             try {
                 vo = {
                     memberNo: "1",
-                    cocktailNo: map.cocktailVo.cocktailNo,
+                    cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
                 };
 
                 const response = await fetch("http://127.0.0.1:8888/app/bookmark/status", {
@@ -161,15 +163,15 @@ const CocktailProfile = ({ map }) => {
             }
         };
 
-        if (map && map.ingredientVoList && map.cocktailVo) {
-            setIngredientVoList(map.ingredientVoList);
-            setCocktailVo(map.cocktailVo);
-            setCocktailFileList(map.cocktailVo.cocktailFileNameList);
-            setMainImg(map.cocktailVo.cocktailFileNameList[0]);
-            setLikeCnt(map.cocktailVo.likeCnt);
+        if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.ingredientVoList && cocktailAndIngredientsVO.cocktailVo) {
+            setIngredientVoList(cocktailAndIngredientsVO.ingredientVoList);
+            setCocktailVo(cocktailAndIngredientsVO.cocktailVo);
+            setCocktailFileList(cocktailAndIngredientsVO.cocktailVo.cocktailFileNameList);
+            setMainImg(cocktailAndIngredientsVO.cocktailVo.cocktailFileNameList[0]);
+            setLikeCnt(cocktailAndIngredientsVO.cocktailVo.likeCnt);
             fetchData();
         }
-    }, [map,navigateCallback]);
+    }, [cocktailAndIngredientsVO,navigateCallback]);
 
     const baseNames = (() => {
         return Array.from({ length: Math.min(10, ingredientVoList.length) }, (_, index) => {
@@ -190,7 +192,7 @@ const CocktailProfile = ({ map }) => {
 
         const vo = {
             memberNo: "1",
-            cocktailNo: map.cocktailVo.cocktailNo,
+            cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
         }
 
         fetch("http://127.0.0.1:8888/app/bookmark",{

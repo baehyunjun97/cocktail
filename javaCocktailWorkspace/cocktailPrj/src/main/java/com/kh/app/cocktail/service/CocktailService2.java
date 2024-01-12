@@ -36,6 +36,14 @@ public class CocktailService2 {
 		        filterVo.setItemMax(null);
 		        filterVo.setItemMin(null);
 		    }
+		    if ("undefined".equals(filterVo.getItemMax()) || "undefined".equals(filterVo.getItemMin())) {
+		        filterVo.setItemMax(null);
+		        filterVo.setItemMin(null);
+		    }
+		    if ("재료수".equals(filterVo.getItemMax()) || "재료수".equals(filterVo.getItemMin())) {
+		        filterVo.setItemMax(null);
+		        filterVo.setItemMin(null);
+		    }
 		}
 		
 		// dao호출

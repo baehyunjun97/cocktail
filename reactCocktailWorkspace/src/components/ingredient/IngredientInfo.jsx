@@ -77,14 +77,14 @@ const StyleDetailDiv = styled.div`
     }
 `;
 
-const IngredientInfo = ({ map }) => {
+const IngredientInfo = ({ cocktailAndIngredientsVO }) => {
     const [ingredientVoList, setIngredientVoList] = useState([]);
 
     useEffect(() => {
-        if (map && map.ingredientVoList) {
-            setIngredientVoList(map.ingredientVoList);
+        if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.ingredientVoList) {
+            setIngredientVoList(cocktailAndIngredientsVO.ingredientVoList);
         }
-    }, [map]);
+    }, [cocktailAndIngredientsVO]);
 
     const renderIngredients = () => {
         return ingredientVoList.map((ingredientVo) => (
