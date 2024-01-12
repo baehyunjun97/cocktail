@@ -2,27 +2,34 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CocktailProfile from './CocktailProfile';
-import IngredientInfo from '../ingredient/IngredientInfo';
 import RecipeDescription from './RecipeDescription';
+import IngredientInfo from '../../ingredient/IngredientInfo';
 
+// styledComponent
 const StyledDetailDiv = styled.div`
 
 `;
 
+// 칵테일 디테일 컴포넌트
 const CocktailDetail = () => {
 
+    // useNavigate함수
     const navigate = useNavigate();
 
+    // useLoction함수로 쿼리스트링 이용해서 데이터 받아오기
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
     let queryValue = queryParams.get('query');
     
-    const [map,setMap] = useState([]);
+    // 칵테일 vo ,재료voList를 다음 vo 스테이트 생성
+    const [cocktailAndIngredientsVO,setCocktailAndIngredientsVO] = useState([]);
 
+    // useCallBack을 이용해서 useEffect안에 에러 처리후 url이동가능
     const navigateCallback = useCallback(() => {
         navigate("/error");
     }, [navigate]);
     
+    // 첫 로딩시에 요청보냄
     useEffect(() => {
         fetch("http://127.0.0.1:8888/app/cocktail/detail?cocktailNo="+queryValue)
             .then(resp => {
@@ -32,7 +39,7 @@ const CocktailDetail = () => {
                 return resp.json();
             })
             .then((data) => {
-                setMap(data);
+                setCocktailAndIngredientsVO(data);
             })
             .catch((e) => {
                 console.log(e);
@@ -42,9 +49,9 @@ const CocktailDetail = () => {
   
     return (
         <StyledDetailDiv>
-            <CocktailProfile map={map}/>
-            <IngredientInfo map={map}/>
-            <RecipeDescription map={map}/>
+            <CocktailProfile cocktailAndIngredientsVO={cocktailAndIngredientsVO}/>
+            <IngredientInfo cocktailAndIngredientsVO={cocktailAndIngredientsVO}/>
+            <RecipeDescription cocktailAndIngredientsVO={cocktailAndIngredientsVO}/>
         </StyledDetailDiv>
     );
 };

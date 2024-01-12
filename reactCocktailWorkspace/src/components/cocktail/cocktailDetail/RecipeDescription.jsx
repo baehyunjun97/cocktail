@@ -28,15 +28,15 @@ const StyledDetailDiv = styled.div`
     }
 `;
 
-const RecipeDescription = ({ map }) => {
+const RecipeDescription = ({ cocktailAndIngredientsVO }) => {
 
     const [recipeExplan, setRecipeExplan] = useState();
 
     useEffect(() => {
-        if (map && map.cocktailVo && map.cocktailVo.recipeExplan) {
-            setRecipeExplan(map.cocktailVo.recipeExplan);
+        if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.cocktailVo && cocktailAndIngredientsVO.cocktailVo.recipeExplan) {
+            setRecipeExplan(cocktailAndIngredientsVO.cocktailVo.recipeExplan);
         }
-    }, [map]);
+    }, [cocktailAndIngredientsVO]);
 
     if (!recipeExplan) {
         return null;

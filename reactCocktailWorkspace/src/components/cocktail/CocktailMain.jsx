@@ -1,7 +1,7 @@
 import React from 'react';
 import {Routes, Route} from 'react-router-dom';
-import CocktailList from './CocktailList';
-import CocktailDetail from './CocktailDetail';
+import CocktailList from './cocktailList/CocktailList';
+import CocktailDetail from './cocktailDetail/CocktailDetail';
 
 const CocktailMain = () => {
     return (
