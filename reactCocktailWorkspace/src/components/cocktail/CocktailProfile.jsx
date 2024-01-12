@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 // CocktailProfile의 스타일 설정
 const StyledDetailDiv = styled.div`
@@ -109,6 +110,8 @@ const StyledDetailDiv = styled.div`
 // CocktailProfile 함수
 const CocktailProfile = ({ map }) => {
 
+    const navigate = useNavigate();
+
     // 변하는 상태값 [state들]
     const [ingredientVoList, setIngredientVoList] = useState([]);
     const [cocktailFileList, setCocktailFileList] = useState([]);
@@ -116,6 +119,10 @@ const CocktailProfile = ({ map }) => {
     const [mainImg, setMainImg] = useState('');
     const [likeCnt, setLikeCnt] = useState(0);
     const [isLiked, setIsLiked] = useState();
+
+    const navigateCallback = useCallback(() => {
+        navigate("/error");
+    }, [navigate]);
 
     // 칵테일 북마크 조회 ok 
     useEffect(() => {
@@ -150,6 +157,7 @@ const CocktailProfile = ({ map }) => {
                 }
             } catch (error) {
                 console.log(error);
+                navigateCallback();
             }
         };
 
@@ -161,7 +169,7 @@ const CocktailProfile = ({ map }) => {
             setLikeCnt(map.cocktailVo.likeCnt);
             fetchData();
         }
-    }, [map]);
+    }, [map,navigateCallback]);
 
     const baseNames = (() => {
         return Array.from({ length: Math.min(10, ingredientVoList.length) }, (_, index) => {
@@ -213,6 +221,7 @@ const CocktailProfile = ({ map }) => {
         })
         .catch((e) => {
             console.log(e);
+            navigate("/error");
         })
     }
 
