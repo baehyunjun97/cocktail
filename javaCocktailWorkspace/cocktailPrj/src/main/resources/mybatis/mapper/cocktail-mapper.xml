@@ -47,19 +47,23 @@
 	</select>
 
 	<!-- 칵테일 사진 url 저장 -->
-
-	<insert id="insertSrc">
-
+	<insert id="insertSrc" parameterType="java.util.List">
+		INSERT ALL
+		<foreach collection="list" item="item" separator=" ">
+			INTO cocktail_src (NO, FILE_NAME, COCKTAIL_NO)
+			VALUES (seq_cocktail_src_no.nextval, #{item}, seq_cocktail_no.CURRVAL)
+		</foreach>
+		SELECT * FROM dual
 	</insert>
 
 	<!-- 재료 검색 -->
-<!-- 	<select id="selectIng" resultType="com.kh.app.cocktail.vo.CocktailVo"> -->
-<!-- 		insert into cocktail_src (NO, FILE_NAME, COCKTAIL_NO) -->
-<!-- 		values -->
-<!-- 		( -->
-<!-- 		seq_cocktail_src_no.nextval , #{},#{}) -->
-<!-- 		; -->
-<!-- 	</select> -->
+	<!-- <select id="selectIng" resultType="com.kh.app.cocktail.vo.CocktailVo"> -->
+	<!-- insert into cocktail_src (NO, FILE_NAME, COCKTAIL_NO) -->
+	<!-- values -->
+	<!-- ( -->
+	<!-- seq_cocktail_src_no.nextval , #{},#{}) -->
+	<!-- ; -->
+	<!-- </select> -->
 
 
 </mapper>
