@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -95,20 +95,39 @@ const StyledListDiv = styled.div`
     }
 `;
 
+// 재료 리스트
 const IngredientList = () => {
 
+    // useNavigate
     const navigate = useNavigate();
 
+    // useCallback을 이용해서 에러페이지로 이동
+    const navigateCallback = useCallback(() => {
+        navigate("/error");
+    }, [navigate]);
+
+    // 렌더링시 Effect발생
     useEffect(()=>{
         fetch("http://127.0.0.1:8888/app/ingredient/list")
-        .then(resp => resp.json())
+        .then(resp => {
+          if(!resp.ok){
+            throw new Error("상태이상");
+          }
+          return resp.json();
+        })
         .then( (data) => {
             setVoList(data);
         })
-    },[])
+        .catch((e)=>{
+          console.log(e);
+          navigateCallback();
+        })
+    },[navigateCallback])
 
+    // state생성후 백엔드에서 받아온 voList 저장
     const [voList,setVoList] = useState([]);
 
+    // filter값을 추가하여 재요청 보내기
     const handleClickFilter = (event) => {
         let filter = event.target.innerText;
         if(filter === '전체'){
@@ -123,12 +142,15 @@ const IngredientList = () => {
 
     }
 
+    // 카테고리를 저장하는 state생성
     const [categoryStates, setCategoryStates] = useState([]);
 
+    // 클릭시 detail페이지로 이동
     const handleClickDetail = (ingNo) => {
       navigate(`/ingredient/detail?query=${encodeURIComponent(ingNo)}`);
     }
 
+    // 이벤트 발생시 새로운 state생성후 true값을 넣어 저장
     const handleMouseOver = (index) => {
       setCategoryStates((prevStates) => {
         const newStates = [...prevStates];
@@ -137,6 +159,7 @@ const IngredientList = () => {
       });
     };
   
+    // 이벤트 발생시 새로운 state생성후 true값을 넣어 저장
     const handleMouseOut = (index) => {
       setCategoryStates((prevStates) => {
         const newStates = [...prevStates];
@@ -145,28 +168,34 @@ const IngredientList = () => {
       });
     };
   
-    const images = voList.map((mapVo, index) => (
-      <div onClick={()=>{handleClickDetail(mapVo.ingNo)}} key={mapVo.ingNo}>
+    // 화면에 보여줄 이미지 리스트
+    const images = voList.map((ingredientVo, index) => (
+      // 클릭 이벤트 발생시 디테일 페이지로 넘길 재료번호를 파라미터에 담아 detail페이지로 이동
+      <div onClick={()=>{handleClickDetail(ingredientVo.ingNo)}} key={ingredientVo.ingNo}>
         <div>
           <img
-            src={mapVo.ingSrc}
-            alt={`Cocktail ${mapVo.ingNo}`}
+            // 이미지 path
+            src={ingredientVo.ingSrc}
+            alt={`Cocktail ${ingredientVo.ingNo}`}
           />
           <div
+            // 마우스 이벤트
             onMouseOver={() => handleMouseOver(index)}
             onMouseOut={() => handleMouseOut(index)}
           >
             <div
-              className={`category${mapVo.ingNo}`}
+              // 호버시 디비 토글
               style={{ display: categoryStates[index] ? 'block' : 'none' }}
             >
-              {"#"+mapVo.ingCategoryName}
+              {/* 안에 보일 카테고리 이름 */}
+              {"#"+ingredientVo.ingCategoryName}
             </div>
           </div>
         </div>
         <div>
-          <div>{mapVo.ingName}</div>
-          <div>{mapVo.explanation}</div>
+          {/* 재료 이름 , 설명 */}
+          <div>{ingredientVo.ingName}</div>
+          <div>{ingredientVo.explanation}</div>
         </div>
       </div>
     ));

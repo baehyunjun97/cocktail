@@ -100,19 +100,23 @@ const StyleDetailDiv = styled.div`
     }
 `;   
 
-const CocktailsWithIngredient = ({ map }) => {
+const CocktailsWithIngredient = ({ cocktailsAndIngredientVo }) => {
 
+    // 화면에 보여줄 데이터
     const [cocktailVoList, setCocktailVoList] = useState([]);
 
+    // useEffect안에 props로 받은데이터 체크 로직
     useEffect(() => {
-        if (map && map.cocktailVoList) {
-            setCocktailVoList(map.cocktailVoList);
+        if (cocktailsAndIngredientVo && cocktailsAndIngredientVo.cocktailVoList) {
+            setCocktailVoList(cocktailsAndIngredientVo.cocktailVoList);
         }
-    }, [map]);
+    }, [cocktailsAndIngredientVo]);
 
+    // 카테고리와 , 마우스 오버이벤트를 관리 해줄 state
     const [categoryStates, setCategoryStates] = useState([]);
     const [currentMouseOverIndex, setCurrentMouseOverIndex] = useState(null);
 
+    // 마우스 오버 이벤트
     const handleMouseOver = (event, index) => {
         setCategoryStates((prevStates) => {
             const newStates = [...prevStates];
@@ -122,6 +126,7 @@ const CocktailsWithIngredient = ({ map }) => {
         setCurrentMouseOverIndex(index);
     };
 
+    // 마우스 아웃 이벤트
     const handleMouseOut = () => {
         setCategoryStates((prevStates) => {
             const newStates = [...prevStates];
@@ -133,35 +138,36 @@ const CocktailsWithIngredient = ({ map }) => {
         setCurrentMouseOverIndex(null);
     };
 
+    // 네비게이트로 칵테일 디테일로 이동시킴
     const navigate = useNavigate();
-
     const handleClickDetail = (cocktailNo) => {
-        console.log(cocktailNo);
-        // setCocktailNo(cocktailNo);
         navigate(`/cocktail/detail?query=${encodeURIComponent(cocktailNo)}`);
     }
 
+    // 화면에 보여줄 이미지
     const images = () => {
+        // cotailVoList 배열만큼 반복
         return cocktailVoList.map((cocktailVo,index) => (
+            // 클릭시 디테일로 이동
             <div onClick={() => {handleClickDetail(cocktailVo.cocktailNo)}} key={cocktailVo.id}>
                 <div>
+                    {/* 썸네일 사진 */}
                     <img src={cocktailVo.cocktailFileName} alt={cocktailVo.cocktailFileName} />
                     <div
+                        // 마우스 이벤트로 호버처럼 화면에 보여짐
                         onMouseOver={(event) => handleMouseOver(event, index)}
                         onMouseOut={() => handleMouseOut(index)}
                     >
+                        {/* 스타일 삼항연사자로 true false로 div보여줄지 안보여줄지 정함 */}
                         <div style={{ display: categoryStates[index] ? 'block' : 'none' }}>
-                                <div
-                                    style={{ display: categoryStates[index] ? 'block' : 'none' }}
-                                >
+                                <div>
                                     {"#" + cocktailVo.alcoholStrength}
                                 </div>
-                                <div
-                                    style={{ display: categoryStates[index] ? 'block' : 'none' }}
-                                >
+                                <div>
                                     {"#재료 " + cocktailVo.ingCnt + "개"}
                                 </div>
                                 {Array.from({ length: 4 }, (_, index) => (
+                                    // 칵테일 재료에 베이스 네임 리스트
                                     cocktailVoList[index] && (
                                         <div key={`${cocktailVo.cocktailNo}_${index}`} style={{ display: categoryStates[index] ? 'block' : 'none' }}>
                                             {Array.from({ length: Math.min(4, cocktailVoList[index].baseNameList.length) }, (_, baseIndex) => (
@@ -178,6 +184,7 @@ const CocktailsWithIngredient = ({ map }) => {
                     </div>
                 </div>
                 <div>
+                    {/* 칵테일 이름 설명 */}
                     <div>{cocktailVo.nameKor}</div>
                     <div>{cocktailVo.commentary}</div>
                 </div>

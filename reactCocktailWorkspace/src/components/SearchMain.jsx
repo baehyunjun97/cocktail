@@ -243,25 +243,28 @@ const StyledMainSearchDiv = styled.div`
     }
 `;
 
+// searchMain
 const SearchMain = () => {
+    
+    // 쿼리스트링에 값을 받아옴
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
     let queryValue = queryParams.get('query');
 
+    // state들
     const [cocktailVoList, setCocktailVoList] = useState([]);
     const [ingredientVoList, setIngredientVoList] = useState([]);
-
     const [categoryStates, setCategoryStates] = useState([]);
     const [categoryStates2, setCategoryStates2] = useState(Array(ingredientVoList.length).fill(false));
     const [currentMouseOverIndex, setCurrentMouseOverIndex] = useState(null);
 
+    // 렌더링시 s
     useEffect(() => {
         fetch('http://127.0.0.1:8888/app/cocktail/search?searchName='+queryValue)
         .then(resp => resp.json())
         .then((data) => {
             setCocktailVoList(data.cocktailVoList);
             setIngredientVoList(data.ingredientVoList);
-            console.log(data);
         })
     },[queryValue]);
 
@@ -362,6 +365,7 @@ const SearchMain = () => {
         navigate(`/ingredient/detail?query=${encodeURIComponent(ingNo)}`);
     }
 
+    // 
     const images2 = ingredientVoList.map((mapVo, index) => (
         <div key={mapVo.ingNo} onClick={()=>{handleClickIngredientDetail(mapVo.ingNo)}}>
           <div>

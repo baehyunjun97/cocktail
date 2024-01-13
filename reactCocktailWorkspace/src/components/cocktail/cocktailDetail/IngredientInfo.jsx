@@ -77,15 +77,21 @@ const StyleDetailDiv = styled.div`
     }
 `;
 
+
+// 재료 정보 컴포넌트
 const IngredientInfo = ({ cocktailAndIngredientsVO }) => {
+
+    // 백에서 받아온 데이터 props로 이용해 state의 저장할 예정
     const [ingredientVoList, setIngredientVoList] = useState([]);
 
+    // 재 렌더링시 setVoList Props의 데이터로 할당
     useEffect(() => {
         if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.ingredientVoList) {
             setIngredientVoList(cocktailAndIngredientsVO.ingredientVoList);
         }
     }, [cocktailAndIngredientsVO]);
 
+    // 맵을 이용해 반복후 안에 재료 데이터를 화면에 보여줌
     const renderIngredients = () => {
         return ingredientVoList.map((ingredientVo) => (
             <div key={ingredientVo.id}>
