@@ -7,12 +7,12 @@ const StyledImageUploader = styled.div`
     align-items: center;
 
     & .uploadButton {
-          border-Radius: 8px;
-          padding: 10px;
-          cursor: pointer;
-          background-Color: #3498db;
-          color: #fff;
-          margin-Left: 20px;
+      border-Radius: 8px;
+      padding: 10px;
+      cursor: pointer;
+      background-Color: #3498db;
+      color: #fff;
+      margin-Left: 20px;
     }
 
     & .cancelButton{

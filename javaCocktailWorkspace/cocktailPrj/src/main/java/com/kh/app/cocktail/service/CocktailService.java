@@ -34,7 +34,7 @@ public class CocktailService {
 			urlList.add(fileUrl);
 		}
 		
-		System.out.println("urlList : " + urlList);
+		System.out.println("url 리스트 : " + urlList);
 		vo.setUrlPaths(urlList);
 		
 		return dao.regist(sst,vo);
