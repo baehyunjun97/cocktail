@@ -59,6 +59,10 @@ const StyledLoginAreaDiv = styled.div`
         border-radius: 10px;
         margin-bottom: 5px;
     }
+    input:focus{
+    border: 2px solid rgb(131, 131, 131);
+    outline: none;
+}
     .img2{
         position: absolute;
         width: calc(100% + 23px);

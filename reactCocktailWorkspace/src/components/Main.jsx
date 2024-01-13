@@ -3,6 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import CocktailMain from './cocktail/CocktailMain';
 import IngredientMain from './ingredient/IngredientMain';
 import SearchMain from './SearchMain';
+import Mypage from './member/Mypage';
 
 
 const Main = () => {
@@ -13,6 +14,8 @@ const Main = () => {
                 <Route path='/cocktail/*' element={<CocktailMain />}></Route>
                 <Route path='/search' element={<SearchMain />}></Route>
                 <Route path='/ingredient/*' element={<IngredientMain />}></Route>
+                <Route path='/mypage' element={<Mypage />}></Route>
+
             </Routes>
         </>
     );

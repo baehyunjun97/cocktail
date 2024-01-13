@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Search from './Search';
 import Main from './Main';
 
+
 const Layout = ( ) => {
 
     const StyledLayoutDiv = styled.div`

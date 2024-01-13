@@ -7,7 +7,7 @@ import RecipeUploadLayout from './components/RecipeUploadLayout';
 
 import Join from './components/member/Join';
 import Login from './components/member/Login';
-import Mypage from './components/member/Mypage';
+import Edit from './components/member/Edit';
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
           <Route path='/*' element={<Layout />} />
           <Route path='/join' element={<Join />} />
           <Route path='/login' element={<Login />} />
-          <Route path='/mypage' element={<Mypage />} />
+          <Route path='/edit' element={<Edit />} />
           <Route path="/error" element={<ErrorPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
