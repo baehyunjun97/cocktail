@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 const CocktailItems = ({cocktailVoList}) => {
 
@@ -29,7 +29,7 @@ const CocktailItems = ({cocktailVoList}) => {
         });
         setCurrentMouseOverIndex(null);
     };
-
+    
     // 클릭시 상세 페이지 이동
     const handleClickDetail = (cocktailNo) => {
         navigate(`/cocktail/detail?query=${encodeURIComponent(cocktailNo)}`);
@@ -57,19 +57,22 @@ const CocktailItems = ({cocktailVoList}) => {
                         >
                             {"#재료 " + cocktailVo.ingCnt + "개"}
                         </div>
-                        {Array.from({ length: 4 }, (_, index) => (
-                            cocktailVoList[index] && (
-                                <div key={`${cocktailVo.cocktailNo}_${index}`} style={{ display: categoryStates[index] ? 'block' : 'none' }}>
-                                    {Array.from({ length: Math.min(4, cocktailVoList[index].baseNameList.length) }, (_, baseIndex) => (
-                                        cocktailVoList[index].baseNameList && (
-                                            <div key={baseIndex} >
-                                                {("#"+cocktailVoList[index].baseNameList[baseIndex] || '')}
-                                            </div>
-                                        )
-                                    ))}
+                        {Array.from(
+                            {
+                                length: Math.min(
+                                4,
+                                cocktailVoList[index].baseNameList.length
+                                ),
+                            },
+                            (_, innerBaseIndex) => (
+                                <div key={innerBaseIndex}>
+                                {"#" +
+                                    cocktailVoList[index].baseNameList[innerBaseIndex] ||
+                                    ''}
                                 </div>
-                            )
-                        ))}
+                        )
+                        )}
+                        
                     </div>
                 </div>
             </div>

@@ -84,17 +84,21 @@ const StyledDetailDiv = styled.div`
     }
 `;
 
-const IngredientImg = ({map}) => {
+// 재료 프로필
+const IngredientProfile = ({cocktailsAndIngredientVo}) => {
 
+    // 재료의 데이터를 담을 vo
     const [ingredientVo, setIngredientVo] = useState([]);
 
+    // 이펙트 발생시 props로 받은 데이터 체크루 set해줌
     useEffect(() => {
-        if (map && map.ingredientVo) {
-            setIngredientVo(map.ingredientVo);
+        if (cocktailsAndIngredientVo && cocktailsAndIngredientVo.ingredientVo) {
+            setIngredientVo(cocktailsAndIngredientVo.ingredientVo);
         }
-      }, [map]);
+    }, [cocktailsAndIngredientVo]);
 
     return (
+        // 받은 데이터로 화면에 보여줌
         <StyledDetailDiv>
             <div>
                 <div>
@@ -121,4 +125,4 @@ const IngredientImg = ({map}) => {
     );
 };
 
-export default IngredientImg;
+export default IngredientProfile;

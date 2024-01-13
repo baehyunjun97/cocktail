@@ -28,20 +28,25 @@ const StyledDetailDiv = styled.div`
     }
 `;
 
+// 레시피 설명 컴포넌트
 const RecipeDescription = ({ cocktailAndIngredientsVO }) => {
 
+    // 레시피 설명 데이터를 가지고 있는 state 
     const [recipeExplan, setRecipeExplan] = useState();
 
+    // 재 렌더링이 발생시 props의 data로 재 할당
     useEffect(() => {
         if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.cocktailVo && cocktailAndIngredientsVO.cocktailVo.recipeExplan) {
             setRecipeExplan(cocktailAndIngredientsVO.cocktailVo.recipeExplan);
         }
     }, [cocktailAndIngredientsVO]);
 
+    // 상태확인후 문제가 있다면 null로 처리
     if (!recipeExplan) {
         return null;
     }
 
+    // ... .1 .2 .3이런 기준으로 줄바꿈을 함
     const formattedText = recipeExplan.replace(/(\d+)\.\s/g, '\n$1.');
 
     return (

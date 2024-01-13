@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CocktailItems from './CocktailItems';
 import FilterButton from './FilterButton';
 import RangeFilterButton from './RangeFilterButton';
+import { useNavigate } from 'react-router-dom';
 
 // 스타일은 따로 안나눔 ..
 const StyledListDiv = styled.div`
@@ -136,6 +137,9 @@ const StyledListDiv = styled.div`
 // 컴포넌트 시작
 const CocktailList = () => {
 
+    // useNavigate생성 
+    const navigate = useNavigate();
+
     // 응답받은 데이터를 받을 배열 스테이트
     const [voList, setVoList] = useState([]);
 
@@ -167,6 +171,11 @@ const CocktailList = () => {
         return parts;
     }
 
+    // useCallBack을 이용해서 useEffect안에 에러 처리후 url이동가능
+    const navigateCallback = useCallback(() => {
+        navigate("/error");
+    }, [navigate]);
+
     // 렌더링 시 화면 변경
     useEffect(()=>{
 
@@ -179,13 +188,23 @@ const CocktailList = () => {
 
         // 요청 보냄
         fetch(`http://127.0.0.1:8888/app/cocktail/list?alc=${filterTitles.filterTitle1}&itemMin=${itemMin}&itemMax=${itemMax}&baseName=${filterTitles.filterTitle3}&order=${filterTitles.filterTitle4}`)
-        .then(resp => resp.json())
+        .then(resp => {
+            if(!resp.ok){
+                throw new Error("상태코드 이상함");
+            }
+            return resp.json();
+        })
         .then((data) => {
             setVoList(data);
+            console.log(data);
+        })
+        .catch((e) => {
+            console.log(e);
+            navigateCallback();
         })
 
         // 의존성 배열 filterTitles가 변경되면 useEffect 실행
-    }, [filterTitles])
+    }, [filterTitles,navigateCallback])
 
     return (
         <StyledListDiv>

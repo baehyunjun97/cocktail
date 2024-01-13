@@ -138,18 +138,22 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                     cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
                 };
 
+                // await를 이용해 fetch 비동기 작업이 끝나기 전까지 다른작업을 못하게 만듬
                 const response = await fetch("http://127.0.0.1:8888/app/bookmark/status", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(vo)
                 });
 
+                // 상태코드 확인
                 if (!response.ok) {
                     throw new Error("북마크 여부 조회 fetch함수 오류 발생");
                 }
 
+                // await 에 리스폰스 객체를 json타입으로 변경
                 const data = await response.json();
 
+                // 받아온 데이터의 status값이 o면 true x면 false설정
                 if (data.status === 'o') {
                     setIsLiked(true);
                 } else if (data.status === 'x') {
@@ -157,12 +161,14 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                 } else {
                     throw new Error("북마크 여부 조회 실패");
                 }
+            // 실패시 에러페이지 이동
             } catch (error) {
                 console.log(error);
                 navigateCallback();
             }
         };
 
+        // null undefined 체크후 state들 값 할당
         if (cocktailAndIngredientsVO && cocktailAndIngredientsVO.ingredientVoList && cocktailAndIngredientsVO.cocktailVo) {
             setIngredientVoList(cocktailAndIngredientsVO.ingredientVoList);
             setCocktailVo(cocktailAndIngredientsVO.cocktailVo);
@@ -173,6 +179,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
         }
     }, [cocktailAndIngredientsVO,navigateCallback]);
 
+    // 최대 10번 반복 base리스트에 데이터 들을 화면에 보여줌
     const baseNames = (() => {
         return Array.from({ length: Math.min(10, ingredientVoList.length) }, (_, index) => {
             const ingredientVo = ingredientVoList[index];
@@ -183,6 +190,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
         });
     })();
 
+    // 이미지를 다음 배열의 크기만큼 이미지를 화면에 보여줌
     const images = cocktailFileList.map((fileName,index) => (
         <img onClick={()=>{setMainImg(fileName)}} key={fileName} src={fileName} alt={index+fileName} />
       ));
@@ -190,11 +198,13 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
     // 하트 좋아요 요청
     const handleClickHeart = () => {
 
+        // 백엔드에 보내줄 데이터
         const vo = {
             memberNo: "1",
             cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
         }
 
+        // 비동기 요청
         fetch("http://127.0.0.1:8888/app/bookmark",{
             method : "POST",
             headers : {"Content-Type": "application/json"},
@@ -207,6 +217,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             return resp.json();
         })
         .then(data => {
+            // 받아온 데이터에 따라 북마크 수와 북마크 여부를 설정함
             if(data.msg === 'deleteSuccess'){
                 setLikeCnt(Number(likeCnt)-1);
                 setIsLiked(false);
@@ -221,6 +232,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                 throw new Error("좋아요 누르기 실패");
             }
         })
+        // 오류시 에러페이지 이동
         .catch((e) => {
             console.log(e);
             navigate("/error");

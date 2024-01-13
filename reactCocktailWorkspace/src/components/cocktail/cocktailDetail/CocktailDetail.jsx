@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CocktailProfile from './CocktailProfile';
 import RecipeDescription from './RecipeDescription';
-import IngredientInfo from '../../ingredient/IngredientInfo';
+import IngredientInfo from './IngredientInfo';
 
 // styledComponent
 const StyledDetailDiv = styled.div`
@@ -40,6 +40,7 @@ const CocktailDetail = () => {
             })
             .then((data) => {
                 setCocktailAndIngredientsVO(data);
+                console.log(data);
             })
             .catch((e) => {
                 console.log(e);

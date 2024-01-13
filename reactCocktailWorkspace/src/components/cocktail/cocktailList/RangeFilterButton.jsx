@@ -91,7 +91,7 @@ const RangeFilterButton = ({isModalVisible, setModalVisible, setFilterTitles, fi
             onBlur={(event) => {
                 if (isModalVisible && !event.currentTarget.contains(event.relatedTarget)) {
                     clearInputValue();
-                    setModalVisible(false);
+                    setModalVisible(!isModalVisible);
                 }
             }}
         >
