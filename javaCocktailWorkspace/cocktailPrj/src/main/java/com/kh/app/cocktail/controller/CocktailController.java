@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,13 +41,13 @@ public class CocktailController {
 		Map<String, Object> map = null;
 		try {
 			System.out.println(vo);
-			System.out.println(vo.getImgList()); // multiFile
 
 			//recipeStr(json) => recipe setter
 			String recipeListJsonStr = vo.getRecipeListJsonStr();
 			Gson gson = new Gson();
 			RecipeVo[] recipeArray = gson.fromJson(recipeListJsonStr, RecipeVo[].class);
 			List<RecipeVo> recipeList = new ArrayList<RecipeVo>();
+			
 			for (RecipeVo recipe : recipeArray) {
 				recipeList.add(recipe);
 			}
@@ -75,6 +76,7 @@ public class CocktailController {
 	private List<String> saveFile(List<MultipartFile> f, String cocktailName) throws Exception {
 
 		String projectDir = System.getProperty("user.dir");
+		System.out.println("getProperty 결과 :: "+projectDir);
 		String userDir = projectDir.replace("setup\\sts3\\sts-bundle\\sts-3.9.18.RELEASE", "cocktailRepo\\javaCocktailWorkspace\\cocktailPrj");
 		
 		String relativePath = "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources"+ File.separator + "upload" + File.separator + "cocktail" + File.separator + "image" + File.separator;
@@ -94,11 +96,19 @@ public class CocktailController {
 			File target = new File(imgDir);
 			img.transferTo(target);
 
-			System.out.println(imgDir);
+			System.out.println("이미지 저장 경로 : "+imgDir);
 
 			pathList.add(imgDir);
 			iter++;
 		}
 		return pathList;
 	}
+	
+	
+	@GetMapping("regist")
+	public Map<String, Object> searchIng(CocktailVo vo) throws IOException {
+		
+		return null;
+	}
+
 }

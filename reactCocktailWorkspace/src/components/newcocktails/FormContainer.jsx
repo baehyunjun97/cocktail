@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TextInput from './TextInput';
 import IngInput from './IngInput';
 import ExplanInput from './ExplanInput'
+import { Link, useNavigate } from 'react-router-dom';
 
 const StyledFormContainerDiv = styled.div`
     justify-content: center;
@@ -72,7 +73,7 @@ const FormContainer = () => {
           })
             .then(resp => resp.json())
             .then(data => {
-              console.log(formData);
+              alert=(data.msg);
             });
         };
     
@@ -87,7 +88,7 @@ const FormContainer = () => {
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
                 <TextInput title="칵테일 카테고리" maxText="20" data="categoryNo" heigth="46px" />
-                <button className='registButton' onClick={(data) => {console.log(data);}}>레시피 등록</button>
+                <button className='registButton' onClick={(data) => {console.log('msg:' + data.msg);}}>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>
         </>
