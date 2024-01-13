@@ -22,7 +22,6 @@ const StyledJoinAreaDiv = styled.div`
         border: 1px solid rgba(242,92,92,.3);
         border-radius: 10px;
         background-color: rgba(255,255,255,.5);
-        -webkit-backdrop-filter: blur(50px);
         backdrop-filter: blur(50px);
         display: flex;
         flex-direction: column;
@@ -59,6 +58,10 @@ const StyledJoinAreaDiv = styled.div`
         margin-bottom: 5px;
         border: none;
     }
+    input:focus{
+    border: 2px solid rgb(131, 131, 131);
+    outline: none;
+}
     .img2{
         position: absolute;
         width: calc(100% + 23px);
