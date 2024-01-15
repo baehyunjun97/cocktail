@@ -20,9 +20,23 @@ const StyledIngInputDiv = styled.div`
       padding-bottom: 0.5rem;
   }
 
-  & input, select , .inputDiv {
+  & .inputDiv {
+    width: 100%;
+    padding-top: 0.8rem;
+    padding-left: 12.5px;
+    line-height: 19px;
+    border: 1.4px solid rgb(230, 228, 232);
+    border-radius: 10px;
+    transition: all 1s ease 0s;
+    height: 2.7rem;
+    color: rgb(48, 48, 48);
+    font-weight: 600; 
+  }
+
+  & input, select {
     width: 100%;
     padding-left: 12.5px;
+    margin-top: 5px;
     line-height: 19px;
     
     border: 1.4px solid rgb(230, 228, 232);
@@ -32,7 +46,6 @@ const StyledIngInputDiv = styled.div`
     color: rgb(48, 48, 48);
     font-weight: 600;   
   }
-
 
   & button{
     margin-top: 5px;
@@ -44,6 +57,10 @@ const StyledIngInputDiv = styled.div`
     font-weight: 550;
     cursor: auto;
   }
+
+  & defaultOption{
+    color: rgb(110, 110, 110);
+  }
 `;
 
 //component IngredientForm
@@ -54,7 +71,6 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
 
   const handleSelectedIng = (ingVo) => {
       setSelectedIng(ingVo);
-      console.log('최종전달본 : ' + JSON.stringify(selectedIng));
   };
   
   return (
@@ -65,19 +81,23 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
         <div 
           onClick={() => {setModalVisible(!isModalVisible);}} 
           name={`ingNo_${index}`} 
-          
         >
            <div className='inputDiv'>
-           {selectedIng.name}
+
+           {selectedIng && selectedIng.no ? (
+              <>
+                <p>{`${selectedIng.name}`}</p>
+              </>
+            ) : (
+              <p>재료를 입력하세요</p>
+            )}
              <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} />
            </div>
         </div>
 
         <br />
-        용량 :
         <input type="number" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
         <br />
-        계량:
         <select name={`amountNo_${index}`} onChange={(e) => handleChangeIng(index, 'amountNo', e.target.value)}>
           <option value="1">ml</option>
           <option value="2">gram</option>

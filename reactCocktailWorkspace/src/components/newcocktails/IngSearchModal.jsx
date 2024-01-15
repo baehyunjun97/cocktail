@@ -22,35 +22,35 @@ const StyledIngSearchModalDiv = styled.div`
   & .Header {
     margin-top: 10px;
   }
-`;
 
-//component 시작
+  & .controllBtn{
+    margin: 0px 20px 15px;
+    cursor: pointer;
+  }
+`;
+const ITEMS_PER_PAGE = 5;
+
 const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
   const [search, setSearch] = useState("");
   const [ingVolist, setIngVolist] = useState([]);
   const [selectedIng, setSelectedIng] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  //props 전달용
   useEffect(() => {
-    onHandleSelectedIng(selectedIng); // Notify the parent component about the updated ingredients
+    onHandleSelectedIng(selectedIng);
   }, [selectedIng, onHandleSelectedIng]);
-  
 
-  
-  //prevent 용
   const handleFormSubmit = async (event) => {
-    event.preventDefault(); // Prevents the default form submission behavior
+    event.preventDefault();
   };
-  
-  //input 문자열에 따라 like구문 실행 (검색)
+
   const handleSearchChange = async (event) => {
     const inputValue = event.target.value;
     setSearch(inputValue);
-
-    // Fetch data and update ingVolist whenever the input value changes
     await fetchData(inputValue);
   };
-  //검색데이터 fetch
+
   const fetchData = async (inputValue) => {
     try {
       const response = await fetch('http://127.0.0.1:8888/app/cocktail/regist/ingList', {
@@ -58,17 +58,31 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: inputValue })
+        body: JSON.stringify({ name: inputValue }),
       });
 
       const result = await response.json();
-
-      // Update ingVolist with the fetched data
       setIngVolist(result);
+      setTotalPages(calculateTotalPages(result));
+      setCurrentPage(1); // Reset to the first page when new data is fetched
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+
+  const calculateTotalPages = (data) => {
+    return Math.ceil(data.length / ITEMS_PER_PAGE);
+  };
+
+  const handlePageChange = (e,newPage) => {
+    e.stopPropagation();
+    setCurrentPage(newPage);
+  };
+
+  const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+  const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+  const currentItems = ingVolist.slice(indexOfFirstItem, indexOfLastItem);
+
 
   return (
     <>
@@ -87,13 +101,31 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
             </form>
           </div>
           <div className='ResultContainer'>
-            {/* Display the contents of ingVolist in real-time */}
-            {ingVolist.map((ingVo, index) => (
-              <div key={index} onClick={ () => { setSelectedIng( ingVo )} }>
+            {/* Display only the current items based on the current page */}
+            {currentItems.map((ingVo, index) => (
+              <div key={index} onClick={() => { setSelectedIng(ingVo) }}>
                 <p>{ingVo.name}</p>
                 <hr />
               </div>
             ))}
+            {/* Pagination controls */}
+            <div>
+              <button 
+                onClick={(e) => handlePageChange(e,currentPage - 1)} 
+                disabled={currentPage === 1} 
+                className='controllBtn'
+              >
+                이전
+              </button>
+              <span>{`${currentPage} / ${totalPages}`}</span>
+              <button
+                onClick={(e) => handlePageChange(e,currentPage + 1)}
+                disabled={indexOfLastItem >= ingVolist.length}
+                className='controllBtn'
+              >
+                다음
+              </button>
+            </div>
           </div>
         </StyledIngSearchModalDiv>
       )}
