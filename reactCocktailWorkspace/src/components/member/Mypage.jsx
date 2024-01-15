@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import { KhMemory } from '../../context/KhContext';
 
 
 const StyledMypageAreaDiv = styled.div`
@@ -125,6 +126,9 @@ const StyledMypageAreaDiv = styled.div`
 
 const Mypage = () => {
     const navigate=useNavigate();
+    
+    const obj=useContext(KhMemory);
+    
     return (
         <StyledMypageAreaDiv>
             <div >
@@ -134,8 +138,8 @@ const Mypage = () => {
                 <div className='profilecontent'>
                 <div class="label">마실랭 홈텐더</div>
                 <div className='profilename'>
-                    <h2 className='name' name="name">마셔</h2>
-                    <button className='personaledit' onClick={() => {navigate("/edit");}} >개인정보 편집</button>
+                    <h2 className='name' name="name">{ obj.vo.nick} </h2>
+                    <button className='personaledit' onClick={() => {navigate("/pwdcheck");}} >개인정보 편집</button>
                 </div>
                 <div className='profilecount'>
                     <div className='recipe'>

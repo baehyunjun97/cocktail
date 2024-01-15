@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { KhMemory } from '../../context/KhContext';
 
-const StyledEditAreaDiv = styled.div`
+const StyledPwdCheckAreaDiv = styled.div`
     position: relative;
     height: 100vh;
     display: flex;
@@ -12,6 +11,7 @@ const StyledEditAreaDiv = styled.div`
     background-color: orange;
 
     &>form{
+    width: 500px;
     position: relative;
     top: -10%;
     padding: 50px;
@@ -51,7 +51,7 @@ const StyledEditAreaDiv = styled.div`
     font-weight: 800;
     letter-spacing: -0.5px;
     color: rgb(79, 79, 79);
-    margin-top: 20px;
+    margin-top: 42px;
     }
     h3:after{
     content: "";
@@ -85,22 +85,14 @@ const StyledEditAreaDiv = styled.div`
     border: 2px solid rgb(131, 131, 131);
     outline: none;
 }
-    .editnumber1,.editnumber2{
+    .editnumber{
     margin-top: 5px;
     font-size: 12px;
     color: rgb(162, 162, 162);
     align-self: flex-end;
     }
-    .editnumber1:before{
+    .editnumber:after{
     content: "15자 이내로 작성해주세요.";
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    font-size: 12.8px;
-    color: rgb(242, 92, 92);
-    }
-    .editnumber2:before{
-    content: "10자 이내로 작성해주세요.";
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -132,84 +124,23 @@ const StyledEditAreaDiv = styled.div`
 
 `;
 
-const Edit = () => {
+const PwdCheck = () => {
     const navigate=useNavigate();
-
-    const obj=useContext(KhMemory);
-
-    const [vo,setVo]=useState(obj.vo);
-
-    const handleInputChange=(event)=>{
-        const {name,value}=event.target;
-        
-        setVo({
-         ...vo,
-         [name]:value
-        })
- 
-     }
-
-     const handleClickEdit=(event)=>{
-        event.preventDefault();
-
-        if(vo.pwd!==vo.pwd2){
-            alert("비밀번호가 일치하지 않습니다");
-            return;
-        }
-
-        fetch("http://127.0.0.1:8888/app/member/edit",{
-            method:"POST",
-            headers:{
-                "content-Type":"application/json"
-            },
-            body:JSON.stringify(vo),
-        })
-        .then((resp)=>{
-            if(!resp){
-                throw new Error("회원정보 수정 fetch 실패")
-            }
-            return resp.json();
-        })
-        .then((data)=>{
-            if(data.msg==="good"){
-                alert("회원정보 수정 성공");
-                obj.vo.nick = vo.nick; 
-                navigate('/*');
-            }
-            else{
-                alert("회원정보 수정 실패");
-            }
-        })
-        .catch((e)=>{console.log(e); alert("회원정보 수정 실패")});
-     }
-
     return (
-        <StyledEditAreaDiv >
-            <form onSubmit={handleClickEdit}>
-            <h2 class="text1">멋진 홈텐더 닉네임을 만들어보세요</h2>
-            <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p>
+        <StyledPwdCheckAreaDiv>
+            <form>
+            <h2 class="text1">비밀번호 재확인</h2>
+            {/* <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p> */}
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="새 비밀번호" name="pwd" className='edit' onChange={handleInputChange} />
-                <div class="editnumber1">0/15</div>
+                <input placeholder="비밀번호를 입력해주세요." className='edit' />
+                <div class="editnumber">0/15</div>
             </div>
-
-            <h3 class="text3">비밀번호 확인</h3>
-            <div class="editcollection">
-                <input placeholder="새 비밀번호 확인" name="pwd2" className='edit' onChange={handleInputChange} />
-                <div class="editnumber1">0/15</div>
-            </div>
-
-            <h3 class="text3">닉네임</h3>
-            <div class="editcollection">
-                <input placeholder="변경할 닉네임" name="nick" className='edit' onChange={handleInputChange} />
-                <div class="editnumber2">0/10</div>
-            </div>
-            <button className='change' >변경하기</button>
+            <button className='change' onClick={() => {navigate("/edit");}}>확인</button>
             </form>
             <img src="https://www.masileng.com/test/login_background.png" className="img2" alt="illust_challenge_left"  />
-        </StyledEditAreaDiv>
+        </StyledPwdCheckAreaDiv>
     );
 };
 
-export default Edit;
+export default PwdCheck;

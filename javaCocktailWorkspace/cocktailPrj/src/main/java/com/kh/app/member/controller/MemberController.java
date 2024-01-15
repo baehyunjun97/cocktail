@@ -32,7 +32,7 @@ public class MemberController {
 	//회원가입 
 	@PostMapping("join")
 	public String join(@RequestBody MemberVo vo) throws Exception{
-		System.out.println("fetch 통해서 받은 데이터:"+vo);
+//		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		String msg = ms.join(vo);
 		return msg;
 		//return ms.join
@@ -60,13 +60,13 @@ public class MemberController {
 	
 	//회원 정보 수정
 	@PostMapping("edit")
-	public Map<String, Object> edit(MemberVo vo) throws Exception {
+	public Map<String, Object> edit(@RequestBody MemberVo vo) throws Exception {
 		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		int result=ms.edit(vo);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
-		if(result!=1) {
+		if(result==1) {
 			map.put("msg", "good");
 		}else {
 			map.put("msg", "bad");
