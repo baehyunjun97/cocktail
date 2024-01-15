@@ -20,10 +20,25 @@ const StyledIngInputDiv = styled.div`
       padding-bottom: 0.5rem;
   }
 
-  & input, select , .inputDiv {
+  & .inputDiv {
     width: 100%;
+    padding-top: 0.8rem;
     padding-left: 12.5px;
     line-height: 19px;
+    border: 1.4px solid rgb(230, 228, 232);
+    border-radius: 10px;
+    transition: all 1s ease 0s;
+    height: 2.7rem;
+    color: rgb(48, 48, 48);
+    font-weight: 600; 
+  }
+
+  & input, select {
+    width: 100%;
+    padding-left: 12.5px;
+    margin-top: 5px;
+    line-height: 19px;
+    
     border: 1.4px solid rgb(230, 228, 232);
     border-radius: 10px;
     transition: all 1s ease 0s;
@@ -31,7 +46,6 @@ const StyledIngInputDiv = styled.div`
     color: rgb(48, 48, 48);
     font-weight: 600;   
   }
-
 
   & button{
     margin-top: 5px;
@@ -43,31 +57,47 @@ const StyledIngInputDiv = styled.div`
     font-weight: 550;
     cursor: auto;
   }
+
+  & defaultOption{
+    color: rgb(110, 110, 110);
+  }
 `;
 
-const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, handleShowSearchModal}) => {
+//component IngredientForm
+const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
+  
   const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedIng, setSelectedIng] = useState("");
 
+  const handleSelectedIng = (ingVo) => {
+      setSelectedIng(ingVo);
+  };
+  
   return (
     <div>
       <h2>재료 등록</h2>
-      <div>
-        재료(넘버):
-        {/* <input type="text" name={`ingNo_${index}`} onChange={(e) => handleChangeIng(index, 'ingNo', e.target.value)} onClick={() => {}}/> */}
+      <div onChange= {() => {handleChangeIng(index, 'ingNo', selectedIng.no);}} >
         {/* MODAL */}
         <div 
-          onClick={() => setModalVisible(!isModalVisible)} 
+          onClick={() => {setModalVisible(!isModalVisible);}} 
           name={`ingNo_${index}`} 
-          onChange={(e) => handleChangeIng(index, 'ingNo', e.target.value)}
-          >
-             <div className='inputDiv'>재료를 추가해주세요. <IngSearchModal isModalVisible = {isModalVisible} /></div>
+        >
+           <div className='inputDiv'>
+
+           {selectedIng && selectedIng.no ? (
+              <>
+                <p>{`${selectedIng.name}`}</p>
+              </>
+            ) : (
+              <p>재료를 입력하세요</p>
+            )}
+             <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} />
+           </div>
         </div>
 
         <br />
-        용량 :
-        <input type="text" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
+        <input type="number" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
         <br />
-        계량:
         <select name={`amountNo_${index}`} onChange={(e) => handleChangeIng(index, 'amountNo', e.target.value)}>
           <option value="1">ml</option>
           <option value="2">gram</option>
@@ -81,9 +111,11 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, handleShowSe
   );
 };
 
+//component IngInput
 const IngInput = ({ onChangeIngredients }) => {
   const [formCount, setFormCount] = useState(1);
   const [ingredients, setIngredients] = useState([]);
+
 
   useEffect(() => {
     console.log('현재 배열:', ingredients);
@@ -116,7 +148,13 @@ const IngInput = ({ onChangeIngredients }) => {
   return (
     <StyledIngInputDiv>
       {[...Array(formCount)].map((_, index) => (
-        <IngredientForm key={index} index={index} onDelete={handleDeleteIngredient} handleChangeIng={handleChangeIng} isLast={index === formCount - 1}/>
+        <IngredientForm 
+          key={index} 
+          index={index} 
+          onDelete={handleDeleteIngredient} 
+          handleChangeIng={handleChangeIng} 
+          isLast={index === formCount - 1}
+          />
       ))}
 
       <button onClick={() => handleAddIngredient(formCount - 1)} type="button">

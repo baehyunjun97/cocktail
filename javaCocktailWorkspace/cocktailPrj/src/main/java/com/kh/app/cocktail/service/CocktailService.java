@@ -1,9 +1,7 @@
 package com.kh.app.cocktail.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -11,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.app.cocktail.dao.CocktailDao;
 import com.kh.app.cocktail.vo.CocktailVo;
+import com.kh.app.cocktail.vo.IngVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,6 +37,10 @@ public class CocktailService {
 		vo.setUrlPaths(urlList);
 		
 		return dao.regist(sst,vo);
+	}
+
+	public List<IngVo> searchIng(IngVo vo) {
+		return dao.searchIng(sst, vo);
 	}
 
 }

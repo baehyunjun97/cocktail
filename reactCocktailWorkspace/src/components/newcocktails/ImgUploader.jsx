@@ -50,7 +50,7 @@ const ImageUploader = ({ onRegisteredImagesChange }) => {
   const [registeredImages, setRegisteredImages] = useState([]);
 
   useEffect(() => {
-    console.log('현재 사진useeffect:', registeredImages);
+    // console.log('현재 사진useeffect:', registeredImages);
     onRegisteredImagesChange(registeredImages); // 상위 컴포넌트 전달 콜백 함수
   }, [registeredImages, onRegisteredImagesChange]);
 
