@@ -111,7 +111,7 @@ public class CocktailController {
 	@PostMapping("regist/ingList")
 	public List<IngVo> searchIng(@RequestBody IngVo vo) {
 		
-		if(vo==null) {
+		if(vo.getName().equals("null")) {
 			return null;
 		}
 		

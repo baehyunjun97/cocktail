@@ -20,15 +20,25 @@ const StyledIngSearchModalDiv = styled.div`
   gap: 20px;
 `;
 
-
-const IngSearchModal = ({ isModalVisible }) => {
+//component 시작
+const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
   const [search, setSearch] = useState("");
   const [ingVolist, setIngVolist] = useState([]);
+  const [selectedIng, setSelectedIng] = useState();
 
-  //선택한 재료명의 No
-  const [selectedNo, setSelectedNo] = useState("");
+  //props 전달용
+  useEffect(() => {
+    onHandleSelectedIng(selectedIng); // Notify the parent component about the updated ingredients
+  }, [selectedIng, onHandleSelectedIng]);
+  
 
-  //input 문자열에 따라 like구문 실행
+  
+  //prevent 용
+  const handleFormSubmit = async (event) => {
+    event.preventDefault(); // Prevents the default form submission behavior
+  };
+  
+  //input 문자열에 따라 like구문 실행 (검색)
   const handleSearchChange = async (event) => {
     const inputValue = event.target.value;
     setSearch(inputValue);
@@ -36,11 +46,7 @@ const IngSearchModal = ({ isModalVisible }) => {
     // Fetch data and update ingVolist whenever the input value changes
     await fetchData(inputValue);
   };
-
-  const handleFormSubmit = async (event) => {
-    event.preventDefault(); // Prevents the default form submission behavior
-  };
-
+  //검색데이터 fetch
   const fetchData = async (inputValue) => {
     try {
       const response = await fetch('http://127.0.0.1:8888/app/cocktail/regist/ingList', {
@@ -72,14 +78,14 @@ const IngSearchModal = ({ isModalVisible }) => {
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
-                
+                placeholder='검색어를 입력해주세요.'
               />
             </form>
           </div>
           <div className='ResultContainer'>
             {/* Display the contents of ingVolist in real-time */}
             {ingVolist.map((ingVo, index) => (
-              <div key={index} >
+              <div key={index} onClick={ () => {setSelectedIng(ingVo)} }>
                 <p>{ingVo.name}</p>
                 <hr />
               </div>

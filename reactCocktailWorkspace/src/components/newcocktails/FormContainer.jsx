@@ -33,6 +33,12 @@ const StyledFormContainerDiv = styled.div`
     align-self: flex-end;
     gap: 5px;
     }
+
+    & input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 `;
 
 const FormContainer = () => {

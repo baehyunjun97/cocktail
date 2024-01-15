@@ -24,6 +24,7 @@ const StyledIngInputDiv = styled.div`
     width: 100%;
     padding-left: 12.5px;
     line-height: 19px;
+    
     border: 1.4px solid rgb(230, 228, 232);
     border-radius: 10px;
     transition: all 1s ease 0s;
@@ -46,9 +47,14 @@ const StyledIngInputDiv = styled.div`
 `;
 
 //component IngredientForm
-const IngredientForm = ({ index, onDelete, handleChangeIng, isLast ,handleSelectedNo }) => {
+const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
   
   const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedIng, setSelectedIng] = useState();
+
+  const handleSelectedIng = (onHandleSelectedIng) => {
+      setSelectedIng(onHandleSelectedIng);
+  };
   
   return (
     <div>
@@ -60,18 +66,19 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast ,handleSelect
           onClick={() => setModalVisible(!isModalVisible)} 
           name={`ingNo_${index}`} 
           onChange={(e) => {
-            handleChangeIng(index, 'ingNo', e.target.value);
+            //e.target.value를 selectedIng로 바꿔줘
+            handleChangeIng(index, 'ingNo', selectedIng.no);
           }}
         >
            <div className='inputDiv'>
              재료를 추가해주세요. 
-             <IngSearchModal isModalVisible={isModalVisible} />
+             <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} />
            </div>
         </div>
 
         <br />
         용량 :
-        <input type="text" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
+        <input type="number" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
         <br />
         계량:
         <select name={`amountNo_${index}`} onChange={(e) => handleChangeIng(index, 'amountNo', e.target.value)}>
