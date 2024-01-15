@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { KhMemory } from '../context/KhContext';
 
 const StyledHeader = styled.div`
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
@@ -47,6 +48,9 @@ const StyledHeader = styled.div`
 `;
       
 function Header() {
+
+  const obj = useContext(KhMemory);
+
   return (
     <StyledHeader>
         <div><Link to="/cocktail">마셔볼랭?</Link></div>
@@ -54,7 +58,21 @@ function Header() {
         <div><Link to="/ingredient/list">재료</Link></div>
         <div><button><Link to="/recepiUpload">작성하기</Link></button></div>
         <div>
-          <button>마시래앵 님</button>
+            {/* 태그안에 if문을 못써 */}
+            {!obj.vo 
+            ? 
+            <button >
+              <Link to="/login">
+                로그인
+              </Link>
+            </button>
+            :
+            <button>
+            {obj.vo.nick} 
+            </button>
+            }
+          
+          
         </div>
     </StyledHeader>
   );

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
+import { KhMemory } from "../../context/KhContext";
 
 const StyledLoginAreaDiv = styled.div`
     display: flex;
@@ -56,6 +57,7 @@ const StyledLoginAreaDiv = styled.div`
     input {
         width: 300px;
         height: 30px;
+        border: 1.4px solid rgb(230, 228, 232);
         border-radius: 10px;
         margin-bottom: 5px;
     }
@@ -113,6 +115,8 @@ const Login = () => {
 
     }
 
+    const obj = useContext(KhMemory);
+
     const handleClickLogin=(event)=>{
         event.preventDefault();
 
@@ -135,10 +139,11 @@ const Login = () => {
                 console.log(data.loginMember);
                 alert("로그인 성공")
                 sessionStorage.setItem("loginMember",JSON.stringify(data.loginMember));
-                navigate('/*')
+                obj.setVo(data.loginMember);
+                navigate('/mypage')
             }else{
                 alert("로그인 실패")
-                navigate('/error')
+                
             }
         })
         .catch((e)=>{console.log(e); alert("로그인 실패")})

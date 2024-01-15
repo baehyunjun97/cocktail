@@ -6,56 +6,57 @@
 	<insert id="join">
 		INSERT INTO MEMBER
 		(
-		    NO
-		    ,ID
-		    ,PWD
-		    ,NICK
-		    ,EMAIL
+		NO
+		,ID
+		,PWD
+		,NICK
+		,EMAIL
 		)
 		VALUES
 		(
-		    SEQ_MEMBER_NO.NEXTVAL
-		    , #{id}
-		    , #{pwd}
-		    , #{nick}
-		    , #{email}
+		SEQ_MEMBER_NO.NEXTVAL
+		, #{id}
+		, #{pwd}
+		, #{nick}
+		, #{email}
 		)
 	</insert>
-	
+
 	<select id="login" resultType="com.kh.app.member.vo.MemberVo">
 		SELECT
-    		NO
-    		,ID
-    		,PWD
-    		,NICK
-    		,EDIT_DATE
-    		,QUIT_YN
+		NO
+		,ID
+		,PWD
+		,NICK
+		,EDIT_DATE
+		,QUIT_YN
 		FROM MEMBER
 		WHERE ID = #{id}
 		AND PWD = #{pwd}
 
 	</select>
-	
-	
+
+
 	<update id="edit">
 		UPDATE MEMBER
-			SET
-			<trim prefixOverrides=",">
-			<if test="pwd!=null and pwd!=''">
-				PWD=#{pwd}
-			</if>
-			<if test="nick!=null and nick!=''">
-				,NICK=#{nick}
-			</if>
-			</trim>
-			WHERE NO=#{no}
-			AND QUIT_YN='N'
+		SET
+		
+			
+				 PWD=#{pwd}
+			
+		
+				, NICK=#{nick}
+			
+	
+		WHERE NO=#{no}
+		AND QUIT_YN='N'
 	</update>
-	
+
 	<select id="idCheck" resultType="int">
-		SELECT COUNT(*) 
+		SELECT COUNT(*)
 		FROM MEMBER
-		WHERE ID = #{id}
+		WHERE
+		ID = #{id}
 	</select>
-	
+
 </mapper>
