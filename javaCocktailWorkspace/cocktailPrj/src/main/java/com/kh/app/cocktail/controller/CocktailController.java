@@ -10,13 +10,16 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.app.cocktail.service.CocktailService;
 import com.kh.app.cocktail.vo.CocktailVo;
+import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
 
 import lombok.RequiredArgsConstructor;
@@ -105,10 +108,15 @@ public class CocktailController {
 	}
 	
 	
-	@GetMapping("regist")
-	public Map<String, Object> searchIng(CocktailVo vo) throws IOException {
+	@PostMapping("regist/ingList")
+	public List<IngVo> searchIng(@RequestBody IngVo vo) {
 		
-		return null;
+		if(vo==null) {
+			return null;
+		}
+		
+		List<IngVo> voList = service.searchIng(vo);
+		return voList;
 	}
 
 }

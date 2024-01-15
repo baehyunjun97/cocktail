@@ -1,12 +1,12 @@
 package com.kh.app.cocktail.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.app.cocktail.vo.CocktailVo;
+import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
 
 @Repository
@@ -80,6 +80,11 @@ public class CocktailDao {
 
 	    System.out.println("ALC : "+result);
 	    return result;
+	}
+
+	public List<IngVo> searchIng(SqlSessionTemplate sst, IngVo vo) {
+		System.out.println(vo);
+		return sst.selectList("CocktailMapper.selectIng", vo);
 	}
 
 }

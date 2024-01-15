@@ -63,17 +63,15 @@ const FormContainer = () => {
 					formData.append('recipeExplan', e.target.recipe_explan.value);
 					formData.append('categoryNo', e.target.categoryNo.value);
     
-          console.log('Form Data[0]:', formData);
-          console.log('Registered Images:', img);
-    
-          // Add your fetch logic here
+          // fetch
           fetch("http://127.0.0.1:8888/app/cocktail/regist", {
             method: "POST",
             body: formData,
           })
             .then(resp => resp.json())
             .then(data => {
-              alert=(data.msg);
+              // console.log(window.alert);
+              // alert(data.msg); 
             });
         };
     
@@ -88,7 +86,7 @@ const FormContainer = () => {
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
                 <TextInput title="칵테일 카테고리" maxText="20" data="categoryNo" heigth="46px" />
-                <button className='registButton' onClick={(data) => {console.log('msg:' + data.msg);}}>레시피 등록</button>
+                <button className='registButton'>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>
         </>

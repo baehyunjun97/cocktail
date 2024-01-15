@@ -45,22 +45,28 @@ const StyledIngInputDiv = styled.div`
   }
 `;
 
-const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, handleShowSearchModal}) => {
+//component IngredientForm
+const IngredientForm = ({ index, onDelete, handleChangeIng, isLast ,handleSelectedNo }) => {
+  
   const [isModalVisible, setModalVisible] = useState(false);
-
+  
   return (
     <div>
       <h2>재료 등록</h2>
       <div>
         재료(넘버):
-        {/* <input type="text" name={`ingNo_${index}`} onChange={(e) => handleChangeIng(index, 'ingNo', e.target.value)} onClick={() => {}}/> */}
         {/* MODAL */}
         <div 
           onClick={() => setModalVisible(!isModalVisible)} 
           name={`ingNo_${index}`} 
-          onChange={(e) => handleChangeIng(index, 'ingNo', e.target.value)}
-          >
-             <div className='inputDiv'>재료를 추가해주세요. <IngSearchModal isModalVisible = {isModalVisible} /></div>
+          onChange={(e) => {
+            handleChangeIng(index, 'ingNo', e.target.value);
+          }}
+        >
+           <div className='inputDiv'>
+             재료를 추가해주세요. 
+             <IngSearchModal isModalVisible={isModalVisible} />
+           </div>
         </div>
 
         <br />
@@ -81,9 +87,11 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, handleShowSe
   );
 };
 
+//component IngInput
 const IngInput = ({ onChangeIngredients }) => {
   const [formCount, setFormCount] = useState(1);
   const [ingredients, setIngredients] = useState([]);
+
 
   useEffect(() => {
     console.log('현재 배열:', ingredients);
@@ -116,7 +124,13 @@ const IngInput = ({ onChangeIngredients }) => {
   return (
     <StyledIngInputDiv>
       {[...Array(formCount)].map((_, index) => (
-        <IngredientForm key={index} index={index} onDelete={handleDeleteIngredient} handleChangeIng={handleChangeIng} isLast={index === formCount - 1}/>
+        <IngredientForm 
+          key={index} 
+          index={index} 
+          onDelete={handleDeleteIngredient} 
+          handleChangeIng={handleChangeIng} 
+          isLast={index === formCount - 1}
+          />
       ))}
 
       <button onClick={() => handleAddIngredient(formCount - 1)} type="button">
