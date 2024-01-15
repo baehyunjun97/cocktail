@@ -50,28 +50,25 @@ const StyledIngInputDiv = styled.div`
 const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
   
   const [isModalVisible, setModalVisible] = useState(false);
-  const [selectedIng, setSelectedIng] = useState();
+  const [selectedIng, setSelectedIng] = useState("");
 
-  const handleSelectedIng = (onHandleSelectedIng) => {
-      setSelectedIng(onHandleSelectedIng);
+  const handleSelectedIng = (ingVo) => {
+      setSelectedIng(ingVo);
+      console.log('최종전달본 : ' + JSON.stringify(selectedIng));
   };
   
   return (
     <div>
       <h2>재료 등록</h2>
-      <div>
-        재료(넘버):
+      <div onChange= {() => {handleChangeIng(index, 'ingNo', selectedIng.no);}} >
         {/* MODAL */}
         <div 
-          onClick={() => setModalVisible(!isModalVisible)} 
+          onClick={() => {setModalVisible(!isModalVisible);}} 
           name={`ingNo_${index}`} 
-          onChange={(e) => {
-            //e.target.value를 selectedIng로 바꿔줘
-            handleChangeIng(index, 'ingNo', selectedIng.no);
-          }}
+          
         >
            <div className='inputDiv'>
-             재료를 추가해주세요. 
+           {selectedIng.name}
              <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} />
            </div>
         </div>
