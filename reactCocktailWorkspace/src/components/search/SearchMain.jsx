@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate} from 'react-router-dom';
 import styled from 'styled-components';
+import CocktailList from './CocktailSearchList';
+import IngredientSearchList from './ingredientSearchList';
 
 const StyledMainSearchDiv = styled.div`
     & > div:nth-child(1) {
@@ -251,14 +253,20 @@ const SearchMain = () => {
     const queryParams = new URLSearchParams(search);
     let queryValue = queryParams.get('query');
 
+    const navigate = useNavigate();
+
     // state들
     const [cocktailVoList, setCocktailVoList] = useState([]);
     const [ingredientVoList, setIngredientVoList] = useState([]);
-    const [categoryStates, setCategoryStates] = useState([]);
-    const [categoryStates2, setCategoryStates2] = useState(Array(ingredientVoList.length).fill(false));
-    const [currentMouseOverIndex, setCurrentMouseOverIndex] = useState(null);
 
-    // 렌더링시 s
+    const [isCocktailListVisible, setIsCocktailListVisible] = useState(true);
+    const [isIngredientListVisible, setIsIngredientListVisible] = useState(true);
+
+    const navigateCallback = useCallback(() => {
+        navigate("/error");
+    }, [navigate]);
+
+    // 렌더링시 요청보내기
     useEffect(() => {
         fetch('http://127.0.0.1:8888/app/cocktail/search?searchName='+queryValue)
         .then(resp => resp.json())
@@ -266,158 +274,27 @@ const SearchMain = () => {
             setCocktailVoList(data.cocktailVoList);
             setIngredientVoList(data.ingredientVoList);
         })
-    },[queryValue]);
+        .catch((e)=>{
+            console.log(e);
+            navigateCallback();
+        })
+    },[queryValue,navigateCallback]);
 
-    const handleMouseOver = (event, index) => {
-        setCategoryStates((prevStates) => {
-            const newStates = [...prevStates];
-            newStates[index] = true;
-            return newStates;
-        });
-        setCurrentMouseOverIndex(index);
-    };
-
-    const handleMouseOut = () => {
-        setCategoryStates((prevStates) => {
-            const newStates = [...prevStates];
-            if (currentMouseOverIndex !== null) {
-                newStates[currentMouseOverIndex] = false;
-            }
-            return newStates;
-        });
-        setCurrentMouseOverIndex(null);
-    };
-
-    const handleMouseOver2 = (index) => {
-        setCategoryStates2((prevStates) => {
-            const newStates = [...prevStates];
-            newStates[index] = true;
-            return newStates;
-        });
-    };
-    
-    const handleMouseOut2 = (index) => {
-        setCategoryStates2((prevStates) => {
-            const newStates = [...prevStates];
-            newStates[index] = false;
-            return newStates;
-        });
-    };
-
-    const images = cocktailVoList.map((mapVo, index) => (
-        <div key={`${mapVo.cocktailNo}_${index}`} onClick={()=>{
-            handleClickCocktailDetail(mapVo.cocktailNo)
-        }}>
-            <div>
-                <img
-                    src="https://sitem.ssgcdn.com/"
-                    alt={`Cocktail ${mapVo.cocktailNo}`}
-                />
-                <div
-                    onMouseOver={(event) => handleMouseOver(event, index)}
-                    onMouseOut={() => handleMouseOut(index)}
-                >
-                    <div style={{ display: categoryStates[index] ? 'block' : 'none' }}>
-                        <div
-                            style={{ display: categoryStates[index] ? 'block' : 'none' }}
-                        >
-                            {"#" + mapVo.alcoholStrength}
-                        </div>
-                        <div
-                            style={{ display: categoryStates[index] ? 'block' : 'none' }}
-                        >
-                            {"#재료 " + mapVo.ingCnt + "개"}
-                        </div>
-                        {Array.from({ length: 4 }, (_, index) => (
-                        cocktailVoList[index] && (
-                            <div key={`${mapVo.cocktailNo}_${index}`} style={{ display: categoryStates[index] ? 'block' : 'none' }}>
-                                {cocktailVoList[index].baseNameList && cocktailVoList[index].baseNameList.map((baseMapVo, baseIndex) => (
-                                    <div key={baseIndex} >
-                                        {"#" + baseMapVo}
-                                    </div>
-                                ))}
-                            </div>
-                        )
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div>
-                <div>{mapVo.nameKor}</div>
-                <div>{mapVo.commentary}</div>
-            </div>
-        </div>
-    ));
-
-    const navigate = useNavigate();
-
-    // 클릭시 상세 페이지 이동
-    const handleClickCocktailDetail = (cocktailNo) => {
-        console.log(cocktailNo);
-        // setCocktailNo(cocktailNo);
-        navigate(`/cocktail/detail?query=${encodeURIComponent(cocktailNo)}`);
+    // display를 block or none
+    const handelClickAllList = () => {
+        setIsCocktailListVisible(true);
+        setIsIngredientListVisible(true);
     }
 
-    // 클릭시 상세 페이지 이동
-    const handleClickIngredientDetail = (ingNo) => {
-        console.log(ingNo);
-        // setCocktailNo(cocktailNo);
-        navigate(`/ingredient/detail?query=${encodeURIComponent(ingNo)}`);
+    const handelCocktailList = () => {
+        setIsCocktailListVisible(true);
+        setIsIngredientListVisible(false);
     }
 
-    // 
-    const images2 = ingredientVoList.map((mapVo, index) => (
-        <div key={mapVo.ingNo} onClick={()=>{handleClickIngredientDetail(mapVo.ingNo)}}>
-          <div>
-            <img
-              src="https://cocktail-bucket.s3.ap-northeast-2.amazonaws.com/TB_ITEM_MASTER/022.%EA%B0%88%EB%A6%AC%EC%95%84%EB%85%B8.png"
-              alt={`Cocktail ${mapVo.ingNo}`}
-            />
-            <div
-              onMouseOver={() => handleMouseOver2(index)}
-              onMouseOut={() => handleMouseOut2(index)}
-            >
-              <div
-                className={`category${mapVo.ingNo}`}
-                style={{ display: categoryStates2[index] ? 'block' : 'none' }}
-              >
-                {"#"+mapVo.ingCategoryName}
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>{mapVo.ingName}</div>
-            <div>{mapVo.explanation}</div>
-          </div>
-        </div>
-      ));
-
-      const handelClickAllList = () => {
-        fetch('http://127.0.0.1:8888/app/cocktail/search?searchName='+queryValue)
-        .then(resp => resp.json())
-        .then((data) => {
-            setCocktailVoList(data.cocktailVoList);
-            setIngredientVoList(data.ingredientVoList);
-        })
-      }
-
-      const handelCocktailList = () => {
-        fetch('http://127.0.0.1:8888/app/cocktail/search?searchName='+queryValue)
-        .then(resp => resp.json())
-        .then((data) => {
-            setCocktailVoList(data.cocktailVoList);
-            setIngredientVoList(["no"]);
-        })
-      }
-
-      const handelIngredientList = () => {
-        fetch('http://127.0.0.1:8888/app/cocktail/search?searchName='+queryValue)
-        .then(resp => resp.json())
-        .then((data) => {
-            setCocktailVoList(["no"]);
-            setIngredientVoList(data.ingredientVoList);
-        })
-      }
+    const handelIngredientList = () => {
+        setIsIngredientListVisible(true);
+        setIsCocktailListVisible(false);
+    }
 
     return (
         <StyledMainSearchDiv>
@@ -428,52 +305,9 @@ const SearchMain = () => {
                     <button onClick={handelIngredientList}>재료</button>
                 </div>
             </div>
-            {cocktailVoList[0] !== "no" ? (
-            <div>
-                <div>
-                    <img src="https://www.masileng.com/test/ic_cocktail.svg" alt="" />
-                    <h3>칵테일</h3>
-                </div>
-                <div>
-                {cocktailVoList.length !== 0 ? (
-                    images
-                ) : (
-                    <div className='noSearch'>
-                        <img src="https://www.masileng.com/test/ic_tab.svg" alt="" />
-                        <div>
-                            검색 결과가 없습니다.
-                        </div>
-                    </div>
-                )}
-                </div>
-            </div>
-            ) : (
-                <span></span>
-            )}
-            {ingredientVoList[0] !== "no" ? (
-                <div>
-                    <div>
-                        <img src="https://www.masileng.com/test/ic_ingredient.svg" alt="" />
-                        <h3>재료</h3>
-                    </div>
-                    {ingredientVoList.length !== 0 ? (
-                        <div>
-                            {images2}
-                        </div>
-                    ) : (
-                        <div style={{ width: "1000px" }}>
-                            <div className='noSearch'>
-                                <img src="https://www.masileng.com/test/ic_tab.svg" alt="" />
-                                <div>
-                                    검색 결과가 없습니다.
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            ) : (
-                <span></span>
-            )}
+            {isCocktailListVisible && <CocktailList cocktailVoList={cocktailVoList} />}
+            {isIngredientListVisible && <IngredientSearchList ingredientVoList={ingredientVoList} />}
+            <br /><br /><br /><br /><br />
         </StyledMainSearchDiv>
     );
 };

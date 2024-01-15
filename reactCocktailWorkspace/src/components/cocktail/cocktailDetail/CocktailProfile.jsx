@@ -197,11 +197,16 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
 
     // 하트 좋아요 요청
     const handleClickHeart = () => {
+        let likeStatus = 0;
+        if(isLiked){
+            likeStatus = 1;
+        }
 
         // 백엔드에 보내줄 데이터
         const vo = {
             memberNo: "1",
             cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
+            likeStatus: likeStatus,
         }
 
         // 비동기 요청

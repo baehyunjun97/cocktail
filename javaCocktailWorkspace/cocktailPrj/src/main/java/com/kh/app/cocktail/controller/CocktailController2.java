@@ -25,7 +25,6 @@ public class CocktailController2 {
 	// 칵테일 전체 조회
 	@GetMapping("list")
 	public List<CocktailVo2> showCocktailList(FilterVo filterVo) {
-		System.out.println(filterVo);
 		return service.list(filterVo);
 	}
 	
