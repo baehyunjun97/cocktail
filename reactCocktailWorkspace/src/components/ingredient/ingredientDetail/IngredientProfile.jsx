@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledDetailDiv = styled.div`
     & > div {
-        margin-top: 70px;
+        margin-top: 10px;
         height: 512px;
         background: linear-gradient(#303030,#3c3a3a);
         padding: 58px 0;

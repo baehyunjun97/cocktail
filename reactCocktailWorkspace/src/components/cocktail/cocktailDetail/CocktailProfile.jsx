@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 // CocktailProfile의 스타일 설정
 const StyledDetailDiv = styled.div`
     & > div {
-        margin-top: 70px;
+        margin-top: 10px;
         height: 512px;
         background: linear-gradient(#303030,#3c3a3a);
         padding: 58px 0;

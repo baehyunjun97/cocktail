@@ -146,5 +146,24 @@
 		</where>
 		ORDER BY C.NO, CS.FILE_NAME DESC
 	</select>
+	
+	<select id="getTopCocktailsByBookmark" resultType="com.kh.app.cocktail.vo.CocktailVo2">
+	    <![CDATA[
+		    SELECT *
+		    FROM (
+		        SELECT C.NO AS COCKTAIL_NO, C.NAME_KOR, B.BOOKMARK_COUNT
+		             , ROW_NUMBER() OVER (ORDER BY B.BOOKMARK_COUNT DESC) AS RN
+		        FROM COCKTAIL C
+		        JOIN (
+		            SELECT COCKTAIL_NO, COUNT(*) AS BOOKMARK_COUNT
+		            FROM BOOKMARK
+		            GROUP BY COCKTAIL_NO
+		        ) B ON C.NO = B.COCKTAIL_NO
+		        WHERE C.DEL_YN = 'N'
+		        ORDER BY B.BOOKMARK_COUNT DESC
+		    )
+		    WHERE RN <= 10
+		]]>
+	</select>
 
 </mapper>

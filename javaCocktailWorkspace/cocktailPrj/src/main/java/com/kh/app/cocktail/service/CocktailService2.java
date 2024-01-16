@@ -102,6 +102,11 @@ public class CocktailService2 {
 		
 	}
 
+	// 랭킹 top 10 조회
+	public List<CocktailVo2> ranking() {
+		return cocktailDao.ranking(sst); 
+	}
+	
 	// 알콜 계산 메소드
 	public void assignAlcoholStrength(List<CocktailVo2> voList) {
 

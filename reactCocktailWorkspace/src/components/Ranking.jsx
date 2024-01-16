@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFire } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const fadeIn = keyframes`
   from {
@@ -23,7 +24,6 @@ const slideIn = keyframes`
     transform: translateY(0);
   }
 `;
-
 
 const StyledRankingDiv = styled.div`
     height: 58px;
@@ -65,22 +65,56 @@ const StyledRankingDiv = styled.div`
     }
 `;
 
+// 랭킹 시스템
 const Ranking = () => {
+
+    // 랭킹 시스템에 보여줄 state
+    const [voList,setVoList] = useState([]);
+
+    const navigate = useNavigate();
+
+    // useCallback을 이용해서 에러페이지로 이동
+    const navigateCallback = useCallback(() => {
+        navigate("/error");
+    }, [navigate]);
+
+    // 요청보내기
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8888/app/cocktail/ranking")
+        .then(resp => {
+            if(!resp.ok){
+                throw new Error("fetch함수 실패..");
+            }
+            return resp.json();
+        })
+        .then((data) => {
+            setVoList(data);
+        })
+        .catch((e)=>{
+            console.log(e);
+            navigateCallback();
+        })
+    },[navigateCallback]);
+
+    // list길이만큼 보여줌
+    const rankingTop10Cocktail = voList.map((vo , index)=>(
+        <div 
+            className="running" 
+            onClick={() => { 
+            navigate(`/cocktail/detail?query=${encodeURIComponent(vo.cocktailNo)}`) }} 
+            key={vo.cocktailNo}
+        >
+            <span style={{color:'red'}}>{index+1} </span>
+            {vo.nameKor}
+        </div>
+    ));
+
     return (
         <StyledRankingDiv>
             <FontAwesomeIcon className='fireIcon' icon={faFire} />
             <span>금주의 마셔볼랭 Top 10</span>
             <div>
-                <div className="running">1 블루라군</div>
-                <div className="running">2 화이트 러시안</div>
-                <div className="running">3 블루라군</div>
-                <div className="running">4 화이트 러시안</div>
-                <div className="running">5 블루라군</div>
-                <div className="running">6 화이트 러시안</div>
-                <div className="running">7 블루라군</div>
-                <div className="running">8 화이트 러시안</div>
-                <div className="running">9 블루라군</div>
-                <div className="running">10 화이트 러시안</div>
+                {rankingTop10Cocktail}
             </div>
         </StyledRankingDiv>
     );
