@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import TextInput from './TextInput';
 import IngInput from './IngInput';
 import ExplanInput from './ExplanInput'
+import SelectorInput from './SelectInput';
 import { Link, useNavigate } from 'react-router-dom';
 
 const StyledFormContainerDiv = styled.div`
@@ -90,7 +91,7 @@ const FormContainer = () => {
                 <ExplanInput title="칵테일 설명" maxText="200" data="cocktail_explan" heigth="200px" />
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
-                <TextInput title="칵테일 카테고리" maxText="20" data="categoryNo" heigth="46px" />
+                <SelectorInput title="칵테일 카테고리" data="categoryNo"/>
                 <button className='registButton'>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>

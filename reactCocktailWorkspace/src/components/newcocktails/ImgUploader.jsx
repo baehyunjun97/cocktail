@@ -120,7 +120,7 @@ const ImageUploader = ({ onRegisteredImagesChange }) => {
         {previewSrcList.map((src, index) => (
           <div key={index} style={{ marginLeft: '20px', position: 'relative' }}>
             <img src={src} alt={`Preview Image ${index + 1}`} />
-            <button className='cancelButton' onClick={() => handleCancelRegistration(index)}>
+            <button className='cancelButton' onClick={(e) => {handleCancelRegistration(index); e.preventDefault(); }}>
               ×
             </button>
           </div>

@@ -74,8 +74,8 @@
 		select no, name from amount
 	</select>
 	
-	<select id="">
-		select no, category from COCKTAIL_CATEGORY
+	<select id="categoryList" resultType="com.kh.app.cocktail.vo.AmountVo">
+		select no, category as name from COCKTAIL_CATEGORY
 	</select>
 	
 </mapper>
