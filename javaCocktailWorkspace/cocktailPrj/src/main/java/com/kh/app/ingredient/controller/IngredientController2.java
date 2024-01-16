@@ -22,13 +22,6 @@ public class IngredientController2 {
 	
 	private final IngredientService2 service;
 	
-	// 호버시 이벤트 발생
-	@GetMapping("event")
-	public List<IngredientVo2> retrieveMouseOverDetails(FilterVo filterVo) {
-		System.out.println(filterVo);
-		return service.retrieveMouseOverDetails(filterVo);
-	}
-	
 	// 재료 전체조회 및 필터
 	@GetMapping("list")
 	public List<IngredientVo2> list(FilterVo filterVo){
@@ -38,7 +31,6 @@ public class IngredientController2 {
 	// 재료 상세조회
 	@GetMapping("detail")
 	public Map<String,Object> detail(FilterVo filterVo){
-		System.out.println(filterVo);
 		return service.detail(filterVo);
 	}
 	

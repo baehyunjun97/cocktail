@@ -10,12 +10,14 @@ import com.kh.app.filter.vo.FilterVo;
 
 @Repository
 public class CocktailDao2 {
+	
 	// 칵테일 전체 조회
     public List<CocktailVo2> list(SqlSessionTemplate sst, FilterVo filterVo) {
         // mapper 다녀오기
         return sst.selectList("CocktailMapper2.list", filterVo);
     }
     
+    // 재료로 만들수 있는 칵테일
     public List<CocktailVo2> ingredientDetail(SqlSessionTemplate sst, FilterVo filterVo) {
     	// mapper 다녀오기
     	return sst.selectList("CocktailMapper2.ingredientDetail", filterVo);
