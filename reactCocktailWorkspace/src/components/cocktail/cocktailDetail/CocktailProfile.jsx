@@ -187,7 +187,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             setLikeCnt(cocktailAndIngredientsVO.cocktailVo.likeCnt);
             fetchData();
         }
-    }, [cocktailAndIngredientsVO,navigateCallback]);
+    }, [cocktailAndIngredientsVO,navigateCallback,obj.vo]);
 
     // 최대 10번 반복 base리스트에 데이터 들을 화면에 보여줌
     const baseNames = (() => {
@@ -256,6 +256,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                 navigate("/error");
             })
         }else{
+            alert("로그인후 이용하세요");
             navigate("/login");
         }
         
