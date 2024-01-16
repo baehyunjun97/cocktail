@@ -10,9 +10,10 @@ const StyledImageUploader = styled.div`
       border-Radius: 8px;
       padding: 10px;
       cursor: pointer;
-      background-Color: #3498db;
+      background-Color: orange;
       color: #fff;
       margin-Left: 20px;
+      font-weight: 600;
     }
 
     & .cancelButton{

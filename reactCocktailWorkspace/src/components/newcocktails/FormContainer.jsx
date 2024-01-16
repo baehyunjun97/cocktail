@@ -76,7 +76,6 @@ const FormContainer = () => {
           })
             .then(resp => resp.json())
             .then(data => {
-              console.log(window.alert);
               alert(data.msg); 
             });
         };

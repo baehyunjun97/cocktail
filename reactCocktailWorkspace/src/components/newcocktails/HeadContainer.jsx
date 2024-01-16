@@ -43,7 +43,7 @@ const HeadContainer = () => {
             <div className='description'>
                 <h2>나만의 레시피 올리기</h2>
                 <h4>마셔볼랭에 여러분의 레시피를 공유해주세요!</h4>
-                <div>♥좋아요♥를 많이 받게되면 마실랭 가이드에 정식 레시피로 등록됩니다. <br />
+                <div>♥좋아요♥를 많이 받게되면 마셔볼랭 랭킹에 올라갈 수 있습니다! <br />
                 매력적인 칵테일을 소개해주세요!</div>
             </div>
         </StyledHeadContainer>

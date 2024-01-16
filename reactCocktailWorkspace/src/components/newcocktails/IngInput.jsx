@@ -30,7 +30,6 @@ const StyledIngInputDiv = styled.div`
     border-radius: 10px;
     transition: all 1s ease 0s;
     height: 2.7rem;
-    color: rgb(48, 48, 48);
     font-weight: 600; 
   }
 
@@ -44,7 +43,6 @@ const StyledIngInputDiv = styled.div`
     border-radius: 10px;
     transition: all 1s ease 0s;
     height: 46px;
-    color: rgb(48, 48, 48);
     font-weight: 600;   
   }
 
@@ -68,6 +66,7 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
   const [selectedIng, setSelectedIng] = useState("");
   const [options, setOptions] = useState([]);
 
+  // 선택한 재료 정보
   const handleSelectedIng = (ingVo) => {
       setSelectedIng(ingVo);
   };
@@ -85,22 +84,25 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
   return (
     <div>
       <h2>재료 등록</h2>
-      <div onChange= {() => {handleChangeIng(index, 'ingNo', selectedIng.no);}} >
+      <div>
         {/* MODAL */}
         <div 
-          onClick={() => {setModalVisible(!isModalVisible);}} 
+          onClick={() => {setModalVisible(!isModalVisible);}}
           name={`ingNo_${index}`} 
         >
            <div className='inputDiv'>
-
-           {selectedIng && selectedIng.no ? (
-              <>
-                <p>{`${selectedIng.name}`}</p>
-              </>
-            ) : (
-              <p>재료를 입력하세요</p>
-            )}
-             <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} ingredients = {ingredients} />
+              {selectedIng && selectedIng.no ? (
+                    <p>{`${selectedIng.name}`}</p>
+                ) : (
+                  <p>재료를 입력하세요</p>
+                )}
+             <IngSearchModal 
+                isModalVisible={isModalVisible} 
+                onHandleSelectedIng = {handleSelectedIng} 
+                ingredients = {ingredients}
+                inputIndex = {index}
+                handleChangeIng = {handleChangeIng}
+             />
            </div>
         </div>
 
@@ -182,9 +184,17 @@ const IngInput = ({ onChangeIngredients }) => {
           />
       ))}
 
-      <button onClick={() => handleAddIngredient(formCount - 1)} type="button">
-        재료 추가
-      </button>
+      {/* 마지막 요소가 3개 이상 차있어야 클릭 가능 */}
+      {ingredients.length > 0 && ingredients[formCount - 1] && typeof ingredients[formCount - 1] === 'object' && Object.keys(ingredients[formCount - 1]).length < 3 ? (
+        <button type="button" disabled>
+          재료 추가
+        </button>
+      ) : (
+        <button onClick={() => handleAddIngredient(formCount - 1)} type="button">
+          재료 추가
+        </button>
+      )}
+
     </StyledIngInputDiv>
   );
 };
