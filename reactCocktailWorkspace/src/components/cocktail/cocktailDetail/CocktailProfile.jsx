@@ -198,10 +198,16 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
     // 하트 좋아요 요청
     const handleClickHeart = () => {
 
+        let likeStatus = 0;
+        if(isLiked){
+            likeStatus = 1;
+        }
+
         // 백엔드에 보내줄 데이터
         const vo = {
             memberNo: "1",
             cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
+            likeStatus : likeStatus,
         }
 
         // 비동기 요청
@@ -221,12 +227,10 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             if(data.msg === 'deleteSuccess'){
                 setLikeCnt(Number(likeCnt)-1);
                 setIsLiked(false);
-                localStorage.setItem('isLiked'+cocktailVo.cocktailNo, false);
             }
             if(data.msg === "createSuccess"){
                 setLikeCnt(Number(likeCnt)+1);
                 setIsLiked(true);
-                localStorage.setItem('isLiked'+cocktailVo.cocktailNo, true);
             }
             if(data.msg === 'bad'){
                 throw new Error("좋아요 누르기 실패");
@@ -278,4 +282,5 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
 };
 
 export default CocktailProfile;
+
 

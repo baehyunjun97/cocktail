@@ -21,14 +21,10 @@ public class BookmarkService {
 
 	public Map<String, String> toggleBookmarkAndCheckStatus(FilterVo vo) {
 		
-		System.out.println(vo);
-		
 		Map<String, String> bookmarkMap = new HashMap<>(); 
 		
-		int bookmarkStatus = dao.findBookmarkStatus(sst,vo);
-		
 		// 북마크 상태가 1이면 누름 0이면 안누름
-		if(bookmarkStatus == 1) {
+		if(vo.getLikeStatus() == 1) {
 			
 			// 삭제가 성공하면 good저장 실패하면 bad저장
 			int result = dao.deleteBookmark(sst,vo);
@@ -38,7 +34,7 @@ public class BookmarkService {
 				bookmarkMap.put("msg","deleteSuccess");
 			}
 			
-		}else if(bookmarkStatus == 0) {
+		}else if(vo.getLikeStatus() == 0) {
 			
 			// 생성이 성공하면 good저장 실패하면 bad저장
 			int result = dao.createBookmark(sst,vo);

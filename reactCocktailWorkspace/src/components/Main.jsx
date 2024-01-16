@@ -2,7 +2,8 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom';
 import CocktailMain from './cocktail/CocktailMain';
 import IngredientMain from './ingredient/IngredientMain';
-import SearchMain from './SearchMain';
+import SearchMain from './search/SearchMain';
+
 
 
 const Main = () => {

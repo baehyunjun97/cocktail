@@ -16,6 +16,7 @@ public class FilterVo {
 	private String cocktailNo;
 	private String ingNo;
 	private String ingCategoryName;
+	private int likeStatus;
 	
 	
 }

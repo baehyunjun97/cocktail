@@ -3,6 +3,7 @@ import Header from './Header';
 import styled from 'styled-components';
 import Search from './Search';
 import Main from './Main';
+import Ranking from './Ranking';
 
 
 const Layout = ( ) => {
@@ -15,6 +16,7 @@ const Layout = ( ) => {
         <StyledLayoutDiv>
             <Header />
             <Search />
+            <Ranking />
             <Main />
         </StyledLayoutDiv>
     );
