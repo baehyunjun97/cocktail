@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
-import { KhMemory } from "../../context/KhContext";
+import { MemberMemory } from "../../context/MemberContext";
 
 const StyledLoginAreaDiv = styled.div`
     display: flex;
@@ -115,7 +115,7 @@ const Login = () => {
 
     }
 
-    const obj = useContext(KhMemory);
+    const obj = useContext(MemberMemory);
 
     const handleClickLogin=(event)=>{
         event.preventDefault();
@@ -164,7 +164,7 @@ const Login = () => {
                 <img src="https://www.masileng.com/images/illust_challenge_left.png" className="img1" alt="illust_challenge_left" />
                 <div>
                     <div><input type="text" name="id" className="id" placeholder="아이디를 입력하세요" onChange={handleInputChange} /></div>
-                    <div><input type="password" name="pwd" className="pwd" placeholder="비밀번호를 입력하세요" onChange={handleInputChange} /></div>
+                    <div><input type="password" name="pwd" className="pwd" maxLength="15" placeholder="비밀번호를 입력하세요" onChange={handleInputChange} /></div>
                     <button className="join">로그인</button>
                 </div>
             </form>

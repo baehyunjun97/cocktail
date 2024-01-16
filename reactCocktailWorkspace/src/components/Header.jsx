@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { KhMemory } from '../context/KhContext';
+import { MemberMemory } from '../context/MemberContext';
 
 const StyledHeader = styled.div`
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
@@ -45,11 +45,14 @@ const StyledHeader = styled.div`
     cursor: pointer;
   }
   }
+
 `;
       
 function Header() {
 
-  const obj = useContext(KhMemory);
+  const obj = useContext(MemberMemory);
+
+  
 
   return (
     <StyledHeader>
