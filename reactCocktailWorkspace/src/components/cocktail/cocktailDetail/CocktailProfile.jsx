@@ -74,6 +74,7 @@ const StyledDetailDiv = styled.div`
             & > div:nth-child(4){
                 display: flex;
                 margin-top: 10px;
+                gap: 5px;
                 & > div{
                     height: 35px;
                     padding-left: 20px;
@@ -121,6 +122,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
     const [mainImg, setMainImg] = useState('');
     const [likeCnt, setLikeCnt] = useState(0);
     const [isLiked, setIsLiked] = useState();
+    const obj = useContext(MemberMemory);
 
     // useEffect 
     const navigateCallback = useCallback(() => {
@@ -197,8 +199,6 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             return null;
         });
     })();
-
-    const obj = useContext(MemberMemory);
 
     // 이미지를 다음 배열의 크기만큼 이미지를 화면에 보여줌
     const images = cocktailFileList.map((fileName,index) => (
@@ -281,6 +281,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                     <div>{cocktailVo.commentary}</div>
                     <div>
                         <div>도수 : {cocktailVo.alc}도</div>
+                        <div>{"@"+cocktailVo.writerName+"님의 레시피"}</div>
                     </div>
                     <div>
                         {
