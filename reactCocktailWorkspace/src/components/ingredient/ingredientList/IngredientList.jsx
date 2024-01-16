@@ -139,6 +139,10 @@ const IngredientList = () => {
         .then( (data) => {
             setVoList(data);
         })
+        .catch((e)=>{
+          console.log(e);
+          navigate("/error");
+        })
 
     }
 
