@@ -1,9 +1,6 @@
 package com.kh.app.cocktail.vo;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 

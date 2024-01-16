@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.app.cocktail.dao.CocktailDao;
+import com.kh.app.cocktail.vo.AmountVo;
 import com.kh.app.cocktail.vo.CocktailVo;
 import com.kh.app.cocktail.vo.IngVo;
 
@@ -41,6 +42,14 @@ public class CocktailService {
 
 	public List<IngVo> searchIng(IngVo vo) {
 		return dao.searchIng(sst, vo);
+	}
+
+	public List<AmountVo> amountList() {
+		return dao.amountList(sst);
+	}
+
+	public List<AmountVo> categoryList() {
+		return dao.categoryList(sst);
 	}
 
 }

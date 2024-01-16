@@ -21,6 +21,7 @@ const StyledIngInputDiv = styled.div`
   }
 
   & .inputDiv {
+    background-color: white;
     width: 100%;
     padding-top: 0.8rem;
     padding-left: 12.5px;
@@ -36,7 +37,7 @@ const StyledIngInputDiv = styled.div`
   & input, select {
     width: 100%;
     padding-left: 12.5px;
-    margin-top: 5px;
+    margin-bottom: 5px;
     line-height: 19px;
     
     border: 1.4px solid rgb(230, 228, 232);
@@ -58,20 +59,28 @@ const StyledIngInputDiv = styled.div`
     cursor: auto;
   }
 
-  & defaultOption{
-    color: rgb(110, 110, 110);
-  }
 `;
 
 //component IngredientForm
-const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
+const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients }) => {
   
   const [isModalVisible, setModalVisible] = useState(false);
   const [selectedIng, setSelectedIng] = useState("");
+  const [options, setOptions] = useState([]);
 
   const handleSelectedIng = (ingVo) => {
       setSelectedIng(ingVo);
   };
+
+  useEffect( () => {
+      // fetch - get 시에는 재료단위의 배열을 불러온다.
+      fetch("http://127.0.0.1:8888/app/cocktail/regist")
+      .then(resp=> resp.json())
+      .then( data => {
+        setOptions(data);
+        handleChangeIng(index, 'amountNo', '1');
+      });
+  }, []);
   
   return (
     <div>
@@ -91,18 +100,33 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast }) => {
             ) : (
               <p>재료를 입력하세요</p>
             )}
-             <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} />
+             <IngSearchModal isModalVisible={isModalVisible} onHandleSelectedIng = {handleSelectedIng} ingredients = {ingredients} />
            </div>
         </div>
 
         <br />
-        <input type="number" name={`amount_${index}`} onChange={(e) => handleChangeIng(index, 'amount', e.target.value)} placeholder='용량을 입력해주세요'/>
+        <input type="number" name={`amount_${index}`} 
+               onChange={ (e) => handleChangeIng(index, 'amount', e.target.value)} 
+               placeholder='용량을 입력해주세요'/>
         <br />
-        <select name={`amountNo_${index}`} onChange={(e) => handleChangeIng(index, 'amountNo', e.target.value)}>
-          <option value="1">ml</option>
-          <option value="2">gram</option>
-          <option value="3">spoon</option>
-        </select>
+
+        {/* 재료단위 select */}
+        <div className='amountSelector'>
+          {options.length > 0 && (
+            <select 
+                name={`amountNo_${index}`}
+                onChange={(e) => {
+                handleChangeIng(index, 'amountNo', e.target.value);
+                }}
+            >
+              {options.map((option) => (
+                <option key={option.no} value={option.no}>
+                  {option.name}
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
 
         <br />
         {isLast && <button onClick={() => onDelete(index)}>재료 삭제</button>}
@@ -154,6 +178,7 @@ const IngInput = ({ onChangeIngredients }) => {
           onDelete={handleDeleteIngredient} 
           handleChangeIng={handleChangeIng} 
           isLast={index === formCount - 1}
+          ingredients = {ingredients}
           />
       ))}
 

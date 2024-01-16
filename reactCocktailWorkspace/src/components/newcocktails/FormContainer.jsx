@@ -13,7 +13,7 @@ const StyledFormContainerDiv = styled.div`
     padding: 15px;
 
     & .registButton{
-        width: 100%;
+    width: 100%;
     height: 52px;
     padding-left: 10px;
     margin-top: 65px;
@@ -76,8 +76,8 @@ const FormContainer = () => {
           })
             .then(resp => resp.json())
             .then(data => {
-              // console.log(window.alert);
-              // alert(data.msg); 
+              console.log(window.alert);
+              alert(data.msg); 
             });
         };
     

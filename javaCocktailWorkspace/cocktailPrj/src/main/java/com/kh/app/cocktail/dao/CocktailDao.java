@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.app.cocktail.vo.AmountVo;
 import com.kh.app.cocktail.vo.CocktailVo;
 import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
@@ -82,9 +83,19 @@ public class CocktailDao {
 	    return result;
 	}
 
+	//재료 검색
 	public List<IngVo> searchIng(SqlSessionTemplate sst, IngVo vo) {
 		System.out.println(vo);
 		return sst.selectList("CocktailMapper.selectIng", vo);
+	}
+
+	//용량단위 리스트
+	public List<AmountVo> amountList(SqlSessionTemplate sst) {
+		return sst.selectList("CocktailMapper.amountList");
+	}
+
+	public List<AmountVo> categoryList(SqlSessionTemplate sst) {
+		return sst.selectList("CocktailMapper.categoryList");
 	}
 
 }

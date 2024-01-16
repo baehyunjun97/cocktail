@@ -30,7 +30,7 @@ const StyledIngSearchModalDiv = styled.div`
 `;
 const ITEMS_PER_PAGE = 5;
 
-const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
+const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients }) => {
   const [search, setSearch] = useState("");
   const [ingVolist, setIngVolist] = useState([]);
   const [selectedIng, setSelectedIng] = useState("");
@@ -65,6 +65,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
       setIngVolist(result);
       setTotalPages(calculateTotalPages(result));
       setCurrentPage(1); // Reset to the first page when new data is fetched
+      console.log("전달받은 잉그 : " + JSON.stringify(ingredients))
     } catch (error) {
       console.error('Error fetching data:', error);
     }
