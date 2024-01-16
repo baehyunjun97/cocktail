@@ -68,4 +68,14 @@
 			</if>
 		</where>
 	</select>
+	
+<!-- 	용량전체조회 -->
+	<select id="amountList" resultType="com.kh.app.cocktail.vo.AmountVo">
+		select no, name from amount
+	</select>
+	
+	<select id="categoryList" resultType="com.kh.app.cocktail.vo.AmountVo">
+		select no, category as name from COCKTAIL_CATEGORY
+	</select>
+	
 </mapper>

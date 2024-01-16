@@ -10,9 +10,10 @@ const StyledImageUploader = styled.div`
       border-Radius: 8px;
       padding: 10px;
       cursor: pointer;
-      background-Color: #3498db;
+      background-Color: orange;
       color: #fff;
       margin-Left: 20px;
+      font-weight: 600;
     }
 
     & .cancelButton{
@@ -119,7 +120,7 @@ const ImageUploader = ({ onRegisteredImagesChange }) => {
         {previewSrcList.map((src, index) => (
           <div key={index} style={{ marginLeft: '20px', position: 'relative' }}>
             <img src={src} alt={`Preview Image ${index + 1}`} />
-            <button className='cancelButton' onClick={() => handleCancelRegistration(index)}>
+            <button className='cancelButton' onClick={(e) => {handleCancelRegistration(index); e.preventDefault(); }}>
               ×
             </button>
           </div>

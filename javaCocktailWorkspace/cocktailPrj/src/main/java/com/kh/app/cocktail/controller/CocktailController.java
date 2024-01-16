@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.kh.app.cocktail.service.CocktailService;
+import com.kh.app.cocktail.vo.AmountVo;
 import com.kh.app.cocktail.vo.CocktailVo;
 import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
@@ -64,12 +64,12 @@ public class CocktailController {
 			System.out.println("컨트롤러 결과 : " + result);
 
 			map = new HashMap<String, Object>();
-			map.put("msg", "good");
+			map.put("msg", "칵테일 등록 성공");
 
 		} catch (Exception e) {
 			System.out.println("칵테일 등록 실패");
 			map = new HashMap<String, Object>();
-			map.put("msg", "bad");
+			map.put("msg", "칵테일 등록 실패");
 			e.printStackTrace();
 		}
 
@@ -107,7 +107,7 @@ public class CocktailController {
 		return pathList;
 	}
 	
-	
+	//재료검색
 	@PostMapping("regist/ingList")
 	public List<IngVo> searchIng(@RequestBody IngVo vo) {
 		
@@ -117,6 +117,18 @@ public class CocktailController {
 		
 		List<IngVo> voList = service.searchIng(vo);
 		return voList;
+	}
+	
+	//재료 용량 단위 전달
+	@GetMapping("regist")
+	public List<AmountVo> amountList(){
+		return service.amountList();
+	}
+	
+	//칵테일 카테고리 전달
+	@GetMapping("regist/category")
+	public List<AmountVo> categoryList(){
+		return service.categoryList();
 	}
 
 }

@@ -23,6 +23,15 @@ const StyledIngSearchModalDiv = styled.div`
     margin-top: 10px;
   }
 
+  & .ResultContainer{
+    display: flex;
+    flex-direction: column;
+  }
+
+  & .selectBtn {
+    margin-left: auto;
+  }
+
   & .controllBtn{
     margin: 0px 20px 15px;
     cursor: pointer;
@@ -30,12 +39,18 @@ const StyledIngSearchModalDiv = styled.div`
 `;
 const ITEMS_PER_PAGE = 5;
 
-const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
-  const [search, setSearch] = useState("");
-  const [ingVolist, setIngVolist] = useState([]);
-  const [selectedIng, setSelectedIng] = useState("");
+const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, handleChangeIng, inputIndex }) => {
+  const [search, setSearch] = useState(""); //중간검색값
+  const [ingVolist, setIngVolist] = useState([]); //검색필터용
+  const [selectedIng, setSelectedIng] = useState(""); //검색값
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+
+  const isIngredientSelected = (ingNo) => {
+    //아래 some을 하나라도 통과하는가? 하나라도 ingNo와 같다면 true 반환.
+    return ingredients.some((ingredient) => ingredient.ingNo === ingNo);
+  };
 
   useEffect(() => {
     onHandleSelectedIng(selectedIng);
@@ -103,15 +118,27 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
           <div className='ResultContainer'>
             {/* Display only the current items based on the current page */}
             {currentItems.map((ingVo, index) => (
-              <div key={index} onClick={() => { setSelectedIng(ingVo) }}>
-                <p>{ingVo.name}</p>
-                <hr />
-              </div>
+              <div
+              key={index}
+              onClick={() => {
+                if (!isIngredientSelected(ingVo.no)) {
+                  setSelectedIng(ingVo);
+                  handleChangeIng(inputIndex, 'ingNo', ingVo.no);
+                }
+              }}
+              style={{
+                color: isIngredientSelected(ingVo.no) ? 'red' : 'black',
+                cursor: isIngredientSelected(ingVo.no) ? 'not-allowed' : 'pointer',
+              }}
+            >
+              <p>{ingVo.name}</p>
+              <hr />
+            </div>
             ))}
             {/* Pagination controls */}
             <div>
               <button 
-                onClick={(e) => handlePageChange(e,currentPage - 1)} 
+                onClick={(e) => {handlePageChange(e,currentPage - 1); e.preventDefault()} } 
                 disabled={currentPage === 1} 
                 className='controllBtn'
               >
@@ -119,7 +146,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng }) => {
               </button>
               <span>{`${currentPage} / ${totalPages}`}</span>
               <button
-                onClick={(e) => handlePageChange(e,currentPage + 1)}
+                onClick={(e) => {handlePageChange(e,currentPage + 1); e.preventDefault()}}
                 disabled={indexOfLastItem >= ingVolist.length}
                 className='controllBtn'
               >
