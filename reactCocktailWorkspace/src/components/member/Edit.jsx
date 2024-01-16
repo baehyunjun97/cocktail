@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { KhMemory } from '../../context/KhContext';
+import { MemberMemory } from '../../context/MemberContext';
 
 const StyledEditAreaDiv = styled.div`
     position: relative;
@@ -135,7 +135,7 @@ const StyledEditAreaDiv = styled.div`
 const Edit = () => {
     const navigate=useNavigate();
 
-    const obj=useContext(KhMemory);
+    const obj=useContext(MemberMemory);
 
     const [vo,setVo]=useState(obj.vo);
 
@@ -174,6 +174,7 @@ const Edit = () => {
             if(data.msg==="good"){
                 alert("회원정보 수정 성공");
                 obj.vo.nick = vo.nick; 
+                sessionStorage.setItem("loginMember",JSON.stringify(obj.vo));
                 navigate('/*');
             }
             else{
@@ -190,13 +191,13 @@ const Edit = () => {
             <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p>
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="새 비밀번호" name="pwd" className='edit' onChange={handleInputChange} />
+                <input type='password' placeholder="새 비밀번호" name="pwd" className='edit' onChange={handleInputChange} />
                 <div class="editnumber1">0/15</div>
             </div>
 
             <h3 class="text3">비밀번호 확인</h3>
             <div class="editcollection">
-                <input placeholder="새 비밀번호 확인" name="pwd2" className='edit' onChange={handleInputChange} />
+                <input type='password' placeholder="새 비밀번호 확인" name="pwd2" className='edit' onChange={handleInputChange} />
                 <div class="editnumber1">0/15</div>
             </div>
 

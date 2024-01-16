@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { MemberMemory } from '../../context/MemberContext';
 
 const StyledPwdCheckAreaDiv = styled.div`
     position: relative;
@@ -126,17 +127,39 @@ const StyledPwdCheckAreaDiv = styled.div`
 
 const PwdCheck = () => {
     const navigate=useNavigate();
+    const obj=useContext(MemberMemory);
+    const[vo,setVo]=useState({pwd:''});
+
+    const handleInputChange=(event)=>{
+        const{name,value}=event.target;
+        setVo({
+            ...vo,
+            [name]:value
+        })
+    }
+    
+
+    const pwdAccord=(event)=>{
+        event.preventDefault();
+        if(obj.vo.pwd===vo.pwd){
+            alert("비밀번호 일치");
+            navigate("/edit")
+        }else{
+            alert("비밀번호 틀림");
+        }
+    }
+
     return (
         <StyledPwdCheckAreaDiv>
-            <form>
+            <form onSubmit={pwdAccord}>
             <h2 class="text1">비밀번호 재확인</h2>
             {/* <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p> */}
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="비밀번호를 입력해주세요." className='edit' />
-                <div class="editnumber">0/15</div>
+                <input placeholder="비밀번호를 입력해주세요." className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
+                <div class="editnumber">{vo.pwd.length}/15</div>
             </div>
-            <button className='change' onClick={() => {navigate("/edit");}}>확인</button>
+            <button className='change' >확인</button>
             </form>
             <img src="https://www.masileng.com/test/login_background.png" className="img2" alt="illust_challenge_left"  />
         </StyledPwdCheckAreaDiv>

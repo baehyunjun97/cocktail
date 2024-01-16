@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { KhMemory } from '../../context/KhContext';
+import { MemberMemory } from '../../context/MemberContext';
 
 
 const StyledMypageAreaDiv = styled.div`
@@ -127,7 +127,7 @@ const StyledMypageAreaDiv = styled.div`
 const Mypage = () => {
     const navigate=useNavigate();
     
-    const obj=useContext(KhMemory);
+    const obj=useContext(MemberMemory);
     
     return (
         <StyledMypageAreaDiv>

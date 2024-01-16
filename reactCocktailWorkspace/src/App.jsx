@@ -9,14 +9,14 @@ import Join from './components/member/Join';
 import Login from './components/member/Login';
 import Edit from './components/member/Edit';
 import PwdCheck from './components/member/PwdCheck';
-import { KhMemoryProvider } from './context/KhContext';
+import { MemberMemoryProvider } from './context/MemberContext';
 import Mypage from './components/member/Mypage';
 
 function App() {
   
   return (
     <div>
-      <KhMemoryProvider>
+      <MemberMemoryProvider>
         <BrowserRouter>
           <Routes>
             <Route path='/recepiUpload' element={<RecipeUploadLayout />} />
@@ -30,7 +30,7 @@ function App() {
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
-      </KhMemoryProvider>
+      </MemberMemoryProvider>
     </div>
   );
 }
