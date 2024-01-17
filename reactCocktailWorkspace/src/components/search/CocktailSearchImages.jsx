@@ -41,7 +41,7 @@ const CocktailSearchImages = ({cocktailVoList}) => {
             <div>
                 {/* 칵테일 이미지 */}
                 <img
-                    src={cocktailVo.cocktailFileName}
+                    src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+cocktailVo.cocktailFileName}
                     alt={`Cocktail ${cocktailVo.cocktailNo}`}
                 />
                 {/* 마우스 이벤트 */}

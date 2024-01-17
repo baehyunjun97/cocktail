@@ -183,7 +183,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             setIngredientVoList(cocktailAndIngredientsVO.ingredientVoList);
             setCocktailVo(cocktailAndIngredientsVO.cocktailVo);
             setCocktailFileList(cocktailAndIngredientsVO.cocktailVo.cocktailFileNameList);
-            setMainImg(cocktailAndIngredientsVO.cocktailVo.cocktailFileNameList[0]);
+            setMainImg("http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+cocktailAndIngredientsVO.cocktailVo.cocktailFileNameList[0]);
             setLikeCnt(cocktailAndIngredientsVO.cocktailVo.likeCnt);
             fetchData();
         }
@@ -202,7 +202,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
 
     // 이미지를 다음 배열의 크기만큼 이미지를 화면에 보여줌
     const images = cocktailFileList.map((fileName,index) => (
-        <img onClick={()=>{setMainImg(fileName)}} key={fileName} src={fileName} alt={index+fileName} />
+        <img onClick={()=>{setMainImg("http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+fileName)}} key={fileName} src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+fileName} alt={index+fileName} />
       ));
 
     // sessionStorage.removeItem("loginMember");

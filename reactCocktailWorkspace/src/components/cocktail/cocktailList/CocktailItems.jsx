@@ -39,7 +39,7 @@ const CocktailItems = ({cocktailVoList}) => {
         <div onClick={()=>{handleClickDetail(cocktailVo.cocktailNo)}}    key={`${cocktailVo.cocktailNo}_${index}`} >
             <div>
                 <img
-                    src={cocktailVo.cocktailFileName}
+                    src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+cocktailVo.cocktailFileName}
                     alt={`Cocktail ${cocktailVo.cocktailNo}`}
                 />
                 <div

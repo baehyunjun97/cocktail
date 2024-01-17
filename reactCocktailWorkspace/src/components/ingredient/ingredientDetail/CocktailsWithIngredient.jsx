@@ -152,7 +152,7 @@ const CocktailsWithIngredient = ({ cocktailsAndIngredientVo }) => {
             <div onClick={() => {handleClickDetail(cocktailVo.cocktailNo)}} key={cocktailVo.id}>
                 <div>
                     {/* 썸네일 사진 */}
-                    <img src={cocktailVo.cocktailFileName} alt={cocktailVo.cocktailFileName} />
+                    <img src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+cocktailVo.cocktailFileName} alt={cocktailVo.cocktailFileName} />
                     <div
                         // 마우스 이벤트로 호버처럼 화면에 보여짐
                         onMouseOver={(event) => handleMouseOver(event, index)}
