@@ -25,17 +25,19 @@ public class CocktailService {
 	public int regist(CocktailVo vo) throws Exception {
 		System.out.println("서비스 진행");
 		
-		//saveFiles 에서 사용한 Path를 Url로 만들어 VO로 저장
+		//saveFiles 에서 사용한 Path를 이름으로 만들어 VO로 저장
 		List<String> filePaths = vo.getFilePaths();
-		List<String> urlList = new ArrayList<String>();
+		List<String> nameList = new ArrayList<String>();
 		
+		int iter = 1;
 		for (String path : filePaths) {
-			String fileUrl = path.replace("C:\\dev\\cocktailRepo\\javaCocktailWorkspace\\cocktailPrj\\src\\main\\webapp", "http://127.0.0.1:8888/app");
-			urlList.add(fileUrl);
+			String fileName = vo.getNameEng()+"_"+iter;
+			nameList.add(fileName);
+			iter++;
 		}
 		
-		System.out.println("url 리스트 : " + urlList);
-		vo.setUrlPaths(urlList);
+		System.out.println("src이름 리스트(service) : " + nameList);
+		vo.setUrlPaths(nameList);
 		
 		return dao.regist(sst,vo);
 	}
