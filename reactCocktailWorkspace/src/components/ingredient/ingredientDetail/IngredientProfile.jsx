@@ -103,7 +103,7 @@ const IngredientProfile = ({cocktailsAndIngredientVo}) => {
             <div>
                 <div>
                 </div>
-                <img src={ingredientVo.ingSrc} alt={ingredientVo.ingSrc} />
+                <img src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+ingredientVo.ingSrc} alt={ingredientVo.ingSrc} />
                 <div>
                     <div>
                         <div>#{ingredientVo.ingCategoryName}</div>

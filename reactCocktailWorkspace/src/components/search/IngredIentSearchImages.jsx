@@ -39,7 +39,7 @@ const IngredIentSearchImages = ({ingredientVoList}) => {
           <div>
             {/* 재료 이미지 */}
             <img
-              src={ingredientVo.ingSrc}
+              src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+ingredientVo.ingSrc}
               alt={`ingredient ${ingredientVo.ingNo}`}
             />
             {/* 마우스 이벤트 */}

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../Header';
 import TextInput from '../../newcocktails/TextInput';
+import IngCategory from './IngCategory';
+import IngGuide from './IngGuide';
+import IngImgUpload from './IngImgUpload';
 
 const StyledRequestIngDIv = styled.div`
     margin-top: 100px;
@@ -48,7 +51,7 @@ const StyledRequestIngDIv = styled.div`
             }
         }
     }
-    & > div:nth-child(2){
+    & > form:nth-child(2){
         width: 930px;
         padding: 72px 24px 70px;
         background: rgb(255, 255, 255);
@@ -61,11 +64,68 @@ const StyledRequestIngDIv = styled.div`
         box-shadow: 0 .47rem 2.19rem rgba(8,10,37,.03),0 .94rem 1.41rem rgba(8,10,37,.03),0 .25rem .53rem rgba(8,10,37,.05),0 .13rem .19rem rgba(8,10,37,.03);
         & > div{
             width: 100%;
+            & > div{
+
+            } & > button {
+                width: 100%;
+                margin-top: 20px;
+                height: 52px;
+                padding-left: 10px;
+                border-radius: 10px;
+                box-shadow: rgba(228, 32, 32, 0.2) 3px 6px 20px;
+                background-color: rgb(242, 92, 92);
+                color: rgba(255, 255, 255, 0.85);
+                font-weight: bold;
+                font-size: 18px;
+                letter-spacing: -1px;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                align-self: flex-end;
+                gap: 5px;
+                border: none;
+            }
         }
     }
 `;
 
 const  RequestIngMain = () => {
+
+    const [category,setCategory] = useState();
+
+    const uploadFecth = (e) => {
+
+        e.preventDefault()
+        const nameKor = e.target.name_kor.value;
+        const nameEng = e.target.name_eng.value;
+        const guide = e.target.guide.value;
+        const file = e.target.fileUpload.files;
+
+        console.log(file[0]);
+        console.log(nameKor);
+        console.log(nameEng);
+        console.log(guide);
+        console.log(category);
+
+        const formData = new FormData();
+
+        formData.append('name_kor', nameKor);
+        formData.append('name_eng', nameEng);
+        formData.append('category', category);
+        formData.append('guide', guide);
+        formData.append('file', file[0]);
+
+        fetch("http://127.0.0.1:8888/app/ingredient",{
+            method : "POST",
+            body: formData,
+        })
+        .then(resp => resp.json)
+        .then((data) => {
+            console.log(data.msg);
+        })
+
+    }
 
     return (
         <>
@@ -81,15 +141,28 @@ const  RequestIngMain = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <form onSubmit={uploadFecth}>
+                    <div>
+                        <IngImgUpload />
+                    </div>
                     <div>
                         <TextInput title="재료 이름" maxText="50" data="name_kor" heigth="46px"/>
                     </div>
                     <div>
                         <TextInput title="재료 영문 이름" maxText="50" data="name_eng" heigth="46px"/>
                     </div>
-                </div>
+                    <div>
+                        <IngCategory setCategory = {setCategory}/>
+                    </div>
+                    <div>
+                        <IngGuide guide="guide"/>
+                    </div>
+                    <div>
+                        <button>업로드</button>
+                    </div>
+                </form>
             </StyledRequestIngDIv >
+            <br /><br />
         </>
     );
 };
