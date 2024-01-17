@@ -81,6 +81,12 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
       });
   }, []);
   
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
+
   return (
     <div>
       <h2>재료 등록</h2>
@@ -109,7 +115,9 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         <br />
         <input type="number" name={`amount_${index}`} 
                onChange={ (e) => handleChangeIng(index, 'amount', e.target.value)} 
-               placeholder='용량을 입력해주세요'/>
+               placeholder='용량을 입력해주세요'
+               onKeyDown={handleKeyDown}
+               />
         <br />
 
         {/* 재료단위 select */}

@@ -85,6 +85,8 @@ const FormContainer = () => {
             }});
         };
 
+        
+
     return (
         <StyledFormContainerDiv>
             <form onSubmit={handleSubmit}>
@@ -95,7 +97,7 @@ const FormContainer = () => {
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
                 <SelectorInput title="칵테일 카테고리" data="categoryNo" />
-                <button className='registButton'>레시피 등록</button>
+                <button className='registButton' type='submit'>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>
     );

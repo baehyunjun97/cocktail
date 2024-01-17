@@ -98,6 +98,11 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = ingVolist.slice(indexOfFirstItem, indexOfLastItem);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -112,6 +117,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
                 value={search}
                 onChange={handleSearchChange}
                 placeholder='검색어를 입력해주세요.'
+                onKeyDown={handleKeyDown}
               />
             </div>
           </div>

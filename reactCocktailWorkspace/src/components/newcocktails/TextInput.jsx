@@ -69,6 +69,12 @@ const TextInput = ({maxText, title, data, heigth}) => {
       inputElement.removeEventListener('input', handleInputChange);
     };
   }, [maxText, data]);
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
  
   return (
     <StyledTextInput heigth={heigth}>
@@ -77,6 +83,7 @@ const TextInput = ({maxText, title, data, heigth}) => {
             type="text"
             name={data}
             maxLength={maxText}
+            onKeyDown={handleKeyDown}
             />
       <div className='textLength'>
         ({text.length}/{maxText})
