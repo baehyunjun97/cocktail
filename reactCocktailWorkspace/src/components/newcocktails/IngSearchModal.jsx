@@ -105,7 +105,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
         <StyledIngSearchModalDiv>
           <div className='Header'>재료 상세 선택</div>
           <div className='SearchForm'>
-            <form onSubmit={handleFormSubmit}>
+            <div onSubmit={handleFormSubmit}>
               <input
                 onClick={(e) => { e.stopPropagation() }}
                 type="text"
@@ -113,7 +113,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
                 onChange={handleSearchChange}
                 placeholder='검색어를 입력해주세요.'
               />
-            </form>
+            </div>
           </div>
           <div className='ResultContainer'>
             {/* Display only the current items based on the current page */}

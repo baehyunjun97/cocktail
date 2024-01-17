@@ -5,7 +5,7 @@ import TextInput from './TextInput';
 import IngInput from './IngInput';
 import ExplanInput from './ExplanInput'
 import SelectorInput from './SelectInput';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const StyledFormContainerDiv = styled.div`
     justify-content: center;
@@ -45,6 +45,7 @@ const StyledFormContainerDiv = styled.div`
 const FormContainer = () => {
     const [ingredients, setIngredients] = useState([]);
     const [img, setImg] = useState([]);
+    const navigate = useNavigate();
 
     //재료배열 업데이트
     const handleIngredientsChange = (updatedIngredients) => {
@@ -77,12 +78,14 @@ const FormContainer = () => {
           })
             .then(resp => resp.json())
             .then(data => {
-              alert(data.msg); 
-            });
+              alert(data.msg);
+              if (data.msg === '칵테일 등록 성공') {
+                // 성공 시 메인으로 이동
+                navigate('/cocktail');
+            }});
         };
-    
+
     return (
-        <>
         <StyledFormContainerDiv>
             <form onSubmit={handleSubmit}>
                 <ImgUploader onRegisteredImagesChange={handleImgSetting} />
@@ -91,11 +94,10 @@ const FormContainer = () => {
                 <ExplanInput title="칵테일 설명" maxText="200" data="cocktail_explan" heigth="200px" />
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
-                <SelectorInput title="칵테일 카테고리" data="categoryNo"/>
+                <SelectorInput title="칵테일 카테고리" data="categoryNo" />
                 <button className='registButton'>레시피 등록</button>
             </form>
         </StyledFormContainerDiv>
-        </>
     );
 };
 
