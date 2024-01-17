@@ -47,7 +47,7 @@ const RecipeDescription = ({ cocktailAndIngredientsVO }) => {
     }
 
     // ... .1 .2 .3이런 기준으로 줄바꿈을 함
-    const formattedText = recipeExplan.replace(/(\d+)\.\s/g, '$1.');
+    const formattedText = recipeExplan.replace(/(\d+)\.\s/g, '\n$1.');
 
     return (
         <StyledDetailDiv>

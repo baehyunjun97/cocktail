@@ -98,6 +98,11 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = ingVolist.slice(indexOfFirstItem, indexOfLastItem);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -105,15 +110,16 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
         <StyledIngSearchModalDiv>
           <div className='Header'>재료 상세 선택</div>
           <div className='SearchForm'>
-            <form onSubmit={handleFormSubmit}>
+            <div onSubmit={handleFormSubmit}>
               <input
                 onClick={(e) => { e.stopPropagation() }}
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
                 placeholder='검색어를 입력해주세요.'
+                onKeyDown={handleKeyDown}
               />
-            </form>
+            </div>
           </div>
           <div className='ResultContainer'>
             {/* Display only the current items based on the current page */}
