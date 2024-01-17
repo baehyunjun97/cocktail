@@ -11,6 +11,7 @@ import Edit from './components/member/Edit';
 import PwdCheck from './components/member/PwdCheck';
 import { MemberMemoryProvider } from './context/MemberContext';
 import Mypage from './components/member/Mypage';
+import RequestIngMain from './components/ingredient/ requestIngredient/ RequestIngMain';
 
 function App() {
   
@@ -20,6 +21,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path='/recepiUpload' element={<RecipeUploadLayout />} />
+            <Route path='/request/ingredient' element={<RequestIngMain />} />
             <Route path='/*' element={<Layout />} />
             <Route path='/join' element={<Join />} />
             <Route path='/login' element={<Login />} />

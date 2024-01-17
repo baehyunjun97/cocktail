@@ -31,6 +31,7 @@ const CocktailDetail = () => {
     
     // 첫 로딩시에 요청보냄
     useEffect(() => {
+        console.log(queryValue);
         fetch("http://127.0.0.1:8888/app/cocktail/detail?cocktailNo="+queryValue)
             .then(resp => {
                 if (!resp.ok) {

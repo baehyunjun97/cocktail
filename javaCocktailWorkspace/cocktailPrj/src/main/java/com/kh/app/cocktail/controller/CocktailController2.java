@@ -40,4 +40,10 @@ public class CocktailController2 {
 		return service.search(filterVo);
 	}
 	
+	// 랭킹 top10 조회
+	@GetMapping("ranking")
+	public List<CocktailVo2> ranking(){
+		return service.ranking();
+	}
+	
 }

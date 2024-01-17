@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { MemberMemory } from '../../../context/MemberContext';
 
 // CocktailProfile의 스타일 설정
 const StyledDetailDiv = styled.div`
     & > div {
-        margin-top: 70px;
+        margin-top: 10px;
         height: 512px;
         background: linear-gradient(#303030,#3c3a3a);
         padding: 58px 0;
@@ -73,6 +74,7 @@ const StyledDetailDiv = styled.div`
             & > div:nth-child(4){
                 display: flex;
                 margin-top: 10px;
+                gap: 5px;
                 & > div{
                     height: 35px;
                     padding-left: 20px;
@@ -120,6 +122,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
     const [mainImg, setMainImg] = useState('');
     const [likeCnt, setLikeCnt] = useState(0);
     const [isLiked, setIsLiked] = useState();
+    const obj = useContext(MemberMemory);
 
     // useEffect 
     const navigateCallback = useCallback(() => {
@@ -133,34 +136,41 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
 
         const fetchData = async () => {
             try {
-                vo = {
-                    memberNo: "1",
-                    cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
-                };
 
-                // await를 이용해 fetch 비동기 작업이 끝나기 전까지 다른작업을 못하게 만듬
-                const response = await fetch("http://127.0.0.1:8888/app/bookmark/status", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(vo)
-                });
+                if(obj.vo){
 
-                // 상태코드 확인
-                if (!response.ok) {
-                    throw new Error("북마크 여부 조회 fetch함수 오류 발생");
-                }
+                    vo = {
+                        memberNo: obj.vo.no,
+                        cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
+                    };
 
-                // await 에 리스폰스 객체를 json타입으로 변경
-                const data = await response.json();
+                    // await를 이용해 fetch 비동기 작업이 끝나기 전까지 다른작업을 못하게 만듬
+                    const response = await fetch("http://127.0.0.1:8888/app/bookmark/status", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(vo)
+                    });
 
-                // 받아온 데이터의 status값이 o면 true x면 false설정
-                if (data.status === 'o') {
-                    setIsLiked(true);
-                } else if (data.status === 'x') {
+                    // 상태코드 확인
+                    if (!response.ok) {
+                        throw new Error("북마크 여부 조회 fetch함수 오류 발생");
+                    }
+
+                    // await 에 리스폰스 객체를 json타입으로 변경
+                    const data = await response.json();
+
+                    // 받아온 데이터의 status값이 o면 true x면 false설정
+                    if (data.status === 'o') {
+                        setIsLiked(true);
+                    } else if (data.status === 'x') {
+                        setIsLiked(false);
+                    } else {
+                        throw new Error("북마크 여부 조회 실패");
+                    }
+                }else{
                     setIsLiked(false);
-                } else {
-                    throw new Error("북마크 여부 조회 실패");
                 }
+
             // 실패시 에러페이지 이동
             } catch (error) {
                 console.log(error);
@@ -177,7 +187,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             setLikeCnt(cocktailAndIngredientsVO.cocktailVo.likeCnt);
             fetchData();
         }
-    }, [cocktailAndIngredientsVO,navigateCallback]);
+    }, [cocktailAndIngredientsVO,navigateCallback,obj.vo]);
 
     // 최대 10번 반복 base리스트에 데이터 들을 화면에 보여줌
     const baseNames = (() => {
@@ -195,6 +205,8 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
         <img onClick={()=>{setMainImg(fileName)}} key={fileName} src={fileName} alt={index+fileName} />
       ));
 
+    // sessionStorage.removeItem("loginMember");
+
     // 하트 좋아요 요청
     const handleClickHeart = () => {
 
@@ -203,44 +215,51 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
             likeStatus = 1;
         }
 
-        // 백엔드에 보내줄 데이터
-        const vo = {
-            memberNo: "1",
-            cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
-            likeStatus : likeStatus,
-        }
+        if(obj.vo){
 
-        // 비동기 요청
-        fetch("http://127.0.0.1:8888/app/bookmark",{
-            method : "POST",
-            headers : {"Content-Type": "application/json"},
-            body : JSON.stringify(vo)
-        })
-        .then(resp => {
-            if(!resp.ok){
-                throw new Error("좋아요 누르기 fetch함수 오류 발생")
+            // 백엔드에 보내줄 데이터
+            const vo = {
+                memberNo: obj.vo.no,
+                cocktailNo: cocktailAndIngredientsVO.cocktailVo.cocktailNo,
+                likeStatus : likeStatus,
             }
-            return resp.json();
-        })
-        .then(data => {
-            // 받아온 데이터에 따라 북마크 수와 북마크 여부를 설정함
-            if(data.msg === 'deleteSuccess'){
-                setLikeCnt(Number(likeCnt)-1);
-                setIsLiked(false);
-            }
-            if(data.msg === "createSuccess"){
-                setLikeCnt(Number(likeCnt)+1);
-                setIsLiked(true);
-            }
-            if(data.msg === 'bad'){
-                throw new Error("좋아요 누르기 실패");
-            }
-        })
-        // 오류시 에러페이지 이동
-        .catch((e) => {
-            console.log(e);
-            navigate("/error");
-        })
+
+            // 비동기 요청
+            fetch("http://127.0.0.1:8888/app/bookmark",{
+                method : "POST",
+                headers : {"Content-Type": "application/json"},
+                body : JSON.stringify(vo)
+            })
+            .then(resp => {
+                if(!resp.ok){
+                    throw new Error("좋아요 누르기 fetch함수 오류 발생")
+                }
+                return resp.json();
+            })
+            .then(data => {
+                // 받아온 데이터에 따라 북마크 수와 북마크 여부를 설정함
+                if(data.msg === 'deleteSuccess'){
+                    setLikeCnt(Number(likeCnt)-1);
+                    setIsLiked(false);
+                }
+                if(data.msg === "createSuccess"){
+                    setLikeCnt(Number(likeCnt)+1);
+                    setIsLiked(true);
+                }
+                if(data.msg === 'bad'){
+                    throw new Error("좋아요 누르기 실패");
+                }
+            })
+            // 오류시 에러페이지 이동
+            .catch((e) => {
+                console.log(e);
+                navigate("/error");
+            })
+        }else{
+            alert("로그인후 이용하세요");
+            navigate("/login");
+        }
+        
     }
 
     return (
@@ -263,6 +282,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                     <div>{cocktailVo.commentary}</div>
                     <div>
                         <div>도수 : {cocktailVo.alc}도</div>
+                        <div>{"@"+cocktailVo.writerName+"님의 레시피"}</div>
                     </div>
                     <div>
                         {

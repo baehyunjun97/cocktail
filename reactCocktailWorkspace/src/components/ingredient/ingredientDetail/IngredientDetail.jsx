@@ -34,17 +34,10 @@ const IngredientDetail = () => {
         })
     },[queryValue,navigateCallback]);
 
-    const f01 = (e) => {
-        const isLength = e.target.value.length;
-        console.log(isLength);
-    }
-
     return (
         <div>
-            <input type="text" onChange={f01}/>
             <IngredientProfile cocktailsAndIngredientVo={cocktailsAndIngredientVo}/>
             <CocktailsWithIngredient cocktailsAndIngredientVo={cocktailsAndIngredientVo}/>
-
             <br /><br /><br />
         </div>
     );

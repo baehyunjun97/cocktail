@@ -35,4 +35,9 @@ public class CocktailDao2 {
         return sst.selectList("CocktailMapper2.search", filterVo);
     }
     
+    // 랭킹top10 조회
+    public List<CocktailVo2> ranking(SqlSessionTemplate sst) {
+		return sst.selectList("CocktailMapper2.getTopCocktailsByBookmark");
+	}
+    
 }

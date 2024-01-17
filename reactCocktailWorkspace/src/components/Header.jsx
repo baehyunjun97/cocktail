@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { MemberMemory } from '../context/MemberContext';
 
@@ -52,13 +52,15 @@ function Header() {
 
   const obj = useContext(MemberMemory);
 
-  
+  const activeStyle = {
+    color: "rgb(242, 92, 92)",
+  };
 
   return (
     <StyledHeader>
-        <div><Link to="/cocktail">마셔볼랭?</Link></div>
-        <div><Link to="/cocktail">칵테일</Link></div>
-        <div><Link to="/ingredient/list">재료</Link></div>
+        <div><NavLink to="/cocktail">마셔볼랭?</NavLink></div>
+        <div><NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/cocktail">칵테일</NavLink></div>
+        <div><NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/ingredient/list">재료</NavLink></div>
         <div><button><Link to="/recepiUpload">작성하기</Link></button></div>
         <div>
             {/* 태그안에 if문을 못써 */}
