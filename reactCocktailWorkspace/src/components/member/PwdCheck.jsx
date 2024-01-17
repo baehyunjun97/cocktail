@@ -126,9 +126,15 @@ const StyledPwdCheckAreaDiv = styled.div`
 `;
 
 const PwdCheck = () => {
+
+    
+
     const navigate=useNavigate();
     const obj=useContext(MemberMemory);
-    const[vo,setVo]=useState({pwd:''});
+    const[vo,setVo]=useState({
+        pwd:'', 
+        ...obj.vo
+    });
 
     const handleInputChange=(event)=>{
         const{name,value}=event.target;
@@ -141,12 +147,33 @@ const PwdCheck = () => {
 
     const pwdAccord=(event)=>{
         event.preventDefault();
-        if(obj.vo.pwd===vo.pwd){
-            alert("비밀번호 일치");
-            navigate("/edit")
-        }else{
-            alert("비밀번호 틀림");
+        if(obj.vo.pwd!==vo.pwd){
+            alert("비밀번호 불일치");
+            return;
         }
+
+        fetch("http://127.0.0.1:8888/app/member/pwdcheck",{
+            method:"POST",
+            headers:{
+                "content-type":"application/json"
+            },
+            body:JSON.stringify(vo),
+        })
+        .then((resp)=>{
+            if(!resp.ok){
+                throw new Error("로그인 fetch 실패")
+            }
+            return resp.json();
+        })
+        .then((data)=>{
+            if(data.msg==="good"){
+                alert("비밀번호가 일치 합니다.");
+                navigate("/edit");
+            }else{
+                alert("비밀번호가 불일치 합니다");
+            }
+        })
+        .catch((e)=>{console.log(e); alert("비밀번호 불일치")})
     }
 
     return (
@@ -156,7 +183,7 @@ const PwdCheck = () => {
             {/* <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p> */}
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="비밀번호를 입력해주세요." className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
+                <input placeholder="비밀번호를 입력해주세요." type='text' className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
                 <div class="editnumber">{vo.pwd.length}/15</div>
             </div>
             <button className='change' >확인</button>
