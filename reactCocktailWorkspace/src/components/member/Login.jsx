@@ -140,7 +140,7 @@ const Login = () => {
                 alert("로그인 성공")
                 sessionStorage.setItem("loginMember",JSON.stringify(data.loginMember));
                 obj.setVo(data.loginMember);
-                navigate('/mypage')
+                navigate('/*')
             }else{
                 alert("로그인 실패")
                 
