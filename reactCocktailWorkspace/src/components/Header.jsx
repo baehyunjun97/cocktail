@@ -1,7 +1,9 @@
-import React, { useContext } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+
 import { MemberMemory } from '../context/MemberContext';
+import CustomModal from './modal/Modal';
 
 const StyledHeader = styled.div`
   box-shadow: rgba(0, 0, 0, 0.07) 0px 3px 4px 0px;
@@ -49,36 +51,32 @@ const StyledHeader = styled.div`
 `;
       
 function Header() {
-
   const obj = useContext(MemberMemory);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const activeStyle = {
-    color: "rgb(242, 92, 92)",
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
     <StyledHeader>
-        <div><NavLink to="/cocktail">마셔볼랭?</NavLink></div>
-        <div><NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/cocktail">칵테일</NavLink></div>
-        <div><NavLink style={({ isActive }) => (isActive ? activeStyle : {})} to="/ingredient/list">재료</NavLink></div>
-        <div><button><Link to="/recepiUpload">작성하기</Link></button></div>
-        <div>
-            {/* 태그안에 if문을 못써 */}
-            {!obj.vo 
-            ? 
-            <button >
-              <Link to="/login">
-                로그인
-              </Link>
-            </button>
-            :
-            <button>
-            {obj.vo.nick} 
-            </button>
-            }
-          
-          
-        </div>
+      <div><Link to="/cocktail">마셔볼랭?</Link></div>
+      <div><Link to="/cocktail">칵테일</Link></div>
+      <div><Link to="/ingredient/list">재료</Link></div>
+      <div></div>
+      <div>
+        {!obj.vo 
+          ? <button onClick={openModal}><Link to="/login">로그인</Link></button>
+          : <button onClick={openModal}>{obj.vo.nick}</button>
+        }
+      </div>
+
+      {/* 모달 컴포넌트 */}
+      <CustomModal isOpen={isModalOpen} onRequestClose={closeModal} />
     </StyledHeader>
   );
 }
