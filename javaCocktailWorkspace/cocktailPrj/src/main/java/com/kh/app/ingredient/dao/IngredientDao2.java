@@ -31,4 +31,12 @@ public class IngredientDao2 {
 			return sst.selectList("IngredientMapper2.list",filterVo);
 		}
 
+		public int ingUpload(IngredientVo2 vo, SqlSessionTemplate sst) {
+			return sst.insert("IngredientMapper2.upload",vo);
+		}
+		
+		public List<IngredientVo2> categoryList(SqlSessionTemplate sst){
+			return sst.selectList("IngredientMapper2.categoryList");
+		}
+
 }

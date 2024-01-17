@@ -102,28 +102,52 @@ const  RequestIngMain = () => {
         const guide = e.target.guide.value;
         const file = e.target.fileUpload.files;
 
-        console.log(file[0]);
-        console.log(nameKor);
-        console.log(nameEng);
-        console.log(guide);
-        console.log(category);
+        if(file.length === 0){
+            alert("파일을 업로드 하세요.")
+            return ;
+        }
 
         const formData = new FormData();
 
-        formData.append('name_kor', nameKor);
+        formData.append('ingName', nameKor);
         formData.append('name_eng', nameEng);
-        formData.append('category', category);
-        formData.append('guide', guide);
+        formData.append('categoryNo', category);
+        formData.append('explanation', guide);
         formData.append('file', file[0]);
+
+        let isFetching = false;
+
+        if(isFetching){
+            return;
+        }
+
+        isFetching = true;
 
         fetch("http://127.0.0.1:8888/app/ingredient",{
             method : "POST",
             body: formData,
         })
-        .then(resp => resp.json)
+        .then(resp => {
+            if(!resp.ok){
+                throw new Error("fetch요청 실패");
+            }    
+            return resp.json()
+        })
         .then((data) => {
             console.log(data.msg);
+            if(data.msg === 'good'){
+                alert("등록성공");
+            }else{
+                throw new Error("재료 등록실패..");
+            }
         })
+        .catch((e)=>{
+            console.log(e);
+            alert("등록실패");
+        })
+        .finally(()=>{
+            isFetching=false;
+        });
 
     }
 

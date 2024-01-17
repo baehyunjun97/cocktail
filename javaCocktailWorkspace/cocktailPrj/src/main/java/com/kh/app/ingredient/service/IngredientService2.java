@@ -63,4 +63,23 @@ public class IngredientService2 {
 		return map;
 	}
 
+	public Map<String, String> ingUpload(IngredientVo2 vo) {
+		
+		int result = dao.ingUpload(vo,sst);
+		
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
+		
+	}
+	
+	public List<IngredientVo2> categoryList(){
+		return dao.categoryList(sst);
+	}
+
 }

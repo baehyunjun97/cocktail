@@ -105,4 +105,18 @@
 		ORDER BY I.NO
 	</select>
 	
+	<insert id="upload">
+		INSERT INTO INGREDIENT 
+		(NO,CATEGORY_NO,NAME,EXPLANATION,SRC) 
+		VALUES (SEQ_INGREDIENT_NO.NEXTVAL,#{categoryNo},#{ingName},#{explanation},#{ingSrc})
+	</insert>
+	
+	<select id="categoryList" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+		    NO AS CATEGORY_NO,
+		    CATEGORY ING_CATEGORY_NAME
+		FROM ING_CATEGORY
+		ORDER BY NO
+	</select>
+	
 </mapper>

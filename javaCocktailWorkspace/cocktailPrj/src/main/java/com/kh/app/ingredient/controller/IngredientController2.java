@@ -1,5 +1,6 @@
 package com.kh.app.ingredient.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -31,7 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class IngredientController2 {
 	
 	private final IngredientService2 service;
-	private final ResourceLoader resourceLoader;
+	private final HttpServletRequest req;
 	
 	// 재료 전체조회 및 필터
 	@GetMapping("list")
@@ -45,18 +49,34 @@ public class IngredientController2 {
 		return service.detail(filterVo);
 	}
 	
+	@GetMapping("categoryList")
+	public List<IngredientVo2> categoryList(){
+		return service.categoryList();
+
+	}
+	
 	// 재료 업로드
 	@PostMapping
-	private Map<String, String> ingUpload(MultipartFile file,
-	                                     @RequestParam("name_kor") String nameKor,
-	                                     @RequestParam("name_eng") String nameEng,
-	                                     @RequestParam("category") String category,
-	                                     @RequestParam("guide") String guide) throws IOException {
+	public Map<String, String> ingUpload(MultipartFile file,IngredientVo2 vo) throws IOException {
+		
+		String sep = File.separator;
+		String randomName = System.nanoTime() + "_" + UUID.randomUUID();
+		String submittedFileName = file.getOriginalFilename();
+		int index = submittedFileName.lastIndexOf(".");
+		String ext = submittedFileName.substring(index);
+		String fileName = randomName + ext;
+		String tomcatPath = req.getServletContext().getRealPath(sep+"resources"+sep+"upload"+sep+"cocktail"+sep+"image"+sep);
+		
 
-	    Map<String, String> map = new HashMap<>();
-	    map.put("msg", "good");
+		String imgDir = tomcatPath + fileName;
+		
+		File target = new File(imgDir);
+		file.transferTo(target);
 
-	    return map;
+		vo.setIngSrc(fileName);
+		
+		return service.ingUpload(vo);
+		
 	}
 	
 }

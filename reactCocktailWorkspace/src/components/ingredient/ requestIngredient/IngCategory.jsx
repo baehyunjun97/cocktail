@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import IngReqTitle from './IngReqTitle';
 
@@ -36,12 +36,19 @@ const StyledIngCategory = styled.div`
 const IngCategory = ({ setCategory }) => {
 
     const [btnActive, setBtnActive] = useState("");
-    const categoryList = [
-        "술(강한도수)", "술(약한도수)", "음료수", "주스", "과일", "기타"
-    ];
+    const [categoryList, setCategoryList] = useState([]);
 
-    const changeCategory = (e) => {
-        const category = e.target.innerText;
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8888/app/ingredient/categoryList")
+        .then(resp => resp.json())
+        .then((data)=>{
+            console.log(data);
+            setCategoryList(data)
+        })
+    },[])
+
+    const changeCategory = (e,categoryNo) => {
+        const category = categoryNo;
         setCategory(category);
         setBtnActive(e.target.innerText);
     }
@@ -50,13 +57,15 @@ const IngCategory = ({ setCategory }) => {
         <StyledIngCategory>
             <IngReqTitle title="재료 카테고리"/>
             <div>
-                {categoryList.map((categoryName, idx) => (
+                {categoryList.map((ingVo, idx) => (
                     <span
                         key={idx}
-                        className={"btn" + (categoryName === btnActive ? " active" : "")}
-                        onClick={changeCategory}
+                        className={"btn" + (ingVo.ingCategoryName === btnActive ? " active" : "")}
+                        onClick={(e) => {
+                            changeCategory(e,ingVo.categoryNo)
+                        }}
                     >
-                        {categoryName}
+                        {ingVo.ingCategoryName}
                     </span>
                 ))}
             </div>
