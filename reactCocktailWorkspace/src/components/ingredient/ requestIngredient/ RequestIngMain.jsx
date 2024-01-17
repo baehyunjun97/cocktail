@@ -5,6 +5,7 @@ import TextInput from '../../newcocktails/TextInput';
 import IngCategory from './IngCategory';
 import IngGuide from './IngGuide';
 import IngImgUpload from './IngImgUpload';
+import { useNavigate } from 'react-router-dom';
 
 const StyledRequestIngDIv = styled.div`
     margin-top: 100px;
@@ -94,6 +95,8 @@ const  RequestIngMain = () => {
 
     const [category,setCategory] = useState();
 
+    const navigate = useNavigate();
+
     const uploadFecth = (e) => {
 
         e.preventDefault()
@@ -104,6 +107,26 @@ const  RequestIngMain = () => {
 
         if(file.length === 0){
             alert("파일을 업로드 하세요.")
+            return ;
+        }
+
+        if(!nameKor){
+            alert("재료 이름을 입력하세요.");
+            return ;
+        }
+
+        if(!nameEng){
+            alert("재료 영문 이름을 입력하세요.");
+            return ;
+        }
+
+        if(!guide){
+            alert("재료 설명을 입력하세요.");
+            return ;
+        }
+
+        if(!category){
+            alert("카테고리를 선택하세요.");
             return ;
         }
 
@@ -137,13 +160,14 @@ const  RequestIngMain = () => {
             console.log(data.msg);
             if(data.msg === 'good'){
                 alert("등록성공");
+                navigate("/");
             }else{
                 throw new Error("재료 등록실패..");
             }
         })
         .catch((e)=>{
             console.log(e);
-            alert("등록실패");
+            navigate("/error");
         })
         .finally(()=>{
             isFetching=false;

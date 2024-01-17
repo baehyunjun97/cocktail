@@ -44,8 +44,8 @@ const StyledUploadDiv = styled.div`
             border-radius: 8px;
 
             & img {
-                width: 100%;
-                height: 100%;
+                width: 150px;
+                height: 150px;
                 object-fit: cover;
                 border-radius: 8px;
             }
