@@ -15,7 +15,7 @@ const fadeInAnimation = keyframes`
 
 const slideInAnimation = keyframes`
   from {
-    transform: translateY(-400%);
+    transform: translateY(-1000%);
   }
   50% {
     transform: translateY(0);

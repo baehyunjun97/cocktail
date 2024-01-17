@@ -16,7 +16,7 @@ public class CocktailDao {
     // 칵테일 등록
     public int regist(SqlSessionTemplate sst, CocktailVo vo) throws Exception {
         int registRecipe = registRecipe(sst, vo);
-        int insertSrc = insertSrc(sst,vo.getUrlPaths()); //list
+        int insertSrc = insertSrc(sst,vo.getUrlPaths()); //list 여기서 ext 주기...?
         
         if(insertSrc < 1) {
         	throw new Exception("이미지 등록 실패");

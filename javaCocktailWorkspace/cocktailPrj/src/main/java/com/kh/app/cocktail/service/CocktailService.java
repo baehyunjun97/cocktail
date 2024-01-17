@@ -26,12 +26,14 @@ public class CocktailService {
 		System.out.println("서비스 진행");
 		
 		//saveFiles 에서 사용한 Path를 이름으로 만들어 VO로 저장
-		List<String> filePaths = vo.getFilePaths();
+		List<String> filePaths = vo.getFilePaths(); // . 다음 ext 가지고 있음
 		List<String> nameList = new ArrayList<String>();
 		
 		int iter = 1;
+		String ext = null;
 		for (String path : filePaths) {
-			String fileName = vo.getNameEng()+"_"+iter;
+			ext = path.substring( path.lastIndexOf(".") );
+			String fileName = vo.getNameEng()+"_" + iter + ext;
 			nameList.add(fileName);
 			iter++;
 		}

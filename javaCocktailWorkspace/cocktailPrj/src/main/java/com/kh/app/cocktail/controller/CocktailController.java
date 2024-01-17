@@ -2,8 +2,6 @@ package com.kh.app.cocktail.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +40,6 @@ public class CocktailController {
 //		return Arrays.asList("Item 1", "Item 2", "Item 3");
 //	}
 
-	// TODO return good은 칵테일 리스트(기본화면)으로 이동시킨다. 가칭 home
 	@PostMapping("regist")
 	public Map<String, Object> Regist(CocktailVo vo) throws IOException {
 
@@ -105,6 +102,8 @@ public class CocktailController {
 			pathList.add(imgDir);
 			iter++;
 		}
+		
+		//filePaths용 반환
 		return pathList;
 	}
 	
