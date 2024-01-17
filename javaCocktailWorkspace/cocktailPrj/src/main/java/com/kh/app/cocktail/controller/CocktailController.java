@@ -2,10 +2,14 @@ package com.kh.app.cocktail.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +35,7 @@ import lombok.RequiredArgsConstructor;
 public class CocktailController {
 
 	private final CocktailService service;
+	private final HttpServletRequest req;
 
 //	@GetMapping("/regist")
 //	public List<String> viewRegist() {
@@ -77,13 +82,9 @@ public class CocktailController {
 	}
 
 	private List<String> saveFile(List<MultipartFile> f, String cocktailName) throws Exception {
-
-		String projectDir = System.getProperty("user.dir");
-		System.out.println("getProperty 결과 :: "+projectDir);
-		String userDir = projectDir.replace("setup\\sts3\\sts-bundle\\sts-3.9.18.RELEASE", "cocktailRepo\\javaCocktailWorkspace\\cocktailPrj");
 		
-		String relativePath = "src" + File.separator + "main" + File.separator + "webapp" + File.separator + "resources"+ File.separator + "upload" + File.separator + "cocktail" + File.separator + "image" + File.separator;
-		String path = userDir + File.separator + relativePath;
+		String tomcatTopPath = req.getServletContext().getRealPath("/resources/upload/cocktail/image") + File.separator;
+        System.out.println("Tomcat top path: " + tomcatTopPath);
 
 		List<String> pathList = new ArrayList<String>();
 
@@ -94,7 +95,7 @@ public class CocktailController {
 			int pos = img.getOriginalFilename().lastIndexOf(".");
 			String ext = img.getOriginalFilename().substring(pos + 1);
 
-			imgDir = path + cocktailName + "_" + iter + "." + ext;
+			imgDir = tomcatTopPath + cocktailName + "_" + iter + "." + ext;
 
 			File target = new File(imgDir);
 			img.transferTo(target);
