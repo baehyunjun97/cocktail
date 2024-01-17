@@ -139,7 +139,7 @@ const Mypage = () => {
                 <div class="label">마실랭 홈텐더</div>
                 <div className='profilename'>
                     <h2 className='name' name="name">{ obj.vo.nick} </h2>
-                    <button className='personaledit' onClick={() => {navigate("/pwdcheck");}} >개인정보 편집</button>
+                    <button className='personaledit' onClick={() => {navigate("/pwdcheck");}} >개인정보 편집</button> 
                 </div>
                 <div className='profilecount'>
                     <div className='recipe'>

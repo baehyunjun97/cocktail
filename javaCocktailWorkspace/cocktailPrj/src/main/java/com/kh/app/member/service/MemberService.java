@@ -124,6 +124,11 @@ public class MemberService {
 		
 	}
 	
+	//비밀번호 재확인
+	public int pwdcheck(MemberVo vo) {
+		return dao.pwdcheck(sst,vo);
+	}
+
 	
 	
 }

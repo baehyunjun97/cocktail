@@ -135,9 +135,14 @@ const StyledEditAreaDiv = styled.div`
 const Edit = () => {
     const navigate=useNavigate();
 
-    const obj=useContext(MemberMemory);
+    const obj =useContext(MemberMemory);
 
-    const [vo,setVo]=useState(obj.vo);
+    const[vo,setVo]=useState({
+        pwd:'',
+        pwd2:'',
+        nick:'',
+        ...obj.vo,
+    });
 
     const handleInputChange=(event)=>{
         const {name,value}=event.target;
@@ -181,7 +186,7 @@ const Edit = () => {
                 alert("회원정보 수정 실패");
             }
         })
-        .catch((e)=>{console.log(e); alert("회원정보 수정 실패")});
+        .catch((e)=>{console.log(e); alert("회원정보 수정 실패!!!")});
      }
 
     return (
@@ -191,20 +196,20 @@ const Edit = () => {
             <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p>
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input type='password' placeholder="새 비밀번호" name="pwd" className='edit' onChange={handleInputChange} />
-                <div class="editnumber1">0/15</div>
+                <input type='password' placeholder="새 비밀번호" name="pwd" maxLength="15" className='edit' onChange={handleInputChange} />
+                <div class="editnumber1">{vo.pwd.length}/15</div>
             </div>
 
             <h3 class="text3">비밀번호 확인</h3>
             <div class="editcollection">
-                <input type='password' placeholder="새 비밀번호 확인" name="pwd2" className='edit' onChange={handleInputChange} />
-                <div class="editnumber1">0/15</div>
+                <input type='password' placeholder="새 비밀번호 확인" name="pwd2" maxLength="15" className='edit' onChange={handleInputChange} />
+                <div class="editnumber1">{vo.pwd2.length}/15</div>
             </div>
 
             <h3 class="text3">닉네임</h3>
             <div class="editcollection">
-                <input placeholder="변경할 닉네임" name="nick" className='edit' onChange={handleInputChange} />
-                <div class="editnumber2">0/10</div>
+                <input placeholder="변경할 닉네임" name="nick" className='edit' maxLength="10" onChange={handleInputChange} />
+                <div class="editnumber2">{vo.nick.length}/10</div>
             </div>
             <button className='change' >변경하기</button>
             </form>

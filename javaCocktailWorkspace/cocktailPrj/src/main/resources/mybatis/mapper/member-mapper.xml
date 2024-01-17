@@ -40,14 +40,8 @@
 	<update id="edit">
 		UPDATE MEMBER
 		SET
-		
-			
-				 PWD=#{pwd}
-			
-		
-				, NICK=#{nick}
-			
-	
+		 PWD=#{pwd}
+		, NICK=#{nick}
 		WHERE NO=#{no}
 		AND QUIT_YN='N'
 	</update>
@@ -57,6 +51,14 @@
 		FROM MEMBER
 		WHERE
 		ID = #{id}
+	</select>
+	
+	<select id="pwdcheck" resultType="int">
+		SELECT 
+		COUNT(*)
+		FROM MEMBER
+		WHERE NO=#{no}
+		AND PWD=#{pwd}
 	</select>
 
 </mapper>

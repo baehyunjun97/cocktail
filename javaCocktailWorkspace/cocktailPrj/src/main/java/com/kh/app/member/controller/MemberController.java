@@ -3,8 +3,6 @@ package com.kh.app.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,11 +40,10 @@ public class MemberController {
 	
 	//로그인
 	@PostMapping("login")
-	public Map<String, Object> login(@RequestBody MemberVo vo,HttpSession session)throws Exception {
+	public Map<String, Object> login(@RequestBody MemberVo vo)throws Exception {
 		
 		MemberVo loginMember =ms.login(vo);
-		session.setAttribute("loginMember", loginMember);
-		loginMember.setPwd("");
+//		loginMember.setPwd("");
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", "good");
@@ -81,19 +78,17 @@ public class MemberController {
 	
 //	비밀번호 재확인
 	@PostMapping("pwdcheck")
-	public Map<String, Object> pwdcheck(@RequestBody MemberVo vo,HttpSession session) throws Exception{
-		System.out.println("fetch 통해서 받은 데이터:"+vo);
+	public Map<String, Object> pwdcheck(@RequestBody MemberVo vo) throws Exception{
+//		System.out.println("fetch 통해서 받은 데이터:"+vo);
+		int result=ms.pwdcheck(vo);
 		
-		MemberVo loginMember = (MemberVo)session.getAttribute("loginMember");
-		System.out.println(loginMember);
-		String loginPwd = loginMember.getPwd();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		
-		map.put("msg", "good");
-		if(!loginPwd.equals(vo.getPwd())) {
+		Map<String, Object> map=new HashMap<String, Object>();
+		if(result==1) {
+			map.put("msg", "good");
+		}else {
 			map.put("msg", "bad");
 		}
 		return map;
+		
 	}
 }
