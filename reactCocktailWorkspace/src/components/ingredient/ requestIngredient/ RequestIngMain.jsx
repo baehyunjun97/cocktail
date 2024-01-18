@@ -213,7 +213,7 @@ const  RequestIngMain = () => {
             if(!resp.ok){
                 throw new Error("fetch요청 실패");
             }    
-            return resp.json()
+            return resp.json();
         })
         .then((data) => {
             if(data.msg === 'good'){
@@ -232,6 +232,11 @@ const  RequestIngMain = () => {
         });
 
     }
+
+    //영어이름 박스에 영문만 입력
+    const onlyEngInput = (e) => {
+        e.target.value = e.target.value.replace(/[^A-Za-z]/ig, '')
+      };
 
     return (
         <>
@@ -255,7 +260,7 @@ const  RequestIngMain = () => {
                         <TextInput title="재료 이름" maxText="50" data="name_kor" heigth="46px"/>
                     </div>
                     <div>
-                        <TextInput title="재료 영문 이름" maxText="50" data="name_eng" heigth="46px"/>
+                        <TextInput title="재료 영문 이름" maxText="50" data="name_eng" heigth="46px" inputRule={onlyEngInput}/>
                     </div>
                     <div>
                         <IngReqTitle title="재료 카테고리"/>

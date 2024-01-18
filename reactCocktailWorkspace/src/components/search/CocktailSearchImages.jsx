@@ -62,20 +62,21 @@ const CocktailSearchImages = ({cocktailVoList}) => {
                             {"#재료 " + cocktailVo.ingCnt + "개"}
                         </div>
                         {/* 최대 4번 반복 (태그안에서는 for문을 못써서 대체) */}
-                        {Array.from({ length: 4 }, (_, index) => (
-                            // voList가 null이면 안보임
-                            cocktailVoList[index] && (
-                                <div 
-                                    // 베이스주 정보 디브 고유의 키 값 설정
-                                    key={`${cocktailVo.cocktailNo}_${index}`}
-                                >
-                                    {/* baseNameList의 길이만큼 반복 */}
-                                    {cocktailVo.baseNameList.map((baseName) => (
-                                        <div> {"#" + baseName} </div>
-                                    ))}
+                        {Array.from(
+                            {
+                                length: Math.min(
+                                4,
+                                cocktailVoList[index].baseNameList.length
+                                ),
+                            },
+                            (_, innerBaseIndex) => (
+                                <div key={innerBaseIndex}>
+                                {"#" +
+                                    cocktailVoList[index].baseNameList[innerBaseIndex] ||
+                                    ''}
                                 </div>
-                            )
-                        ))}
+                        )
+                        )}
                     </div>
                 </div>
             </div>
