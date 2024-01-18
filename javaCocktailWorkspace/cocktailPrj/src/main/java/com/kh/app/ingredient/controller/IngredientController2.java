@@ -35,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 public class IngredientController2 {
 	
 	private final IngredientService2 service;
-	private final HttpServletRequest req;
 	
 	// 재료 전체조회 및 필터
 	@GetMapping("list")
@@ -49,8 +48,9 @@ public class IngredientController2 {
 		return service.detail(filterVo);
 	}
 	
+	// 카테고리 리스트 조회
 	@GetMapping("categoryList")
-	public List<IngredientVo2> categoryList(){
+	public Map<String,Object> categoryList(){
 		return service.categoryList();
 
 	}
@@ -58,25 +58,8 @@ public class IngredientController2 {
 	// 재료 업로드
 	@PostMapping
 	public Map<String, String> ingUpload(MultipartFile file,IngredientVo2 vo) throws IOException {
-		
-		String sep = File.separator;
-		String randomName = System.nanoTime() + "_" + UUID.randomUUID();
-		String submittedFileName = file.getOriginalFilename();
-		int index = submittedFileName.lastIndexOf(".");
-		String ext = submittedFileName.substring(index);
-		String fileName = randomName + ext;
-		String tomcatPath = req.getServletContext().getRealPath(sep+"resources"+sep+"upload"+sep+"cocktail"+sep+"image"+sep);
-		
-
-		String imgDir = tomcatPath + fileName;
-		
-		File target = new File(imgDir);
-		file.transferTo(target);
-
-		vo.setIngSrc(fileName);
-		
-		return service.ingUpload(vo);
-		
+		System.out.println(vo);
+		return service.ingUpload(file, vo);
 	}
 	
 }

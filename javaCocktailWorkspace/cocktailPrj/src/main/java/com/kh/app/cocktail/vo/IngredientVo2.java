@@ -15,6 +15,7 @@ public class IngredientVo2 {
 	private String baseName;
 	private String ingCategoryName;
 	private String categoryNo;
+	private String baseNo;
 	
 	private String likeYn;
 	

@@ -105,17 +105,38 @@
 		ORDER BY I.NO
 	</select>
 	
+	<!-- 재료 업로드 -->
 	<insert id="upload">
 		INSERT INTO INGREDIENT 
-		(NO,CATEGORY_NO,NAME,EXPLANATION,SRC) 
-		VALUES (SEQ_INGREDIENT_NO.NEXTVAL,#{categoryNo},#{ingName},#{explanation},#{ingSrc})
+		<if test="baseNo == '' and alc != ''">
+			(NO,CATEGORY_NO,NAME,EXPLANATION,SRC,ALC) 
+			VALUES (SEQ_INGREDIENT_NO.NEXTVAL,#{categoryNo},#{ingName},#{explanation},#{ingSrc},#{alc})
+		</if>
+		<if test="baseNo == '' and alc == ''">
+			(NO,CATEGORY_NO,NAME,EXPLANATION,SRC) 
+			VALUES (SEQ_INGREDIENT_NO.NEXTVAL,#{categoryNo},#{ingName},#{explanation},#{ingSrc})
+		</if>
+		<if test="baseNo != ''">
+			(NO,CATEGORY_NO,NAME,EXPLANATION,SRC,BASE_NO,ALC) 
+			VALUES (SEQ_INGREDIENT_NO.NEXTVAL,#{categoryNo},#{ingName},#{explanation},#{ingSrc},#{baseNo},#{alc})
+		</if>
 	</insert>
 	
+	<!-- 카테고리 리스트 조회 -->
 	<select id="categoryList" resultType="com.kh.app.cocktail.vo.IngredientVo2">
 		SELECT 
 		    NO AS CATEGORY_NO,
 		    CATEGORY ING_CATEGORY_NAME
 		FROM ING_CATEGORY
+		ORDER BY NO
+	</select>
+	
+	<!-- 베이스 리스트 -->
+	<select id="baseList" resultType="com.kh.app.cocktail.vo.IngredientVo2">
+		SELECT 
+		    NO AS BASE_NO,
+		    BASE_NAME
+		FROM BASE
 		ORDER BY NO
 	</select>
 	

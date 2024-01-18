@@ -1,14 +1,21 @@
 package com.kh.app.ingredient.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.app.cocktail.dao.CocktailDao2;
 import com.kh.app.cocktail.service.CocktailService2;
@@ -21,12 +28,14 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class IngredientService2 {
 
 	private final IngredientDao2 dao;
 	private final CocktailDao2 cocktaildao;
 	private final SqlSessionTemplate sst;
 	private final CocktailService2 cocktailService;
+	private final HttpServletRequest req;
 
 	// 재료 전체 조회 및 필터
 	public List<IngredientVo2> list(FilterVo filterVo) {
@@ -63,23 +72,79 @@ public class IngredientService2 {
 		return map;
 	}
 
-	public Map<String, String> ingUpload(IngredientVo2 vo) {
+	// 재료 업로드
+	public Map<String, String> ingUpload(MultipartFile file, IngredientVo2 vo) throws IllegalStateException, IOException {
 		
+		// 업로드 후 파일이름 리턴받음
+		String fileName = fileUpload(file);
+		
+		// vo에 파일 이름 저장
+		vo.setIngSrc(fileName);
+		
+		// 업데이트된 값result를 얻어옴
 		int result = dao.ingUpload(vo,sst);
 		
+		// 메세지를 담은 map
 		Map<String, String> map = new HashMap<>();
 		
+		// result가 1이면 성공 0이면 실패
 		map.put("msg", "good");
 		if(result != 1) {
 			map.put("msg", "bad");
 		}
 		
+		// return
 		return map;
 		
 	}
 	
-	public List<IngredientVo2> categoryList(){
-		return dao.categoryList(sst);
+	// 옵션 리스트 조회
+	public Map<String, Object> categoryList(){
+		
+		 List<IngredientVo2> baseList = dao.baseList(sst);
+		 List<IngredientVo2> categoryList = dao.categoryList(sst);
+		 
+		 Map<String, Object> map = new HashMap<String, Object>();
+		 map.put("categoryList", categoryList);
+		 map.put("baseList", baseList);
+		 
+		return map;
+		
 	}
 
+	// 파일 업로드 메소드
+	private String fileUpload(MultipartFile file) throws IllegalStateException, IOException {
+		
+		// 운영체제마다 separator를 설정해줌
+		String sep = File.separator;
+		
+		// 랜덤이름 날짜+핸덤문자열
+		String randomName = System.nanoTime() + "_" + UUID.randomUUID();
+		
+		// 파일이름
+		String submittedFileName = file.getOriginalFilename();
+		
+		// 마지막 기준 .으로 확장자 인덱스 구해옴
+		int index = submittedFileName.lastIndexOf(".");
+		
+		// 인덱스의 길이만큼 문자열을 제거
+		String ext = submittedFileName.substring(index);
+		
+		// 랜덤 이름 + 확장자
+		String fileName = randomName + ext;
+		
+		// 톰캣 상대경로설정
+		String tomcatPath = req.getServletContext().getRealPath(sep+"resources"+sep+"upload"+sep+"cocktail"+sep+"image"+sep);
+		
+		// 톰캣경로 + 랜덤파일이름
+		String imgDir = tomcatPath + fileName;
+		
+		// 파일생성후 업로드
+		File target = new File(imgDir);
+		file.transferTo(target);
+		
+		// 랜덤 파일이름 리턴
+		return fileName;
+	}
+	
 }
