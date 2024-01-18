@@ -105,6 +105,7 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         {/* MODAL */}
         <div 
           onClick={() => {setModalVisible(!isModalVisible);}}
+          onBlur={() => {setModalVisible(!isModalVisible);}}
           name={`ingNo_${index}`} 
         >
            <div className='inputDiv'>
