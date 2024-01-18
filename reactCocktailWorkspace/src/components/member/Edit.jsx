@@ -150,7 +150,7 @@ const Edit = () => {
         setVo({
          ...vo,
          [name]:value
-        })
+        });
  
      }
 
@@ -208,7 +208,7 @@ const Edit = () => {
 
             <h3 class="text3">닉네임</h3>
             <div class="editcollection">
-                <input placeholder="변경할 닉네임" name="nick" className='edit' maxLength="10" onChange={handleInputChange} />
+                <input placeholder="변경할 닉네임" value={vo.nick} name="nick" className='edit' maxLength="10" onChange={handleInputChange} />
                 <div class="editnumber2">{vo.nick.length}/10</div>
             </div>
             <button className='change' >변경하기</button>

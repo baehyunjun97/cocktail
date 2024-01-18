@@ -18,18 +18,15 @@ const StyledLoginAreaDiv = styled.div`
         border: 1px solid rgba(242,92,92,.3);
         border-radius: 10px;  */
 
-        position: relative;
+        /* position: relative; */
         width: 484px;
         padding: 30px;
         border: 1px solid rgba(242,92,92,.3);
         border-radius: 10px;
         background-color: rgba(255,255,255,.5);
-        -webkit-backdrop-filter: blur(50px);
-        backdrop-filter: blur(50px);
         display: flex;
         flex-direction: column;
         align-items: center;
-        grid-gap: 20px;
         gap: 20px;
         
     }

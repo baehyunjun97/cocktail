@@ -12,7 +12,6 @@ const MemberMemoryProvider=({children})=>{
     });
 
     console.log(vo); 
-
     const obj={
       "vo":vo,
       "setVo":setVo,  

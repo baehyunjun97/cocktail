@@ -54,17 +54,13 @@ const modalStyle = {
    
   },
   content: {
-    // width: '300px',
-    // height: '200px',
-    // margin: 'auto',
-    // marginTop: '100px',`
-    // borderRadius: '8px',
-    // boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+ 
     
-    position: 'fixed',
+    position: 'absolute',
     width: '336px',
+    height:'400px',
     // top: calc(100% + '10px'),
-    left: '1300px',
+    left: '77%',
     top:'50px',
     borderRadius: '10px',
     backgroundColor: 'white',
@@ -83,7 +79,7 @@ const CustomModal = ({ isOpen, onRequestClose }) => {
     const obj=useContext(MemberMemory);
 
     const handleClickEdit=()=>{
-        obj.vo=null;
+        obj.setVo(null);
         sessionStorage.clear();
     }
 
