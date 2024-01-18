@@ -71,7 +71,7 @@ function Header() {
       <div>
         {!obj.vo 
           ? <button onClick={openModal}><Link to="/login">로그인</Link></button>
-          : <button onClick={openModal}>{obj.vo.nick}</button>
+          : <button onClick={openModal}>{obj.vo.nick} </button>
         }
       </div>
 

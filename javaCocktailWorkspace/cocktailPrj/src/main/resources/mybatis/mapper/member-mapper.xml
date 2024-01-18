@@ -42,6 +42,7 @@
 		SET
 		 PWD=#{pwd}
 		, NICK=#{nick}
+		,EDIT_DATE=CURRENT_TIMESTAMP
 		WHERE NO=#{no}
 		AND QUIT_YN='N'
 	</update>
