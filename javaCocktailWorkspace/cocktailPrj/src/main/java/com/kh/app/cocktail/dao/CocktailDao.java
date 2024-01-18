@@ -75,15 +75,15 @@ public class CocktailDao {
 
 			// 0나누기 오류 방지
 			if (amount != 0) {
-				result = (int) Math.floor((double) alc / amount);
+				result = (int) Math.ceil((double) alc / amount);
+			} else {
+				throw new Exception("Alc 계산 오류");
 			}
 
 		} catch (Exception e) {
-			System.out.println("알코올 계산 오류");
 			e.printStackTrace();
 			result = 0;
 		}
-
 		System.out.println("ALC : " + result);
 		return result;
 	}

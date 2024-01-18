@@ -51,7 +51,7 @@ const StyledTextInput = styled.div`
     }
 `;
 
-const TextInput = ({maxText, title, data, heigth}) => {
+const TextInput = ({maxText, title, data, heigth, onInput}) => {
   const [text, setText] = useState('');
 
   useEffect(() => {
