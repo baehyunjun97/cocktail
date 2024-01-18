@@ -112,7 +112,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
           <div className='SearchForm'>
             <div onSubmit={handleFormSubmit}>
               <input
-                onClick={(e) => { e.stopPropagation() }}
+                onClick={(e) => { e.stopPropagation(); fetchData(""); }}
                 type="text"
                 value={search}
                 onChange={handleSearchChange}

@@ -70,22 +70,33 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
   const handleSelectedIng = (ingVo) => {
       setSelectedIng(ingVo);
   };
-
-  useEffect( () => {
-      // fetch - get 시에는 재료단위의 배열을 불러온다.
-      fetch("http://127.0.0.1:8888/app/cocktail/regist")
-      .then(resp=> resp.json())
-      .then( data => {
-        setOptions(data);
-        handleChangeIng(index, 'amountNo', '1');
-      });
-  }, []);
-  
+  //엔터 입력 금지
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
     }
   };
+
+  //휠 방지
+  const handleWheelSetup = () => {
+    document.querySelector(`[name=amount_${index}]`).addEventListener('wheel', handleWheel, { passive: false });
+  };
+
+  const handleWheel = (event) => {
+    event.preventDefault();
+  };
+  
+  useEffect( () => {
+    
+    // fetch - get 시에는 재료단위의 배열을 불러온다.
+    fetch("http://127.0.0.1:8888/app/cocktail/regist")
+    .then(resp=> resp.json())
+    .then( data => {
+        handleWheelSetup();
+        setOptions(data);
+        handleChangeIng(index, 'amountNo', '1');
+      });
+  }, []);
 
   return (
     <div>
@@ -94,6 +105,7 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         {/* MODAL */}
         <div 
           onClick={() => {setModalVisible(!isModalVisible);}}
+          onBlur={() => {setModalVisible(!isModalVisible);}}
           name={`ingNo_${index}`} 
         >
            <div className='inputDiv'>
@@ -113,10 +125,11 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         </div>
 
         <br />
-        <input type="number" name={`amount_${index}`} 
+        <input type="number" name={`amount_${index}`}
+               onWheel={handleWheel}
+               onKeyDown={handleKeyDown}
                onChange={ (e) => handleChangeIng(index, 'amount', e.target.value)} 
                placeholder='용량을 입력해주세요'
-               onKeyDown={handleKeyDown}
                />
         <br />
 

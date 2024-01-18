@@ -1,5 +1,6 @@
 package com.kh.app.cocktail.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -55,35 +56,43 @@ public class CocktailDao {
 
 	// 칵테일 alc 계산 - recipe에서 조회
 	private int calcAlcCocktail(SqlSessionTemplate sst, List<RecipeVo> list) {
-		System.out.println("alc progress");
-
-		List<RecipeVo> selectList = sst.selectList("CocktailMapper.selectRecipeAlc", list);
+		
+		//RecipeVo 에 amountNo가 ml(==1) 이 아닌 요소는 알코올 계산에서 제외
+		List<RecipeVo> searchList = new ArrayList<RecipeVo>();
+		for (RecipeVo recipeVo : list) {
+			if( recipeVo.getAmountNo().equals("1")) {
+				searchList.add(recipeVo);
+			}
+		};
+		
+		List<RecipeVo> alcList = sst.selectList("CocktailMapper.selectRecipeAlc", searchList);
+		
 
 		int alc = 0;
 		int amount = 0;
 
 		System.out.println("재료 파라미터 사이즈 : " + list.size());
-		System.out.println("조회 알코올 사이즈 : " + selectList.size());
+		System.out.println("조회 알코올 사이즈 : " + alcList.size());
 
 		int result = 0;
 		try {
 			// 잘못된 재료번호 입력 시, nullPointException 발생
-			for (int i = 0; i < list.size(); i++) {
-				alc += list.get(i).getAmount() * selectList.get(i).getAlc();
-				amount += list.get(i).getAmount();
+			for (int i = 0; i < alcList.size(); i++) {
+				alc += searchList.get(i).getAmount() * alcList.get(i).getAlc();
+				amount += searchList.get(i).getAmount();
 			}
 
 			// 0나누기 오류 방지
 			if (amount != 0) {
-				result = (int) Math.floor((double) alc / amount);
+				result = (int) Math.ceil((double) alc / amount);
+			} else {
+				throw new Exception("Alc 계산 오류");
 			}
 
 		} catch (Exception e) {
-			System.out.println("알코올 계산 오류");
 			e.printStackTrace();
 			result = 0;
 		}
-
 		System.out.println("ALC : " + result);
 		return result;
 	}
@@ -99,6 +108,7 @@ public class CocktailDao {
 		return sst.selectList("CocktailMapper.amountList");
 	}
 
+	//카테고리 리스트
 	public List<AmountVo> categoryList(SqlSessionTemplate sst) {
 		return sst.selectList("CocktailMapper.categoryList");
 	}

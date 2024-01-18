@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledSelectInputDiv = styled.div`
@@ -37,8 +37,9 @@ const StyledSelectInputDiv = styled.div`
   }
 `;
 
-const selectInput = ( {title, data} ) => {
+const SelectInput = ( {title, data} ) => {
     const [options, setOptions] = useState([]);
+    const [selectedValue, setSelectedValue] = useState('1');
 
     useEffect( () => {
         // fetch - get 시에는 재료단위의 배열을 불러온다.
@@ -54,10 +55,10 @@ const selectInput = ( {title, data} ) => {
             <h3>{title}</h3>
             <div className='selector'>
             {options.length > 0 && (
-                <select name={data} value="1">
+                <select name={data} value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)}>
                     {options.map((option) => (
                         <option key={option.no} value={option.no}>
-                        {option.name}
+                          {option.name}
                         </option>
                     ))}
                 </select>
@@ -67,4 +68,4 @@ const selectInput = ( {title, data} ) => {
     );
 };
 
-export default selectInput;
+export default SelectInput;

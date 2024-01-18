@@ -30,28 +30,26 @@ public class CocktailService {
 		// 이름 비었는지.
 		if (vo.getNameKor().length() < 1) {
 			return 2;
-		}
+		};
 		// 영어이름 비었는지.
 		if (vo.getNameEng().length() < 1) {
 			return 3;
-		}
+		};
 		// 설명 비었는지.
 		if (vo.getCommentary().length() < 1) {
 			return 4;
-		}
+		};
 		// 레시피 설명 비었는지.
 		if (vo.getRecipeExplan().length() < 1) {
 			return 5;
-		}
+		};
 		// 재료 비었는지
 		List<RecipeVo> recipeList = vo.getRecipe();
 		for (int i = 0; i < recipeList.size(); i++) {
 			if (recipeList.get(i).getIngNo() == null || recipeList.get(i).getAmount() == 0) {
 				return 6;
-			}
-			;
-		}
-		;
+			};
+		};
 
 		// saveFiles 에서 사용한 Path를 이름으로 만들어 VO로 저장
 		List<String> filePaths = vo.getFilePaths(); // . 다음 ext 가지고 있음

@@ -56,7 +56,7 @@
 		SELECT * FROM dual
 	</insert>
 
-	<!-- 재료 검색 -->
+	<!-- 칵테일 등록 중 재료 검색 fetch 전달용-->
 	<select id="selectIng" resultType="com.kh.app.cocktail.vo.IngVo">
 		select 
 		    no

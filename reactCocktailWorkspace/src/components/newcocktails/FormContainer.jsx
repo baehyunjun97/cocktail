@@ -56,6 +56,11 @@ const FormContainer = () => {
         setImg(updatedImg);
     };
 
+    //영어이름 박스에 영문만 입력
+    const onlyEngInput = (e) => {
+      e.target.value = e.target.value.replace(/[^A-Za-z]/ig, '')
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
     
@@ -85,14 +90,12 @@ const FormContainer = () => {
             }});
         };
 
-        
-
     return (
         <StyledFormContainerDiv>
             <form onSubmit={handleSubmit}>
                 <ImgUploader onRegisteredImagesChange={handleImgSetting} />
                 <TextInput title="칵테일 이름" maxText="20" data="name_kor" heigth="46px" />
-                <TextInput title="칵테일 영문 이름" maxText="20" data="name_eng" heigth="46px" />
+                <TextInput title="칵테일 영문 이름" maxText="20" data="name_eng" heigth="46px" inputRule={onlyEngInput} />
                 <ExplanInput title="칵테일 설명" maxText="200" data="cocktail_explan" heigth="200px" />
                 <IngInput onChangeIngredients={handleIngredientsChange} />
                 <ExplanInput title="레시피 설명" maxText="200" data="recipe_explan" heigth="200px" />
