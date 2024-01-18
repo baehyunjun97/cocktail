@@ -51,7 +51,7 @@ const StyledTextInput = styled.div`
     }
 `;
 
-const TextInput = ({maxText, title, data, heigth, onlyEngInput}) => {
+const TextInput = ({maxText, title, data, heigth, inputRule}) => {
   const [text, setText] = useState('');
 
   //글자수 세기
@@ -85,7 +85,7 @@ const TextInput = ({maxText, title, data, heigth, onlyEngInput}) => {
             name={data}
             maxLength={maxText}
             onKeyDown={handleKeyDown}
-            onChange={onlyEngInput}
+            onChange={inputRule}
             />
       <div className='textLength'>
         ({text.length}/{maxText})
