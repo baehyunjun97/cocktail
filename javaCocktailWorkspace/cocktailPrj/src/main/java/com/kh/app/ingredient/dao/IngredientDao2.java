@@ -31,4 +31,19 @@ public class IngredientDao2 {
 			return sst.selectList("IngredientMapper2.list",filterVo);
 		}
 
+		// 재료 업로드
+		public int ingUpload(IngredientVo2 vo, SqlSessionTemplate sst) {
+			return sst.insert("IngredientMapper2.upload",vo);
+		}
+		
+		// 재료 카테고리 조회
+		public List<IngredientVo2> categoryList(SqlSessionTemplate sst){
+			return sst.selectList("IngredientMapper2.categoryList");
+		}
+		
+		// 재료 베이스 리스트 조회
+		public List<IngredientVo2> baseList(SqlSessionTemplate sst){
+			return sst.selectList("IngredientMapper2.baseList");
+		}
+
 }

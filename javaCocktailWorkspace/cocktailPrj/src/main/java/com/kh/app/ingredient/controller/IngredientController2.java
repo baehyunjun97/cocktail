@@ -1,5 +1,6 @@
 package com.kh.app.ingredient.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -7,6 +8,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -31,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 public class IngredientController2 {
 	
 	private final IngredientService2 service;
-	private final ResourceLoader resourceLoader;
 	
 	// 재료 전체조회 및 필터
 	@GetMapping("list")
@@ -45,18 +48,18 @@ public class IngredientController2 {
 		return service.detail(filterVo);
 	}
 	
+	// 카테고리 리스트 조회
+	@GetMapping("categoryList")
+	public Map<String,Object> categoryList(){
+		return service.categoryList();
+
+	}
+	
 	// 재료 업로드
 	@PostMapping
-	private Map<String, String> ingUpload(MultipartFile file,
-	                                     @RequestParam("name_kor") String nameKor,
-	                                     @RequestParam("name_eng") String nameEng,
-	                                     @RequestParam("category") String category,
-	                                     @RequestParam("guide") String guide) throws IOException {
-
-	    Map<String, String> map = new HashMap<>();
-	    map.put("msg", "good");
-
-	    return map;
+	public Map<String, String> ingUpload(MultipartFile file,IngredientVo2 vo) throws IOException {
+		System.out.println(vo);
+		return service.ingUpload(file, vo);
 	}
 	
 }

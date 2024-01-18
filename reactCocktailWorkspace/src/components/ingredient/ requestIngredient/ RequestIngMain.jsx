@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../Header';
 import TextInput from '../../newcocktails/TextInput';
-import IngCategory from './IngCategory';
 import IngGuide from './IngGuide';
 import IngImgUpload from './IngImgUpload';
+import { useNavigate } from 'react-router-dom';
+import SelectBtn from './SelectBtn';
+import IngReqTitle from './IngReqTitle';
 
 const StyledRequestIngDIv = styled.div`
     margin-top: 100px;
@@ -87,13 +89,51 @@ const StyledRequestIngDIv = styled.div`
                 border: none;
             }
         }
+        & > div:nth-child(4),div:nth-child(5),div:nth-child(6){
+            margin: 10px;
+            & > div{
+                display: flex;
+                gap: 5px;
+            }
+            & >input{
+                width: 20%;
+                padding: 12.5px 15px;
+                height: 46px;
+                border: 1.4px solid rgb(230, 228, 232);
+                border-radius: 10px;
+                transition: all 1s ease 0s;
+                color: rgb(48, 48, 48);
+                font-weight: 600;
+            }
+        }
     }
 `;
 
 const  RequestIngMain = () => {
 
-    const [category,setCategory] = useState();
+    const [categoryNo,setCategoryNo] = useState();
+    const [btnActive, setBtnActive] = useState("");
+    const [btnActive2, setBtnActive2] = useState("");
+    const [baseNo,setBaseNo] = useState();
 
+    console.log(categoryNo);
+
+    const [lists, setLists] = useState({
+        categoryList: [], // 초기값으로 빈 배열 설정
+        baseList: []      // 다른 필요한 속성도 동일하게 처리
+    });
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8888/app/ingredient/categoryList")
+        .then(resp => resp.json())
+        .then((data)=>{
+            setLists(data);
+        })
+    },[])
+
+    const navigate = useNavigate();
+
+    // onSubmit 이벤트 발생시 실행
     const uploadFecth = (e) => {
 
         e.preventDefault()
@@ -101,29 +141,95 @@ const  RequestIngMain = () => {
         const nameEng = e.target.name_eng.value;
         const guide = e.target.guide.value;
         const file = e.target.fileUpload.files;
+        let alc = e.target.alc.value;
 
-        console.log(file[0]);
-        console.log(nameKor);
-        console.log(nameEng);
-        console.log(guide);
-        console.log(category);
+        if(file.length === 0){
+            alert("파일을 업로드 하세요.")
+            return ;
+        }
+
+        if(!nameKor){
+            alert("재료 이름을 입력하세요.");
+            return ;
+        }
+
+        if(!nameEng){
+            alert("재료 영문 이름을 입력하세요.");
+            return ;
+        }
+
+        if(!categoryNo){
+            alert("카테고리를 선택하세요.");
+            return ;
+        }
+
+        if(!guide){
+            alert("재료 설명을 입력하세요.");
+            return ;
+        }
+        
+        let fecthBaseNo = baseNo;
+        if(parseInt(categoryNo, 10) !== 1 && parseInt(categoryNo, 10) !== 2){
+            alc = '';
+            fecthBaseNo = '';
+        }
+
+        if(parseInt(categoryNo, 10) === 1 || parseInt(categoryNo, 10) === 2){
+            console.log("들어옴1");
+            if(!fecthBaseNo){
+                console.log("들어옴2");
+                fecthBaseNo = '';
+            }
+            if(!alc){
+                console.log("들어옴3");
+                alert("알콜 도수를 입력하세요");
+                return;
+            }
+        }
 
         const formData = new FormData();
 
-        formData.append('name_kor', nameKor);
+        formData.append('ingName', nameKor);
         formData.append('name_eng', nameEng);
-        formData.append('category', category);
-        formData.append('guide', guide);
+        formData.append('categoryNo', categoryNo);
+        formData.append('baseNo', fecthBaseNo);
+        formData.append('explanation', guide);
         formData.append('file', file[0]);
+        formData.append('alc', alc);
+
+        let isFetching = false;
+
+        if(isFetching){
+            return;
+        }
+
+        isFetching = true;
 
         fetch("http://127.0.0.1:8888/app/ingredient",{
             method : "POST",
             body: formData,
         })
-        .then(resp => resp.json)
-        .then((data) => {
-            console.log(data.msg);
+        .then(resp => {
+            if(!resp.ok){
+                throw new Error("fetch요청 실패");
+            }    
+            return resp.json()
         })
+        .then((data) => {
+            if(data.msg === 'good'){
+                alert("등록성공");
+                navigate("/");
+            }else{
+                throw new Error("재료 등록실패..");
+            }
+        })
+        .catch((e)=>{
+            console.log(e);
+            navigate("/error");
+        })
+        .finally(()=>{
+            isFetching=false;
+        });
 
     }
 
@@ -152,7 +258,38 @@ const  RequestIngMain = () => {
                         <TextInput title="재료 영문 이름" maxText="50" data="name_eng" heigth="46px"/>
                     </div>
                     <div>
-                        <IngCategory setCategory = {setCategory}/>
+                        <IngReqTitle title="재료 카테고리"/>
+                        <div>
+                            {lists.categoryList.map((vo, idx) => (
+                                <SelectBtn 
+                                    idx={idx} 
+                                    name={vo.ingCategoryName} 
+                                    no ={vo.categoryNo}
+                                    setState = {setCategoryNo}
+                                    setBtnActive = {setBtnActive}
+                                    btnActive = {btnActive}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div style={{ display: parseInt(categoryNo, 10) === 1 || parseInt(categoryNo, 10) === 2 ? 'block' : 'none' }}>
+                        <IngReqTitle title="재료 베이스선택"/>
+                        <div>
+                            {lists.baseList.map((vo, idx) => (
+                                <SelectBtn 
+                                    idx={idx} 
+                                    name={vo.baseName} 
+                                    no ={vo.baseNo}
+                                    setState = {setBaseNo}
+                                    setBtnActive = {setBtnActive2}
+                                    btnActive = {btnActive2}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div style={{ display: parseInt(categoryNo, 10) === 1 || parseInt(categoryNo, 10) === 2 ? 'block' : 'none' }}>
+                        <IngReqTitle title="알콜 도수"/>
+                        <input name="alc" type="number" max="100" />
                     </div>
                     <div>
                         <IngGuide guide="guide"/>
