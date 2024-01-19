@@ -3,6 +3,7 @@ import {useNavigate } from 'react-router-dom';
 
 const CocktailItems = ({cocktailVoList}) => {
 
+
     const [categoryStates, setCategoryStates] = useState([]);
     const [currentMouseOverIndex, setCurrentMouseOverIndex] = useState(null);
 

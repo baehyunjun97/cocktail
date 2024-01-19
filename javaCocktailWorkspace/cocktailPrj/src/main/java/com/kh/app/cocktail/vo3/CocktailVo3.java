@@ -20,6 +20,8 @@ public class CocktailVo3 {
 //	private String item;
 //	private String alc;
 //	private String fileName;
+	
+	
 	private String cocktailNo; //칵테일 번호
 	private String nameKor; //한국이름
 	private String nameEng; //영문이름
@@ -28,7 +30,7 @@ public class CocktailVo3 {
 	private String recipeExplan; //레시피설명
 	private String categoryNo; //카테고리 넘버(1~9, sweet 등등)
 	private int item; //재료수
-	private String memberNo; //작성자 번호
+	private String MemberNo; //작성자 번호
 	
 	private String memberName; // 작성자 이름(join)
 	

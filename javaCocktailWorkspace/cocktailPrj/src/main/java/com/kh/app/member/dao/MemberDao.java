@@ -5,6 +5,7 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.app.cocktail.vo.CocktailVo2;
 import com.kh.app.cocktail.vo3.CocktailVo3;
 import com.kh.app.member.vo.MemberVo;
 
@@ -27,12 +28,12 @@ public class MemberDao {
 	}
 	
 	//업로드
-	public List<CocktailVo3> upload(SqlSessionTemplate sst, CocktailVo3 cvo) {
+	public List<CocktailVo2> upload(SqlSessionTemplate sst, CocktailVo2 cvo) {
 		return sst.selectList("MypageMapper.upload",cvo);
 	}
 	
 	//즐겨찾기
-	public List<CocktailVo3> bookmark(SqlSessionTemplate sst, CocktailVo3 cvo) {
+	public List<CocktailVo2> bookmark(SqlSessionTemplate sst, CocktailVo2 cvo) {
 		return sst.selectList("MypageMapper.bookmark",cvo);
 	}
 	
