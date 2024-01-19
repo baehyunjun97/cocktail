@@ -183,7 +183,7 @@ const PwdCheck = () => {
             {/* <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p> */}
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="비밀번호를 입력해주세요." type='text' className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
+                <input placeholder="비밀번호를 입력해주세요." type='password' className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
                 <div class="editnumber">{vo.pwd.length}/15</div>
             </div>
             <button className='change' >확인</button>
