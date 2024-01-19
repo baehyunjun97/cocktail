@@ -3,25 +3,48 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MypageMapper">
-  
-   <select id="upload" resultType="com.kh.app.cocktail.vo3.CocktailVo3">
-   		SELECT* 
+
+	<select id="upload"
+		resultType="com.kh.app.cocktail.vo.CocktailVo2">
+		SELECT*
 		FROM COCKTAIL C
 		JOIN COCKTAIL_SRC CS ON(CS.COCKTAIL_NO=C.NO)
-		JOIN MEMBER M ON (C.MEMBER_NO=M.NO)
-		WHERE M.NO=#{memberNo} 
+		JOIN MEMBER M
+		ON (C.MEMBER_NO=M.NO)
+		WHERE M.NO=#{memberNo}
 		ORDER BY C.NO , CS.FILE_NAME DESC
-   </select>
-   
-   <select id="bookmark" resultType="com.kh.app.cocktail.vo3.CocktailVo3">
-   		SELECT * 
+	</select>
+
+	<select id="bookmark"
+		resultType="com.kh.app.cocktail.vo.CocktailVo2">
+		SELECT DISTINCT
+		C.NO AS COCKTAIL_NO,
+		C.NAME_KOR,
+		C.COMMENTARY,
+		C.ITEM AS ING_CNT,
+		NVL(C.ALC,0) AS ALC,
+		M.NICK AS WRITER_NAME,
+		CS.FILE_NAME AS COCKTAIL_FILE_NAME,
+		B.BASE_NAME,
+		B.MEMBER_NO
 		FROM BOOKMARK B
-		JOIN MEMBER M ON (B.MEMBER_NO=M.NO) 
+		JOIN MEMBER M ON (B.MEMBER_NO=M.NO)
 		LEFT JOIN COCKTAIL C ON (C.NO=B.COCKTAIL_NO)
-		LEFT JOIN COCKTAIL_SRC CS ON(CS.COCKTAIL_NO=C.NO)
-		WHERE B.MEMBER_NO= #{memberNo} 
+		LEFT JOIN COCKTAIL_SRC CS ON C.NO = CS.COCKTAIL_NO
+		JOIN RECIPE R ON C.NO = R.COCKTAIL_NO
+		JOIN INGREDIENT I ON R.ING_NO = I.NO
+		LEFT JOIN BASE B ON I.BASE_NO = B.NO
+		WHERE B.MEMBER_NO= #{memberNo}
 		ORDER BY C.NO , CS.FILE_NAME DESC
 
-   </select>
- 
+
+		<!-- SELECT * FROM BOOKMARK B 
+		JOIN MEMBER M ON (B.MEMBER_NO=M.NO) 
+		LEFT JOIN COCKTAIL C ON (C.NO=B.COCKTAIL_NO) 
+		LEFT JOIN COCKTAIL_SRC CS ON(CS.COCKTAIL_NO=C.NO) 
+		WHERE B.MEMBER_NO= #{MemberNo} 
+		ORDER BY C.NO , CS.FILE_NAME DESC -->
+
+	</select>
+
 </mapper>
