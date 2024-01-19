@@ -354,6 +354,7 @@ const Mypage = () => {
     const obj=useContext(MemberMemory);
 
     const [voList, setVoList] = useState([]);
+    const [voList2,setVoList2]= useState([]);
 
    
     // useCallBack을 이용해서 useEffect안에 에러 처리후 url이동가능
@@ -374,6 +375,7 @@ const Mypage = () => {
         })
         .then((data) => {
             setVoList(data.bookmark);
+            setVoList2(data.upload);
             console.log(data);
         })
         .catch((e) => {
@@ -422,18 +424,13 @@ const Mypage = () => {
                             <img src="	https://www.masileng.com/test/ic_challenge.svg" alt="illust_challenge_left"/>
                             <h3 >내가 업로드한 레시피</h3>
                         </div>
+                        <CocktailItems cocktailVoList={voList2} />
 
-
-                        <CocktailItems cocktailVoList={voList} />
-
-                        
 
                         <div className='uploadrecipe'>
                             <img src="	https://www.masileng.com/test/ic_favorite.svg" alt="illust_challenge_left"/>
                             <h3 >내 즐겨찾기</h3>
                         </div>
-
-
                         <CocktailItems cocktailVoList={voList} />
                         
 
