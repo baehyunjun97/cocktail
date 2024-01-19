@@ -213,6 +213,12 @@ function blur(e) {
             return;
         }
 
+        //비밀번호 글자수
+        if(vo.pwd.length<4){
+            alert("비밀번호는 4글자 이상 입력하세요")
+            return;
+        }
+
         if(isFetching){
             return;
         }
@@ -272,10 +278,10 @@ function blur(e) {
                 <p class="joinbox">나만 아는 레시피를 소개하고<br />좋아하는 칵테일 리스트를 만들어보세요!</p>
                 <img src="https://www.masileng.com/images/illust_challenge_left.png" className="img1" alt="illust_challenge_left" />
                 <div>
-                    <div><input type="text" name="id" className="id" placeholder="아이디" onChange={handleInputChange} onBlur={blur} /></div>
+                    <div><input type="text" name="id" className="id" maxLength="11" placeholder="아이디" onChange={handleInputChange} onBlur={blur} /></div>
                     <div><input type="password" name="pwd" className="pwd" maxLength="15" placeholder='비밀번호' onChange={handleInputChange} onBlur={blur2} /></div>
                     <div><input type="password" name="pwd2" className="pwd" placeholder="비밀번호 확인" onChange={handleInputChange} onBlur={blur5} /></div>
-                    <div><input type="text" name="nick" className="nick" placeholder="닉네임" onChange={handleInputChange} onBlur={blur3} /></div>
+                    <div><input type="text" name="nick" className="nick" maxLength="10" placeholder="닉네임" onChange={handleInputChange} onBlur={blur3} /></div>
                     <div><input type="email" name="email" className="email" placeholder="이메일" onChange={handleInputChange} onBlur={blur4} /></div>
                     <button className="join" >회원가입</button>
                 </div>

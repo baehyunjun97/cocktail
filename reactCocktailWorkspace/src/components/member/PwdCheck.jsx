@@ -166,7 +166,7 @@ const PwdCheck = () => {
             return resp.json();
         })
         .then((data)=>{
-            if(data.msg==="good"){
+            if(data){
                 alert("비밀번호가 일치 합니다.");
                 navigate("/edit");
             }else{

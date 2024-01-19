@@ -48,10 +48,10 @@ public class MemberDao {
 	
 	
 	
-	//비밀번호 재확인
-	public int pwdcheck(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectOne("MemberMapper.pwdcheck",vo);
-	}
+//	//비밀번호 재확인
+//	public int pwdcheck(SqlSessionTemplate sst, MemberVo vo) {
+//		return sst.selectOne("MemberMapper.pwdcheck",vo);
+//	}
 	
 	
 	

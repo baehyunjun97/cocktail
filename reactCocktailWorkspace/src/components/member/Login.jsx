@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import { MemberMemory } from "../../context/MemberContext";
 
@@ -96,6 +96,16 @@ const StyledLoginAreaDiv = styled.div`
         width: 70%;
         height: 70%;
     }
+    a{
+        text-decoration-line: none;
+        color: #f25c5c;
+        font-weight: 800;
+    }
+    .link{
+        display: flex;
+        justify-content: end;
+        margin-right: 10px;
+    }
 `;
 
 const Login = () => {
@@ -135,7 +145,7 @@ const Login = () => {
             if(data.msg==="good"){
                 console.log(data.loginMember);
                 alert("로그인 성공")
-                sessionStorage.setItem("loginMember",JSON.stringify(data.loginMember));
+                sessionStorage.setItem("id",data.loginMember.id);
                 obj.setVo(data.loginMember);
                 navigate('/*')
             }else{
@@ -163,6 +173,7 @@ const Login = () => {
                     <div><input type="text" name="id" className="id" placeholder="아이디를 입력하세요" onChange={handleInputChange} /></div>
                     <div><input type="password" name="pwd" className="pwd" maxLength="15" placeholder="비밀번호를 입력하세요" onChange={handleInputChange} /></div>
                     <button className="join">로그인</button>
+                    <div className="link"><Link to="/join">회원가입</Link></div>
                 </div>
             </form>
                 <img src="https://www.masileng.com/test/login_background.png" className="img2" alt="illust_challenge_left"  />
