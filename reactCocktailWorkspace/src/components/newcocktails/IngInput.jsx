@@ -81,13 +81,11 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
   const handleWheelSetup = () => {
     document.querySelector(`[name=amount_${index}]`).addEventListener('wheel', handleWheel, { passive: false });
   };
-
   const handleWheel = (event) => {
     event.preventDefault();
   };
   
   useEffect( () => {
-    
     // fetch - get 시에는 재료단위의 배열을 불러온다.
     fetch("http://127.0.0.1:8888/app/cocktail/regist")
     .then(resp=> resp.json())
@@ -105,12 +103,16 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         {/* MODAL */}
         <div 
           onClick={() => {setModalVisible(!isModalVisible);}}
-          onBlur={() => {setModalVisible(!isModalVisible);}}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+              setModalVisible(false);
+            }
+          }}
           name={`ingNo_${index}`} 
         >
            <div className='inputDiv'>
-              {selectedIng && selectedIng.no ? (
-                    <p>{`${selectedIng.name}`}</p>
+              {selectedIng ? (
+                  <p>{`${selectedIng.name}`}</p>
                 ) : (
                   <p>재료를 입력하세요</p>
                 )}
@@ -137,10 +139,10 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         <div className='amountSelector'>
           {options.length > 0 && (
             <select 
-                name={`amountNo_${index}`}
-                onChange={(e) => {
-                handleChangeIng(index, 'amountNo', e.target.value);
-                }}
+              name={`amountNo_${index}`}
+              onChange={(e) => {
+              handleChangeIng(index, 'amountNo', e.target.value);
+              }}
             >
               {options.map((option) => (
                 <option key={option.no} value={option.no}>
