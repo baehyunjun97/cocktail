@@ -42,7 +42,7 @@ const ITEMS_PER_PAGE = 5;
 const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, handleChangeIng, inputIndex }) => {
   const [search, setSearch] = useState(""); //중간검색값
   const [ingVolist, setIngVolist] = useState([]); //검색필터용
-  const [selectedIng, setSelectedIng] = useState(""); //검색값
+  const [selectedIng, setSelectedIng] = useState(null); //검색값
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -54,6 +54,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
 
   useEffect(() => {
     onHandleSelectedIng(selectedIng);
+    console.log("useEffect : " + selectedIng);
   }, [selectedIng, onHandleSelectedIng]);
 
   const handleFormSubmit = async (event) => {
@@ -113,6 +114,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
             <div onSubmit={handleFormSubmit}>
               <input
                 onClick={(e) => { e.stopPropagation(); fetchData(""); }}
+                onBlur={(e) => e.stopPropagation()}
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
@@ -122,12 +124,13 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
             </div>
           </div>
           <div className='ResultContainer'>
-            {/* Display only the current items based on the current page */}
+            {/* 화면에 표시되는 부분. handleChangeIng onClick 이벤트 존재 */}
             {currentItems.map((ingVo, index) => (
               <div
               key={index}
               onClick={() => {
                 if (!isIngredientSelected(ingVo.no)) {
+                  console.log("Selected Ingredient:", ingVo);
                   setSelectedIng(ingVo);
                   handleChangeIng(inputIndex, 'ingNo', ingVo.no);
                 }
@@ -144,7 +147,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
             {/* Pagination controls */}
             <div>
               <button 
-                onClick={(e) => {handlePageChange(e,currentPage - 1); e.preventDefault()} } 
+                onClick={(e) => {handlePageChange(e,currentPage - 1); e.preventDefault() ;} } 
                 disabled={currentPage === 1} 
                 className='controllBtn'
               >
@@ -152,7 +155,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
               </button>
               <span>{`${currentPage} / ${totalPages}`}</span>
               <button
-                onClick={(e) => {handlePageChange(e,currentPage + 1); e.preventDefault()}}
+                onClick={(e) => {handlePageChange(e,currentPage + 1); e.preventDefault() ;}}
                 disabled={indexOfLastItem >= ingVolist.length}
                 className='controllBtn'
               >
