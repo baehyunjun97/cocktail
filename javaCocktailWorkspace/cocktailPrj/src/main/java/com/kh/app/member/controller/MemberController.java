@@ -3,6 +3,8 @@ package com.kh.app.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,10 +42,17 @@ public class MemberController {
 	
 	//로그인
 	@PostMapping("login")
-	public Map<String, Object> login(@RequestBody MemberVo vo)throws Exception {
+	public Map<String, Object> login(@RequestBody MemberVo vo, HttpSession session )throws Exception {
 		
 		MemberVo loginMember =ms.login(vo);
+		String id=loginMember.getId();
+		String pwd=loginMember.getPwd();
+		System.out.println(pwd);
 //		loginMember.setPwd("");
+		
+		session.setAttribute("id", id);
+		session.setAttribute("pwd", pwd);
+		System.out.println("fetch 통해서 받은 데이터:"+id);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("msg", "good");
@@ -61,9 +70,10 @@ public class MemberController {
 	
 	//회원 정보 수정
 	@PostMapping("edit")
-	public Map<String, Object> edit(@RequestBody MemberVo vo) throws Exception {
+	public Map<String, Object> edit(@RequestBody MemberVo vo,HttpSession session) throws Exception {
 		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		int result=ms.edit(vo);
+		
 		
 		Map<String, Object> map=new HashMap<String, Object>();
 		
@@ -78,17 +88,37 @@ public class MemberController {
 	
 //	비밀번호 재확인
 	@PostMapping("pwdcheck")
-	public Map<String, Object> pwdcheck(@RequestBody MemberVo vo) throws Exception{
+	public boolean pwdcheck(@RequestBody MemberVo vo,HttpSession session) throws Exception{
 //		System.out.println("fetch 통해서 받은 데이터:"+vo);
-		int result=ms.pwdcheck(vo);
 		
-		Map<String, Object> map=new HashMap<String, Object>();
-		if(result==1) {
-			map.put("msg", "good");
-		}else {
-			map.put("msg", "bad");
-		}
-		return map;
+		String inputPwd = vo.getPwd();
+		String sessionPwd =(String)session.getAttribute("pwd");
+		System.out.println("fetch 통해서 받은 데이터:"+inputPwd);
+		System.out.println("sessionPwd 통해서 받은 데이터:"+sessionPwd);
+		
+		if(sessionPwd != null && inputPwd.equals(sessionPwd)) {
+	         return true;
+	      }else {
+	    	  return false;
+	      }
+//		System.out.println("fetch 통해서 받은 데이터:"+inputPwd);
+		
+		
+		
+//		int result=ms.pwdcheck(vo);
+//		Map<String, Object> map=new HashMap<String, Object>();
+//		if(result==1) {
+//			map.put("msg", "good");
+//		}else {
+//			map.put("msg", "bad");
+//		}
+		
 		
 	}
+	
+
+
+	
+	
+	
 }

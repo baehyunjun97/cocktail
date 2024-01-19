@@ -397,8 +397,8 @@ const Mypage = () => {
                 <div >
                     <form >
                         <div className='profilebox'>
-                            {/* <img src="	https://www.masileng.com/images/illust_profile.png" alt="illust_challenge_left" className='img1' /> */}
-                            <img src="	https://www.iei.or.kr/upload/teacher/1dragon_teacher_photo.jpg" alt="illust_challenge_left" className='img1' />
+                            <img src="	https://www.masileng.com/images/illust_profile.png" alt="illust_challenge_left" className='img1' />
+                            {/* <img src="	https://www.iei.or.kr/upload/teacher/1dragon_teacher_photo.jpg" alt="illust_challenge_left" className='img1' /> */}
                             <div className='profilecontent'>
                                 <div class="label">마실랭 홈텐더</div>
                                 <div className='profilename'>

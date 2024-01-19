@@ -54,12 +54,12 @@
 		ID = #{id}
 	</select>
 	
-	<select id="pwdcheck" resultType="int">
+	<!-- <select id="pwdcheck" resultType="int">
 		SELECT 
 		COUNT(*)
 		FROM MEMBER
 		WHERE NO=#{no}
 		AND PWD=#{pwd}
-	</select>
+	</select> -->
 
 </mapper>

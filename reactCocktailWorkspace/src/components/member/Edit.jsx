@@ -179,6 +179,8 @@ const Edit = () => {
             if(data.msg==="good"){
                 alert("회원정보 수정 성공");
                 obj.vo.nick = vo.nick; 
+                obj.vo.pwd = vo.pwd; 
+
                 sessionStorage.setItem("loginMember",JSON.stringify(obj.vo));
                 navigate('/*');
             }
