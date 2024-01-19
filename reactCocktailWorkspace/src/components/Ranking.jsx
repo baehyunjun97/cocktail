@@ -102,6 +102,26 @@ const Ranking = () => {
         fetchData();
     }, [navigateCallback]);
 
+  // 모든 요소에 대해 현재 실행 중인 애니메이션을 일시적으로 정지
+  const pauseAllAnimations = () => {
+    const elements = document.querySelectorAll('*');
+    elements.forEach(element => {
+      const styles = window.getComputedStyle(element);
+      const animation = styles.getPropertyValue('animation');
+      if (animation !== 'none') {
+        element.style.animationPlayState = 'paused';
+      }
+    });
+  };
+
+  // 모든 요소에 대해 애니메이션을 다시 시작
+  const resumeAllAnimations = () => {
+    const elements = document.querySelectorAll('*');
+    elements.forEach(element => {
+      element.style.animationPlayState = '';
+    });
+  };
+
   // list길이만큼 보여줌
   const rankingTop10Cocktail = voList.map((vo, index) => (
     <div
@@ -109,6 +129,8 @@ const Ranking = () => {
       onClick={() => {
         navigate(`/cocktail/detail?query=${encodeURIComponent(vo.cocktailNo)}`);
       }}
+      onMouseOver={pauseAllAnimations}
+      onMouseOut={resumeAllAnimations}
       key={vo.cocktailNo}
       style={{ animationDelay: `${index * 0.1}s` }}
     >
