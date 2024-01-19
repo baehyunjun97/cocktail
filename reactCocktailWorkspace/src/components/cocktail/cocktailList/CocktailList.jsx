@@ -251,6 +251,7 @@ const CocktailList = () => {
                 />
             </div>
             <CocktailItems cocktailVoList={voList} />
+            <br /><br /><br />
         </StyledListDiv>
     );
 };

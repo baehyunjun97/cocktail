@@ -46,7 +46,7 @@ const StyledListDiv = styled.div`
                   width: 100%;
                   height: 220px;
                   border-radius: 10px;
-                  background-size: cover;
+                  object-fit: contain;
                   /* z-index: -2; */
                 }
                 & > div {
@@ -218,6 +218,7 @@ const IngredientList = () => {
             <div>
                 {images}
             </div>
+            <br /><br /><br /><br /><br />
         </StyledListDiv>
     );
 };

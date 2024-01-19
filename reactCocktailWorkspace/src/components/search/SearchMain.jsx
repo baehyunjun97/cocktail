@@ -199,7 +199,7 @@ const StyledMainSearchDiv = styled.div`
                     width: 100%;
                     height: 220px;
                     border-radius: 10px;
-                    background-size: cover;
+                    object-fit: contain;
                 }
                 & > div {
                     width: 100%;
