@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import ImgUploader from './ImgUploader';
 import styled from 'styled-components';
 import TextInput from './TextInput';
@@ -6,6 +6,7 @@ import IngInput from './IngInput';
 import ExplanInput from './ExplanInput'
 import SelectorInput from './SelectInput';
 import { useNavigate } from 'react-router-dom';
+import { MemberMemory } from '../../context/MemberContext';
 
 const StyledFormContainerDiv = styled.div`
     justify-content: center;
@@ -46,6 +47,7 @@ const FormContainer = () => {
     const [ingredients, setIngredients] = useState([]);
     const [img, setImg] = useState([]);
     const navigate = useNavigate();
+    const member = useContext(MemberMemory); //로그인 멤버 정보
 
     //재료배열 업데이트
     const handleIngredientsChange = (updatedIngredients) => {
@@ -58,9 +60,10 @@ const FormContainer = () => {
 
     //영어이름 박스에 영문만 입력
     const onlyEngInput = (e) => {
-      e.target.value = e.target.value.replace(/[^A-Za-z]/ig, '')
+      e.target.value = e.target.value.replace(/[^A-Za-z ]/ig, '')
     };
 
+    
     const handleSubmit = (e) => {
         e.preventDefault();
     
@@ -68,7 +71,7 @@ const FormContainer = () => {
           for(let i=0; i<img.length;i++){
             formData.append('imgList', img[i]); 
           }
-					formData.append('memberNo', '1');
+					formData.append('memberNo', member.vo.no);
 					formData.append('nameKor', e.target.name_kor.value);
 					formData.append('nameEng', e.target.name_eng.value);
           formData.append('recipeListJsonStr', JSON.stringify(ingredients));
