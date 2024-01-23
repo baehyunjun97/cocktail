@@ -91,9 +91,9 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
   };
 
   const handlePageChange = (e,newPage) => {
-    // e.stopPropagation(); // 꺼지지 않도록.
-    setCurrentPage(newPage);
+    e.stopPropagation(); // 꺼지지 않도록.
     e.preventDefault(); // 이 코드 때문에 즉시입력이 안되는 것 같음
+    setCurrentPage(newPage);
   };
 
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
