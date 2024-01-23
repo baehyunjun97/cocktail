@@ -92,12 +92,20 @@ public class MemberService {
 
 	// 로그인
 	public MemberVo login(MemberVo vo) {
-		return dao.login(sst, vo);
+		if(vo.getReload() != null) {
+			if(vo.getReload().equals("Y")) {
+				return dao.reload(sst,vo);
+			}
+		}
+		
+
+		MemberVo memberVo = dao.login(sst, vo);
+		return memberVo;			
 	}
 
 	// 정보수정
 	public int edit(MemberVo vo) {
-		System.out.println(vo);
+//		System.out.println(vo);
 		return dao.edit(sst, vo);
 	}
 
@@ -155,9 +163,9 @@ public class MemberService {
 
 	}
 
-//	// 비밀번호 재확인
-//	public int pwdcheck(MemberVo vo) {
-//		return dao.pwdcheck(sst, vo);
-//	}
+	// 비밀번호 재확인
+	public int pwdcheck(MemberVo vo) {
+		return dao.pwdcheck(sst, vo);
+	}
 
 }

@@ -145,7 +145,7 @@ const Login = () => {
             if(data.msg==="good"){
                 console.log(data.loginMember);
                 alert("로그인 성공")
-                sessionStorage.setItem("id",data.loginMember.id);
+                sessionStorage.setItem("loginMember",data.loginMember.id);
                 obj.setVo(data.loginMember);
                 navigate('/*')
             }else{

@@ -35,7 +35,7 @@ public class MypageController {
 	//마이페이지 통합
 	@GetMapping("myCocktails")
 	public Map<String, List<CocktailVo2>> myCocktails(CocktailVo2 cvo){
-		System.out.println("fetch 통해서 받은 데이터:"+cvo);
+//		System.out.println("fetch 통해서 받은 데이터:"+cvo); 
 		Map<String, List<CocktailVo2>> result=ms.myCocktails(cvo);
 		
 		return result;

@@ -35,6 +35,19 @@
 		AND PWD = #{pwd}
 
 	</select>
+	
+	<select id="reload" resultType="com.kh.app.member.vo.MemberVo">
+		SELECT
+		NO
+		,ID
+		,PWD
+		,NICK
+		,EDIT_DATE
+		,QUIT_YN
+		FROM MEMBER
+		WHERE ID = #{id}
+
+	</select>
 
 
 	<update id="edit">
@@ -54,12 +67,12 @@
 		ID = #{id}
 	</select>
 	
-	<!-- <select id="pwdcheck" resultType="int">
+	 <select id="pwdcheck" resultType="int">
 		SELECT 
 		COUNT(*)
 		FROM MEMBER
 		WHERE NO=#{no}
 		AND PWD=#{pwd}
-	</select> -->
+	</select> 
 
 </mapper>

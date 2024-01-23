@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { createContext,useState } from 'react';
 
 const MemberMemory=createContext();
@@ -6,12 +6,40 @@ const MemberMemory=createContext();
 const MemberMemoryProvider=({children})=>{
 
     
-    const [vo,setVo]= useState(()=>{
-        const sessionVo = sessionStorage.getItem("loginMember");  //로그인 유지
-        return JSON.parse(sessionVo); //sessionStorage에서 가져온 것은 무조건 문자열(login.jsx참고)  json 객체(ex.obj.vo.nick으로 사용하기 위함)로 사용 
-    });
+    const [vo,setVo]= useState("");
 
-    console.log(vo); 
+    useEffect(()=>{
+        const loginMember = { id : sessionStorage.getItem("loginMember"),reload : 'Y'};
+        console.log(loginMember);
+        if(loginMember){
+            fetch("http://127.0.0.1:8888/app/member/login",{
+            method:"POST",
+            headers:{
+                "content-Type":"application/json",
+            },
+            body: JSON.stringify(loginMember),
+
+        })
+        .then((resp)=>{
+            if(!resp.ok){
+                throw new Error("로그인 fetch 실패")
+            }
+            return resp.json();
+        })
+        .then((data)=>{
+            if(data.msg==="good"){
+                console.log(data.loginMember);
+                
+                setVo(data.loginMember);
+            }else{
+                
+                
+            }
+        })
+        }
+    },[])
+
+
     const obj={
       "vo":vo,
       "setVo":setVo,  

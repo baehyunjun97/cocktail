@@ -131,10 +131,15 @@ const PwdCheck = () => {
 
     const navigate=useNavigate();
     const obj=useContext(MemberMemory);
-    const[vo,setVo]=useState({
-        pwd:'', 
-        ...obj.vo
-    });
+    console.log(obj.vo);
+    const[vo,setVo]=useState(
+        {
+            pwd:'',
+
+        }
+    );
+    console.log(vo);
+
 
     const handleInputChange=(event)=>{
         const{name,value}=event.target;
@@ -147,7 +152,12 @@ const PwdCheck = () => {
 
     const pwdAccord=(event)=>{
         event.preventDefault();
+        const x = {
+            ...vo,
+            no : obj.vo.no,
+        }
         if(obj.vo.pwd!==vo.pwd){
+            console.log("no");
             alert("비밀번호 불일치");
             return;
         }
@@ -157,16 +167,16 @@ const PwdCheck = () => {
             headers:{
                 "content-type":"application/json"
             },
-            body:JSON.stringify(vo),
+            body:JSON.stringify(x),
         })
         .then((resp)=>{
             if(!resp.ok){
-                throw new Error("로그인 fetch 실패")
+                throw new Error("비밀번호확인 fetch 실패")
             }
             return resp.json();
         })
         .then((data)=>{
-            if(data){
+            if(data.msg==="good"){
                 alert("비밀번호가 일치 합니다.");
                 navigate("/edit");
             }else{
