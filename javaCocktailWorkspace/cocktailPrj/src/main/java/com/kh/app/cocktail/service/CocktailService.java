@@ -15,38 +15,45 @@ import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class CocktailService {
 
 	private final CocktailDao dao;
 	private final SqlSessionTemplate sst;
 
 	public int regist(CocktailVo vo) throws Exception {
-		System.out.println("서비스 진행");
+		log.info("서비스 진행");
 
 		// 이름 비었는지.
 		if (vo.getNameKor().length() < 1) {
+			log.warn("이름 입력 없음");
 			return 2;
 		};
 		// 영어이름 비었는지.
 		if (vo.getNameEng().length() < 1) {
+			log.warn("영어 입력 없음");
 			return 3;
 		};
 		// 설명 비었는지.
 		if (vo.getCommentary().length() < 1) {
+			log.warn("설명 입력 없음");
 			return 4;
 		};
 		// 레시피 설명 비었는지.
 		if (vo.getRecipeExplan().length() < 1) {
+			log.warn("레시피 설명 입력 없음");
 			return 5;
 		};
 		// 재료 비었는지
 		List<RecipeVo> recipeList = vo.getRecipe();
 		for (int i = 0; i < recipeList.size(); i++) {
 			if (recipeList.get(i).getIngNo() == null || recipeList.get(i).getAmount() == 0) {
+				log.warn("재료 입력 없음");
 				return 6;
 			};
 		};
@@ -64,7 +71,7 @@ public class CocktailService {
 			iter++;
 		}
 
-		System.out.println("src이름 리스트(service) : " + nameList);
+		log.info("src이름 리스트(service) : " + nameList);
 		vo.setUrlPaths(nameList);
 
 		return dao.regist(sst, vo);
