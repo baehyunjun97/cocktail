@@ -162,6 +162,12 @@ const Edit = () => {
             return;
         }
 
+        //비밀번호 글자수
+        if(vo.pwd.length<4){
+            alert("비밀번호는 4글자 이상 입력하세요")
+            return;
+        }
+
         fetch("http://127.0.0.1:8888/app/member/edit",{
             method:"POST",
             headers:{
@@ -177,11 +183,7 @@ const Edit = () => {
         })
         .then((data)=>{
             if(data.msg==="good"){
-                alert("회원정보 수정 성공");
-                obj.vo.nick = vo.nick; 
-                obj.vo.pwd = vo.pwd; 
-
-                sessionStorage.setItem("loginMember",JSON.stringify(obj.vo));
+                alert("회원정보 수정 성공"); 
                 navigate('/*');
             }
             else{

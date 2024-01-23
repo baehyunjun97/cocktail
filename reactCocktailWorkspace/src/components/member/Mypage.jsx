@@ -363,26 +363,29 @@ const Mypage = () => {
     }, [navigate]);
 
     // 렌더링 시 화면 변경
-    
     useEffect(()=>{
-        // 요청 보냄
-        fetch("http://127.0.0.1:8888/app/mypage/myCocktails?MemberNo="+obj.vo.no)
-        .then(resp => {
-            if(!resp.ok){
-                throw new Error("상태코드 이상함");
-            }
-            return resp.json();
-        })
-        .then((data) => {
-            setVoList(data.bookmark);
-            setVoList2(data.upload);
-            console.log(data);
-        })
-        .catch((e) => {
-            console.log(e);
-            navigateCallback();
-        })
-    },[navigateCallback])
+
+        if(obj.vo.no){
+             // 요청 보냄
+            fetch("http://127.0.0.1:8888/app/mypage/myCocktails?MemberNo="+obj.vo.no)
+            .then(resp => {
+                if(!resp.ok){
+                    throw new Error("상태코드 이상함");
+                }
+                return resp.json();
+            })
+            .then((data) => {
+                setVoList(data.bookmark);
+                setVoList2(data.upload);
+                console.log(data);
+            })
+            .catch((e) => {
+                console.log(e);
+                navigateCallback();
+            })
+        }
+       
+    },[navigateCallback,obj.vo.no])
 
 
         

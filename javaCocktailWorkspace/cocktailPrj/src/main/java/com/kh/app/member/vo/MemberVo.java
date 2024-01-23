@@ -13,6 +13,7 @@ public class MemberVo {
 	private String enrollDate;
 	private String editDate;
 	private String quitYn;
+	private String reload;
 	
 	
 }
