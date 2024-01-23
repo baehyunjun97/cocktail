@@ -11,6 +11,9 @@ import com.kh.app.cocktail.vo.CocktailVo;
 import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Repository
 public class CocktailDao {
 
@@ -38,7 +41,7 @@ public class CocktailDao {
 	// img src 등록
 	private int insertSrc(SqlSessionTemplate sst, List<String> list) {
 		int result = sst.insert("CocktailMapper.insertSrc", list);
-		System.out.println("Src 등록개수 : " + result);
+		log.info("Src 등록개수 : " + result);
 		return result;
 	}
 
@@ -46,7 +49,7 @@ public class CocktailDao {
 	public int registRecipe(SqlSessionTemplate sst, CocktailVo vo) {
 		try {
 			int result = sst.insert("CocktailMapper.registRecipe", vo.getRecipe());
-			System.out.println("레시피 등록개수 : " + result);
+			log.info("레시피 등록개수 : " + result);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -70,9 +73,9 @@ public class CocktailDao {
 
 		int alc = 0;
 		int amount = 0;
-
-		System.out.println("재료 파라미터 사이즈 : " + list.size());
-		System.out.println("조회 알코올 사이즈 : " + alcList.size());
+		
+		log.debug("재료 파라미터 사이즈 : " + list.size());
+		log.debug("조회 알코올 사이즈 : " + alcList.size());
 
 		int result = 0;
 		try {
@@ -93,13 +96,13 @@ public class CocktailDao {
 			e.printStackTrace();
 			result = 0;
 		}
-		System.out.println("ALC : " + result);
+		log.info("ALC : " + result);
+		
 		return result;
 	}
 
 	// 재료 검색
 	public List<IngVo> searchIng(SqlSessionTemplate sst, IngVo vo) {
-		System.out.println(vo);
 		return sst.selectList("CocktailMapper.selectIng", vo);
 	}
 

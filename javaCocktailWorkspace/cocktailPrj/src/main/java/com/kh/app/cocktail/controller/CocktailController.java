@@ -26,11 +26,14 @@ import com.kh.app.cocktail.vo.IngVo;
 import com.kh.app.cocktail.vo.RecipeVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("cocktail")
 @CrossOrigin("*") // 모든 출처 오픈 (칵테일사진)
+@Slf4j
 public class CocktailController {
 
 	private final CocktailService service;
@@ -43,7 +46,7 @@ public class CocktailController {
 
 		try {
 			map = new HashMap<String, Object>();
-			System.out.println(vo);
+			log.info("React로 전달받은 CocktailVo"+vo);
 
 			// recipeStr(json) => recipe setter
 			String recipeListJsonStr = vo.getRecipeListJsonStr();
@@ -67,7 +70,7 @@ public class CocktailController {
 			vo.setFilePaths(filePaths);
 
 			int result = service.regist(vo);
-			System.out.println("컨트롤러 결과 : " + result);
+			log.info("컨트롤러 결과 : " + result);
 			map.put("msg", "칵테일 등록 성공");
 
 			if (result == 2) {
@@ -87,7 +90,7 @@ public class CocktailController {
 			}
 
 		} catch (Exception e) {
-			System.out.println("칵테일 등록 실패");
+			log.error("칵테일 등록 실패");
 			map.put("msg", "칵테일 등록 실패");
 			e.printStackTrace();
 		}
@@ -98,8 +101,8 @@ public class CocktailController {
 	private List<String> saveFile(List<MultipartFile> f, String cocktailName) throws Exception {
 
 		String tomcatTopPath = req.getServletContext().getRealPath("/resources/upload/cocktail/image") + File.separator;
-		System.out.println("Tomcat top path: " + tomcatTopPath);
-
+		log.info("Tomcat top path: " + tomcatTopPath);
+		
 		List<String> pathList = new ArrayList<String>();
 
 		String imgDir = null;
@@ -114,7 +117,7 @@ public class CocktailController {
 			File target = new File(imgDir);
 			img.transferTo(target);
 
-			System.out.println("이미지 저장 경로 : " + imgDir);
+			log.info("이미지 저장 경로 : " + imgDir);
 
 			pathList.add(imgDir);
 			iter++;

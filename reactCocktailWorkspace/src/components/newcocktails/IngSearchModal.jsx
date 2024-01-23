@@ -91,8 +91,9 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
   };
 
   const handlePageChange = (e,newPage) => {
-    e.stopPropagation();
+    // e.stopPropagation(); // 꺼지지 않도록.
     setCurrentPage(newPage);
+    e.preventDefault(); // 이 코드 때문에 즉시입력이 안되는 것 같음
   };
 
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
@@ -147,7 +148,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
             {/* Pagination controls */}
             <div>
               <button 
-                onClick={(e) => {handlePageChange(e,currentPage - 1); e.preventDefault() ;} } 
+                onClick={(e) => {handlePageChange(e,currentPage - 1);} } 
                 disabled={currentPage === 1} 
                 className='controllBtn'
               >
@@ -155,7 +156,7 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
               </button>
               <span>{`${currentPage} / ${totalPages}`}</span>
               <button
-                onClick={(e) => {handlePageChange(e,currentPage + 1); e.preventDefault() ;}}
+                onClick={(e) => {handlePageChange(e,currentPage + 1);}}
                 disabled={indexOfLastItem >= ingVolist.length}
                 className='controllBtn'
               >

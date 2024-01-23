@@ -60,7 +60,7 @@ const FormContainer = () => {
 
     //영어이름 박스에 영문만 입력
     const onlyEngInput = (e) => {
-      e.target.value = e.target.value.replace(/[^A-Za-z ]/ig, '')
+      e.target.value = e.target.value.replace(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/, '')
     };
 
     
