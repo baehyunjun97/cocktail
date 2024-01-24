@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { MemberMemory } from '../../context/MemberContext';
@@ -140,8 +140,16 @@ const Edit = () => {
     const[vo,setVo]=useState({
         pwd:'',
         pwd2:'',
-        nick:'',
+        nick: obj.vo ? obj.vo.nick : '',
     });
+    const [nick,setNick] = useState(obj.vo.nick);
+    useEffect(()=>{
+        if(obj.vo.nick){
+            setNick(obj.vo.nick);
+        }
+        console.log("tq");
+    })
+
     console.log(vo);
     const handleInputChange=(event)=>{
         const {name,value}=event.target;
@@ -220,7 +228,7 @@ const Edit = () => {
 
             <h3 class="text3">닉네임</h3>
             <div class="editcollection">
-                <input placeholder="변경할 닉네임" value={vo.nick} name="nick" className='edit' maxLength="10" onChange={handleInputChange} />
+                <input placeholder="변경할 닉네임" value={nick} name="nick" className='edit' maxLength="10" onChange={handleInputChange} />
                 <div class="editnumber2">{vo.nick.length}/10</div>
             </div>
             <button className='change' >변경하기</button>

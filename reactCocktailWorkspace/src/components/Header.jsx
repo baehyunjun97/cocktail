@@ -12,8 +12,8 @@ const StyledHeader = styled.div`
   place-content: center;
   grid-template-columns: 1fr 0.5fr 0.3fr 8fr 1fr 0.1fr;
   height: 60px;
-  min-width: 99.9vw;
-  /* width: 100vw; */
+  min-width: 1700px;
+  width: 100vw;
   text-align: center;
   line-height: 50px;
   background-color: white;
