@@ -67,6 +67,7 @@
 				NAME LIKE '%' || #{name} || '%'
 			</if>
 		</where>
+		order by no
 	</select>
 	
 <!-- 	용량전체조회 -->
