@@ -124,7 +124,7 @@ function blur(e) {
    //비밀번호 입력 안 하면 못 내려가게 하기,비밀번호 입력 조건
    const [isAlertShown2, setIsAlertShown2] = useState(false);
    function blur2(e){
-    const isValidPwd = /^[a-zA-Z0-9!@#$%^&*]+$/.test(e.target.value);
+    const isValidPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$/.test(e.target.value);
     
     if (!isValidPwd && e.target.value.length === 0 && !isAlertShown2) {
         e.target.focus();

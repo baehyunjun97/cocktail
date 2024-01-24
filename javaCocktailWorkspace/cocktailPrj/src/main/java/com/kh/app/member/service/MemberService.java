@@ -30,7 +30,7 @@ public class MemberService {
 		if (id.length() < 4) {
 			throw new Exception("아이디가 짧습니다.");
 		}
-		String pwd = vo.getId();
+		String pwd = vo.getPwd();
 		if (pwd.length() < 4) {
 			throw new Exception("비밀번호가 짧습니다.");
 		}
@@ -58,9 +58,10 @@ public class MemberService {
 		}
 
 		
-		String pwd2 = vo.getPwd2();
+		String pwd2=vo.getPwd2();
 		// 비밀번호 작성 조건
-		if (!pwd.matches("[a-zA-Z0-9!@#$%^&*]+$")) {
+		if (!pwd.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$")) {
+			System.out.println("tq");
 			msg = "bad";
 			return msg;
 		}
@@ -72,7 +73,7 @@ public class MemberService {
 
 		String email = vo.getEmail();
 		// 이메일 작성 조건
-		if (!email.matches("^[\\w-]+(\\.[\\w-]+)*@([\\w-]+\\.)+[a-zA-Z]{2,7}$")) {
+		if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
 			msg = "bad";
 			return msg;
 		}

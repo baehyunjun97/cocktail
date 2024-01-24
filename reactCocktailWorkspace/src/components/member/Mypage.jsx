@@ -383,7 +383,7 @@ const Mypage = () => {
                 console.log(e);
                 navigateCallback();
             })
-        }
+        } 
        
     },[navigateCallback,obj.vo.no])
 

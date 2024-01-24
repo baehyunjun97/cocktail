@@ -16,7 +16,7 @@ const StyledSearch = styled.div`
         height: 60px;
         padding-left: 6px;
         padding-right: 40px;
-        border: 2px solid rgb(255, 180, 180);
+        border: 2px solid #fde1ac;
         border-radius: 10px;
         box-shadow: rgba(8, 10, 37, 0.03) 0rem 0.47rem 2.19rem, rgba(8, 10, 37, 0.03) 0rem 0.94rem 1.41rem, rgba(8, 10, 37, 0.05) 0rem 0.25rem 0.53rem, rgba(8, 10, 37, 0.03) 0rem 0.13rem 0.19rem;
         display: flex;
@@ -28,7 +28,7 @@ const StyledSearch = styled.div`
         & > button {
             width: 50px;
             height: 50px;
-            background-color: rgb(242, 92, 92);
+            background-color: orange;
             border: none;
             border-radius: 10px;
             cursor: pointer;
