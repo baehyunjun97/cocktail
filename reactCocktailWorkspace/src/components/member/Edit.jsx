@@ -141,9 +141,8 @@ const Edit = () => {
         pwd:'',
         pwd2:'',
         nick:'',
-        ...obj.vo,
     });
-
+    console.log(vo);
     const handleInputChange=(event)=>{
         const {name,value}=event.target;
         
@@ -156,7 +155,12 @@ const Edit = () => {
 
      const handleClickEdit=(event)=>{
         event.preventDefault();
-
+        const x={
+            ...obj.vo,
+            ...vo,
+            
+        }
+        console.log(x);
         if(vo.pwd!==vo.pwd2){
             alert("비밀번호가 일치하지 않습니다");
             return;
@@ -173,7 +177,7 @@ const Edit = () => {
             headers:{
                 "content-Type":"application/json"
             },
-            body:JSON.stringify(vo),
+            body:JSON.stringify(x),
         })
         .then((resp)=>{
             if(!resp){
@@ -184,6 +188,10 @@ const Edit = () => {
         .then((data)=>{
             if(data.msg==="good"){
                 alert("회원정보 수정 성공"); 
+                obj.setVo((prevVo) => ({
+                    ...prevVo,
+                    nick:vo.nick,
+                  }));
                 navigate('/*');
             }
             else{

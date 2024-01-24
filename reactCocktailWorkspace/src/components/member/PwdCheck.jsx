@@ -154,10 +154,10 @@ const PwdCheck = () => {
         event.preventDefault();
         const x = {
             ...vo,
-            no : obj.vo.no,
+            ...obj.vo,
         }
+        console.log(x);
         if(obj.vo.pwd!==vo.pwd){
-            console.log("no");
             alert("비밀번호 불일치");
             return;
         }

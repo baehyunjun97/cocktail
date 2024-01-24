@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { MemberMemory } from '../context/MemberContext';
@@ -12,14 +12,16 @@ const StyledHeader = styled.div`
   place-content: center;
   grid-template-columns: 1fr 0.5fr 0.3fr 8fr 1fr 0.1fr;
   height: 60px;
-  min-width: 1550px;
-  width: 100vw;
+  min-width: 99.9vw;
+  /* width: 100vw; */
   text-align: center;
   line-height: 50px;
   background-color: white;
   top: 0px;
   z-index: 6 ;
+
   & > div:nth-child(1) > a {
+    min-width: 106.85px;
     text-decoration: none;
     font-size: 1.5rem;
     color: orange;
@@ -41,19 +43,23 @@ const StyledHeader = styled.div`
     & > button {
     height: 30px;
     line-height: 30px;
-    border-radius: 5px;
-    border: 1px solid lightgray;
+    border-radius: 10px;
+    border: 1px solid orange;
     background-color: white;
     padding: 0px 20px;
     cursor: pointer;
+    color: orange;
+    font-weight: 800;
   }
   }
-
+  
+ 
 `;
       
 function Header() {
   const obj = useContext(MemberMemory);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate=useNavigate();
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -71,7 +77,7 @@ function Header() {
       <div></div>
       <div>
         {!obj.vo 
-          ? <button onClick={openModal}><Link to="/login">로그인</Link></button>
+          ? <button id='btn' onClick={() => {navigate("/login");}}>로그인</button>
           : <button onClick={openModal}>{obj.vo.nick} </button>
         }
       </div>

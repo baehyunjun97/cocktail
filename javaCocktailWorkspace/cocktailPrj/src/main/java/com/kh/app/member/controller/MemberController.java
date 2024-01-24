@@ -3,6 +3,7 @@ package com.kh.app.member.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,18 +22,13 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 	private final MemberService ms;
 	
-//	//react
-//	.then(data => {
-//	else	if(data) {
-//			아이디가 중복입니다
-//		}
-//	})
+
 	
 	
 	//회원가입 
 	@PostMapping("join")
 	public String join(@RequestBody MemberVo vo) throws Exception{
-//		System.out.println("fetch 통해서 받은 데이터:"+vo);
+		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		String msg = ms.join(vo);
 		return msg;
 		//return ms.join
@@ -62,7 +58,7 @@ public class MemberController {
 	//회원 정보 수정
 	@PostMapping("edit")
 	public Map<String, Object> edit(@RequestBody MemberVo vo) throws Exception {
-//		System.out.println("fetch 통해서 받은 데이터:"+vo);
+		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		int result=ms.edit(vo);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
@@ -79,7 +75,7 @@ public class MemberController {
 //	비밀번호 재확인
 	@PostMapping("pwdcheck")
 	public Map<String, Object> pwdcheck(@RequestBody MemberVo vo) throws Exception{
-		System.out.println("fetch 통해서 받은 데이터:"+vo);
+//		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		int result=ms.pwdcheck(vo);
 		
 		Map<String, Object> map=new HashMap<String, Object>();
