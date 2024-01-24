@@ -179,7 +179,7 @@ const IngredientList = () => {
         <div>
           <img
             // 이미지 path
-            src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+ingredientVo.ingSrc}
+            src={"http://127.0.0.1:8888/app/resources/upload/ingredient/image/"+ingredientVo.ingSrc}
             alt={`Cocktail ${ingredientVo.ingNo}`}
           />
           <div
