@@ -102,8 +102,9 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
       <div>
         {/* MODAL */}
         <div 
-          onClick={() => {setModalVisible(!isModalVisible);}}
+          onClick={() => {setModalVisible(!isModalVisible);} }
           onBlur={(event) => {
+            console.log("모달 blur발생");
             if (!event.currentTarget.contains(event.relatedTarget)) {
               setModalVisible(false);
             }

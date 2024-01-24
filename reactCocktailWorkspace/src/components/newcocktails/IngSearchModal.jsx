@@ -54,17 +54,16 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
 
   useEffect(() => {
     onHandleSelectedIng(selectedIng);
-    console.log("useEffect : " + selectedIng);
   }, [selectedIng, onHandleSelectedIng]);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
   };
 
-  const handleSearchChange = async (event) => {
+  const handleSearchChange = (event) => {
     const inputValue = event.target.value;
     setSearch(inputValue);
-    await fetchData(inputValue);
+    fetchData(inputValue);
   };
 
   const fetchData = async (inputValue) => {
@@ -86,16 +85,21 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
     }
   };
 
+  //전체페이지 계산 (ex - 22/5 = 5)
   const calculateTotalPages = (data) => {
     return Math.ceil(data.length / ITEMS_PER_PAGE);
   };
 
   const handlePageChange = (e,newPage) => {
     e.stopPropagation(); // 꺼지지 않도록.
-    e.preventDefault(); // 이 코드 때문에 즉시입력이 안되는 것 같음
-    setCurrentPage(newPage);
+    // e.preventDefault(); // submit방지
+    console.log("페이지 : ", newPage);
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
   };
 
+  //pagenation 계산 
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
   const currentItems = ingVolist.slice(indexOfFirstItem, indexOfLastItem);
@@ -111,25 +115,24 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
       {isModalVisible && (
         <StyledIngSearchModalDiv>
           <div className='Header'>재료 상세 선택</div>
-          <div className='SearchForm'>
-            <div onSubmit={handleFormSubmit}>
+            <form className='SearchForm' onSubmit={handleFormSubmit}>
               <input
-                onClick={(e) => { e.stopPropagation(); fetchData(""); }}
-                onBlur={(e) => e.stopPropagation()}
+                onClick={(e) => { e.stopPropagation(); fetchData(search); }}
+                onBlur={(e) => {e.stopPropagation(); console.log("검색창 blur발생");}}
                 type="text"
                 value={search}
                 onChange={handleSearchChange}
                 placeholder='검색어를 입력해주세요.'
                 onKeyDown={handleKeyDown}
               />
-            </div>
-          </div>
-          <div className='ResultContainer'>
+            </form>
+          <div className='ResultContainer' onMouseDown={(e) => e.preventDefault()}>
             {/* 화면에 표시되는 부분. handleChangeIng onClick 이벤트 존재 */}
-            {currentItems.map((ingVo, index) => (
+            {currentItems.map((ingVo) => (
               <div
-              key={index}
+              key={ingVo.no}
               onClick={() => {
+                console.log("클릭을 했습니다!!!!!!");
                 if (!isIngredientSelected(ingVo.no)) {
                   console.log("Selected Ingredient:", ingVo);
                   setSelectedIng(ingVo);
@@ -149,16 +152,18 @@ const IngSearchModal = ({ isModalVisible, onHandleSelectedIng, ingredients, hand
             <div>
               <button 
                 onClick={(e) => {handlePageChange(e,currentPage - 1);} } 
-                disabled={currentPage === 1} 
                 className='controllBtn'
+                type='button'
               >
                 이전
               </button>
+
               <span>{`${currentPage} / ${totalPages}`}</span>
+
               <button
                 onClick={(e) => {handlePageChange(e,currentPage + 1);}}
-                disabled={indexOfLastItem >= ingVolist.length}
                 className='controllBtn'
+                type='button'
               >
                 다음
               </button>
