@@ -106,6 +106,12 @@ const StyledRequestIngDIv = styled.div`
                 font-weight: 600;
             }
         }
+        & .guide {
+            font-size: 13px;
+            font-weight: 600;
+            color: red;
+            margin-top: 10px;
+        }
     }
 `;
 
@@ -116,7 +122,7 @@ const  RequestIngMain = () => {
     const [btnActive2, setBtnActive2] = useState("");
     const [baseNo,setBaseNo] = useState();
 
-    console.log(categoryNo);
+    const [guide,setGuide] = useState("술(강한도수)는 40도 이상부터 업로드 가능합니다.");
 
     const [lists, setLists] = useState({
         categoryList: [], // 초기값으로 빈 배열 설정
@@ -185,6 +191,14 @@ const  RequestIngMain = () => {
                 alert("알콜 도수를 입력하세요");
                 return;
             }
+            if(parseInt(categoryNo, 10) === 2 && alc > 39){
+                alert("약한 도수는 40도 미만으로 적어주세요.");
+                return;
+            }
+            if(parseInt(categoryNo, 10) === 1 && alc < 40){
+                alert("강한 도수는 40도 이상으로 적어주세요.");
+                return;
+            }
         }
 
         const formData = new FormData();
@@ -236,7 +250,7 @@ const  RequestIngMain = () => {
     //영어이름 박스에 영문만 입력
     const onlyEngInput = (e) => {
         e.target.value = e.target.value.replace(/[^A-Za-z]/ig, '')
-      };
+    };
 
     return (
         <>
@@ -267,6 +281,7 @@ const  RequestIngMain = () => {
                         <div>
                             {lists.categoryList.map((vo, idx) => (
                                 <SelectBtn 
+                                    setGuide = {setGuide}
                                     idx={idx} 
                                     name={vo.ingCategoryName} 
                                     no ={vo.categoryNo}
@@ -281,7 +296,8 @@ const  RequestIngMain = () => {
                         <IngReqTitle title="재료 베이스선택"/>
                         <div>
                             {lists.baseList.map((vo, idx) => (
-                                <SelectBtn 
+                                <SelectBtn
+                                    setGuide = {setGuide}
                                     idx={idx} 
                                     name={vo.baseName} 
                                     no ={vo.baseNo}
@@ -295,6 +311,7 @@ const  RequestIngMain = () => {
                     <div style={{ display: parseInt(categoryNo, 10) === 1 || parseInt(categoryNo, 10) === 2 ? 'block' : 'none' }}>
                         <IngReqTitle title="알콜 도수"/>
                         <input name="alc" type="number" max="100" />
+                        <div><span className='guide'>{guide}</span></div>
                     </div>
                     <div>
                         <IngGuide guide="guide"/>

@@ -134,7 +134,7 @@ public class IngredientService2 {
 		String fileName = randomName + ext;
 		
 		// 톰캣 상대경로설정
-		String tomcatPath = req.getServletContext().getRealPath(sep+"resources"+sep+"upload"+sep+"cocktail"+sep+"image"+sep);
+		String tomcatPath = req.getServletContext().getRealPath(sep+"resources"+sep+"upload"+sep+"ingredient"+sep+"image")+sep;
 		
 		// 톰캣경로 + 랜덤파일이름
 		String imgDir = tomcatPath + fileName;

@@ -96,7 +96,7 @@ const IngredientInfo = ({ cocktailAndIngredientsVO }) => {
         return ingredientVoList.map((ingredientVo) => (
             <div key={ingredientVo.id}>
                 <div>
-                    <img src={"http://127.0.0.1:8888/app/resources/upload/cocktail/image/"+ingredientVo.ingSrc} alt="" />
+                    <img src={"http://127.0.0.1:8888/app/resources/upload/ingredient/image/"+ingredientVo.ingSrc} alt="" />
                 </div>
                 <div>
                     <div>
