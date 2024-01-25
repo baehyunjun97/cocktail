@@ -46,7 +46,7 @@
 	    </where>
 	    <!-- 최신순으로 조회 -->
 	    <if test="order == null or order == '' or order == '최신순'">
-	        ORDER BY C.NO, CS.FILE_NAME DESC
+	        ORDER BY C.NO DESC, CS.FILE_NAME DESC
 	    </if>
 	    <!-- 좋아요순 조회 -->
 	    <if test="order == '좋아요순'">

@@ -143,12 +143,18 @@ const Edit = () => {
         nick: obj.vo ? obj.vo.nick : '',
     });
     const [nick,setNick] = useState(obj.vo.nick);
+   
     useEffect(()=>{
         if(obj.vo.nick){
             setNick(obj.vo.nick);
         }
     },[obj.vo])
     console.log(vo);
+
+    
+   
+
+
     const handleInputChange=(event)=>{
         
         const {name,value}=event.target;
@@ -156,8 +162,7 @@ const Edit = () => {
         if(name === 'nick'){
             setNick(value);
         }
-    
-        
+
         setVo({
          ...vo,
          [name]:value
@@ -206,8 +211,9 @@ const Edit = () => {
         .then((data)=>{
             if(data.msg==="good"){
                 alert("회원정보 수정 성공"); 
-                obj.setVo((prevVo) => ({
-                    ...prevVo,
+                obj.setVo((preVo) => ({
+                    ...preVo,
+                    pwd:vo.pwd,
                     nick:vo.nick,
                   }));
                 navigate('/*');
