@@ -352,9 +352,9 @@ const Mypage = () => {
     const navigate=useNavigate();
     
     const obj=useContext(MemberMemory);
-
-    const [voList, setVoList] = useState([]);
-    const [voList2,setVoList2]= useState([]);
+    console.log(obj.vo);
+    const [upload, setUpload] = useState([]);
+    const [like,setLike]= useState([]);
 
    
     // useCallBack을 이용해서 useEffect안에 에러 처리후 url이동가능
@@ -375,8 +375,8 @@ const Mypage = () => {
                 return resp.json();
             })
             .then((data) => {
-                setVoList(data.bookmark);
-                setVoList2(data.upload);
+                setLike(data.bookmark);
+                setUpload(data.upload);
                 console.log(data);
             })
             .catch((e) => {
@@ -411,12 +411,12 @@ const Mypage = () => {
                                 <div className='profilecount'>
                                     <div className='recipe'>
                                         올린레시피
-                                        <b>0</b>
+                                        <b>{upload.length}</b>
                                         개
                                     </div>
                                     <div className='like'>
                                         즐겨찾기
-                                        <b>2</b>
+                                        <b>{like.length}</b>
                                         개
                                     </div>
                                 </div> {/* profilecount */}
@@ -427,14 +427,14 @@ const Mypage = () => {
                             <img src="	https://www.masileng.com/test/ic_challenge.svg" alt="illust_challenge_left"/>
                             <h3 >내가 업로드한 레시피</h3>
                         </div>
-                        <CocktailItems cocktailVoList={voList2} />
+                        <CocktailItems cocktailVoList={upload} />
 
 
                         <div className='uploadrecipe'>
                             <img src="	https://www.masileng.com/test/ic_favorite.svg" alt="illust_challenge_left"/>
                             <h3 >내 즐겨찾기</h3>
                         </div>
-                        <CocktailItems cocktailVoList={voList} />
+                        <CocktailItems cocktailVoList={like} />
                         
 
                     </form >
