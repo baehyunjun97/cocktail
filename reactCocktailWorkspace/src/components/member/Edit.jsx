@@ -147,12 +147,16 @@ const Edit = () => {
         if(obj.vo.nick){
             setNick(obj.vo.nick);
         }
-        console.log("tq");
-    })
-
+    },[obj.vo])
     console.log(vo);
     const handleInputChange=(event)=>{
+        
         const {name,value}=event.target;
+
+        if(name === 'nick'){
+            setNick(value);
+        }
+    
         
         setVo({
          ...vo,
@@ -169,6 +173,7 @@ const Edit = () => {
             
         }
         console.log(x);
+        //비밀번호 일치여부
         if(vo.pwd!==vo.pwd2){
             alert("비밀번호가 일치하지 않습니다");
             return;
@@ -177,6 +182,11 @@ const Edit = () => {
         //비밀번호 글자수
         if(vo.pwd.length<4){
             alert("비밀번호는 4글자 이상 입력하세요")
+            return;
+        }
+        //닉네임 글자수
+        if(vo.nick.length<2){
+            alert("아이디는 2글자 이상 입력하세요")
             return;
         }
 
