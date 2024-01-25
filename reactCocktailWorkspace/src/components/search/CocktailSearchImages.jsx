@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+    
+`;
 
 const CocktailSearchImages = ({cocktailVoList}) => {
 
@@ -70,11 +75,11 @@ const CocktailSearchImages = ({cocktailVoList}) => {
                                 ),
                             },
                             (_, innerBaseIndex) => (
-                                <div key={innerBaseIndex}>
+                                <StyledDiv key={innerBaseIndex}>
                                 {"#" +
                                     cocktailVoList[index].baseNameList[innerBaseIndex] ||
                                     ''}
-                                </div>
+                                </StyledDiv>
                         )
                         )}
                     </div>
