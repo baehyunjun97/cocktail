@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+
+const StyledDiv = styled.div`
+    font-weight: 600;
+    color: white;
+`;
 
 // 재료 이미지 
 const IngredIentSearchImages = ({ingredientVoList}) => {
@@ -48,12 +54,12 @@ const IngredIentSearchImages = ({ingredientVoList}) => {
               onMouseOut={() => handleMouseOut(index)}
             >
                 {/* categoryStates에 따라 display가 달라짐 */}
-                <div
+                <StyledDiv
                     style={{ display: categoryStates[index] ? 'block' : 'none' }}
                 >
                     {/* 재료 카테고리명 */}
                     {"#"+ingredientVo.ingCategoryName}
-                </div>
+                </StyledDiv>
             </div>
           </div>
           <div>
