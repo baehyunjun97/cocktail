@@ -74,5 +74,31 @@
 		WHERE NO=#{no}
 		AND PWD=#{pwd}
 	</select> 
+	
+	<select id="emailCheck" resultType="com.kh.app.member.vo.MemberVo">
+		SELECT 
+		NO
+		,ID
+		,PWD
+		,NICK
+		,EMAIL
+		FROM MEMBER
+		WHERE EMAIL=#{email}
+	</select> 
+	
+	<select id="getIdByEmail" resultType="String">
+		SELECT 
+		ID
+		FROM MEMBER
+		WHERE EMAIL=#{email}
+	</select> 
+	
+	<select id="getPwdByEmail" resultType="String">
+		SELECT
+		PWD
+		FROM MEMBER
+		WHERE  ID=#{id} 
+		AND EMAIL=#{email}
+	</select> 
 
 </mapper>
