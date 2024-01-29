@@ -57,8 +57,7 @@ public class MemberService {
 			return msg;
 		}
 
-		
-		String pwd2=vo.getPwd2();
+		String pwd2 = vo.getPwd2();
 		// 비밀번호 작성 조건
 		if (!pwd.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$")) {
 			System.out.println("tq");
@@ -93,15 +92,14 @@ public class MemberService {
 
 	// 로그인
 	public MemberVo login(MemberVo vo) {
-		if(vo.getReload() != null) {
-			if(vo.getReload().equals("Y")) {
-				return dao.reload(sst,vo);
+		if (vo.getReload() != null) {
+			if (vo.getReload().equals("Y")) {
+				return dao.reload(sst, vo);
 			}
 		}
-		
 
 		MemberVo memberVo = dao.login(sst, vo);
-		return memberVo;			
+		return memberVo;
 	}
 
 	// 정보수정
@@ -166,22 +164,23 @@ public class MemberService {
 
 	// 비밀번호 재확인
 	public int pwdcheck(MemberVo vo) {
+		
 		return dao.pwdcheck(sst, vo);
 	}
-	
-	//이메일 인증
+
+	// 이메일 인증
 	public MemberVo emailCheck(MemberVo vo) {
 		return dao.emailCheck(sst, vo);
 	}
 
 	// 아이디 찾기
 	public String getIdByEmail(MemberVo vo) {
-		return dao.getIdByEmail(sst,vo);
+		return dao.getIdByEmail(sst, vo);
 	}
-	
-	//비번 찾기
+
+	// 비번 찾기
 	public String getPwdByEmail(MemberVo vo) {
-		return dao.getPwdByEmail(sst,vo);
+		return dao.getPwdByEmail(sst, vo);
 	}
 
 }
