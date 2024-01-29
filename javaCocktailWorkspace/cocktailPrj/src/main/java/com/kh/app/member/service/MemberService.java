@@ -168,5 +168,20 @@ public class MemberService {
 	public int pwdcheck(MemberVo vo) {
 		return dao.pwdcheck(sst, vo);
 	}
+	
+	//이메일 인증
+	public MemberVo emailCheck(MemberVo vo) {
+		return dao.emailCheck(sst, vo);
+	}
+
+	// 아이디 찾기
+	public String getIdByEmail(MemberVo vo) {
+		return dao.getIdByEmail(sst,vo);
+	}
+	
+	//비번 찾기
+	public String getPwdByEmail(MemberVo vo) {
+		return dao.getPwdByEmail(sst,vo);
+	}
 
 }

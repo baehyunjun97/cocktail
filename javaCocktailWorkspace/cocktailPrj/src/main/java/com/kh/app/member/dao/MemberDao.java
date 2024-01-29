@@ -54,8 +54,22 @@ public class MemberDao {
 	}
 
 	public MemberVo reload(SqlSessionTemplate sst, MemberVo vo) {
-		System.out.println(vo);
 		return sst.selectOne("MemberMapper.reload",vo);
+	}
+	
+	//이메일 인증
+	public MemberVo emailCheck(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.emailCheck",vo);
+	}
+	
+	//아이디 찾기
+	public String getIdByEmail(SqlSessionTemplate sst, MemberVo vo ) {
+		return sst.selectOne("MemberMapper.getIdByEmail",vo);
+	}
+	
+	//비밀번호 찾기
+	public String getPwdByEmail(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.getPwdByEmail",vo);
 	}
 	
 	

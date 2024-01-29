@@ -99,12 +99,15 @@ const StyledLoginAreaDiv = styled.div`
     a{
         text-decoration-line: none;
         color: #f25c5c;
-        font-weight: 800;
+        font-weight: 1000;
     }
-    .link{
+    .linkbox{
         display: flex;
         justify-content: end;
+        &>.link{
         margin-right: 10px;
+        font-size: small;
+        }
     }
 `;
 
@@ -170,10 +173,14 @@ const Login = () => {
                 {/* <p class="joinbox">나만 아는 레시피를 소개하고<br />좋아하는 칵테일 리스트를 만들어보세요!</p> */}
                 <img src="https://www.masileng.com/images/illust_challenge_left.png" className="img1" alt="illust_challenge_left" />
                 <div>
-                    <div><input type="text" name="id" className="id" placeholder="아이디를 입력하세요" onChange={handleInputChange} /></div>
+                    <div><input type="text" name="id" className="id" maxLength="11" placeholder="아이디를 입력하세요" onChange={handleInputChange} /></div>
                     <div><input type="password" name="pwd" className="pwd" maxLength="15" placeholder="비밀번호를 입력하세요" onChange={handleInputChange} /></div>
                     <button className="join">로그인</button>
+                    <div className="linkbox">
+                    <div className="link"><Link to="/idfind">아이디 찾기</Link></div>
+                    <div className="link"><Link to="/pwdfind">비밀번호 찾기</Link></div>
                     <div className="link"><Link to="/join">회원가입</Link></div>
+                    </div>
                 </div>
             </form>
                 <img src="https://www.masileng.com/test/login_background.png" className="img2" alt="illust_challenge_left"  />
