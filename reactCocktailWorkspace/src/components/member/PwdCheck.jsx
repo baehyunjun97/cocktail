@@ -140,6 +140,23 @@ const PwdCheck = () => {
     );
     console.log(vo);
 
+    const [isAlertShown2, setIsAlertShown2] = useState(false);
+   function blur2(e){
+    const isValidPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$/.test(e.target.value);
+    
+    if (!isValidPwd && e.target.value.length === 0 && !isAlertShown2) {
+        e.target.focus();
+        alert("비밀번호를 입력하세요");
+        setIsAlertShown2(true);
+      } else if (!isValidPwd && !isAlertShown2) {
+        e.target.focus();
+        alert("비밀번호에는 영문 알파벳과 숫자,특수문자만 사용 가능합니다.");
+        setIsAlertShown2(true);
+      } else {
+        setIsAlertShown2(false);
+      }
+   };
+
 
     const handleInputChange=(event)=>{
         const{name,value}=event.target;
@@ -179,7 +196,10 @@ const PwdCheck = () => {
             if(data.msg==="good"){
                 alert("비밀번호가 일치 합니다.");
                 navigate("/edit");
-            }else{
+            }else if(data.msg==="fail"){
+                alert("비밀번호에는 영문 알파벳과 숫자,특수문자만 사용 가능합니다.");
+            }
+            else{
                 alert("비밀번호가 불일치 합니다");
             }
         })
@@ -193,7 +213,7 @@ const PwdCheck = () => {
             {/* <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p> */}
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input placeholder="비밀번호를 입력해주세요." type='password' className='edit' maxLength="15" name='pwd' onChange={handleInputChange} />
+                <input placeholder="비밀번호를 입력해주세요." type='password' className='edit' maxLength="15" name='pwd' onChange={handleInputChange} onBlur={blur2} />
                 <div class="editnumber">{vo.pwd.length}/15</div>
             </div>
             <button className='change' >확인</button>
