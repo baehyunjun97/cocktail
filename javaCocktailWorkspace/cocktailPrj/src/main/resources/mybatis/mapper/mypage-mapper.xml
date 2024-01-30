@@ -32,7 +32,7 @@
 		ON (C.MEMBER_NO=M.NO)
 		WHERE M.NO=#{memberNo}
 		ORDER BY C.NO , CS.FILE_NAME DESC -->
-	
+		</select>
 
 	<select id="bookmark"
 		resultType="com.kh.app.cocktail.vo.CocktailVo2">
@@ -64,6 +64,6 @@
 		WHERE B.MEMBER_NO= #{MemberNo} 
 		ORDER BY C.NO , CS.FILE_NAME DESC -->
 
-	
+	</select>
 
 </mapper>
