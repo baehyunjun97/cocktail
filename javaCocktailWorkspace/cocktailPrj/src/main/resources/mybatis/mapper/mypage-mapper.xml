@@ -6,13 +6,7 @@
 
 	<select id="upload"
 		resultType="com.kh.app.cocktail.vo.CocktailVo2">
-		<!-- SELECT*
-		FROM COCKTAIL C
-		JOIN COCKTAIL_SRC CS ON(CS.COCKTAIL_NO=C.NO)
-		JOIN MEMBER M
-		ON (C.MEMBER_NO=M.NO)
-		WHERE M.NO=#{memberNo}
-		ORDER BY C.NO , CS.FILE_NAME DESC -->
+		
 		SELECT DISTINCT
 	        C.NO AS COCKTAIL_NO,
 	        C.NAME_KOR,
@@ -30,7 +24,15 @@
 		LEFT JOIN BASE B ON I.BASE_NO = B.NO
 		WHERE M.NO=#{memberNo}
 		ORDER BY C.NO , CS.FILE_NAME DESC
-	</select>
+		
+		<!-- SELECT*
+		FROM COCKTAIL C
+		JOIN COCKTAIL_SRC CS ON(CS.COCKTAIL_NO=C.NO)
+		JOIN MEMBER M
+		ON (C.MEMBER_NO=M.NO)
+		WHERE M.NO=#{memberNo}
+		ORDER BY C.NO , CS.FILE_NAME DESC -->
+	
 
 	<select id="bookmark"
 		resultType="com.kh.app.cocktail.vo.CocktailVo2">
@@ -62,6 +64,6 @@
 		WHERE B.MEMBER_NO= #{MemberNo} 
 		ORDER BY C.NO , CS.FILE_NAME DESC -->
 
-	</select>
+	
 
 </mapper>

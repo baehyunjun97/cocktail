@@ -43,7 +43,7 @@ public class EmailCertificationId {
 	    Map map = new HashMap();
 	    
 	    //사용자가 작성한 아이디를 기준으로 존재하는 사용자인지 확인한다.(id는 회원가입시 중복 체크를 했기 때문에 유니크하다.)
-	    MemberVo member = ms.emailCheck(vo); 
+	    MemberVo member = ms.emailCertification(vo); 
 	    
 	    if(member != null) {//회원가입이 되어있는, 존재하는 사용자라면
 	        Random r = new Random();

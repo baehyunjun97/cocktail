@@ -58,8 +58,8 @@ public class MemberDao {
 	}
 	
 	//이메일 인증
-	public MemberVo emailCheck(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectOne("MemberMapper.emailCheck",vo);
+	public MemberVo emailCertification(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.emailCertification",vo);
 	}
 	
 	//아이디 찾기
@@ -70,6 +70,11 @@ public class MemberDao {
 	//비밀번호 찾기
 	public String getPwdByEmail(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("MemberMapper.getPwdByEmail",vo);
+	}
+	
+	//이메일 중복 체크
+	public int emailCheck(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.emailCheck",vo);
 	}
 	
 	

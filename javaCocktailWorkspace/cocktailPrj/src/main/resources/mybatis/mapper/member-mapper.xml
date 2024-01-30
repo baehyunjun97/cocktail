@@ -75,7 +75,7 @@
 		AND PWD=#{pwd}
 	</select> 
 	
-	<select id="emailCheck" resultType="com.kh.app.member.vo.MemberVo">
+	<select id="emailCertification" resultType="com.kh.app.member.vo.MemberVo">
 		SELECT 
 		NO
 		,ID
@@ -100,5 +100,12 @@
 		WHERE  ID=#{id} 
 		AND EMAIL=#{email}
 	</select> 
+	
+	<select id="emailCheck" resultType="int">
+		SELECT COUNT(*)
+		FROM MEMBER
+		WHERE
+		EMAIL=#{email}
+	</select>
 
 </mapper>

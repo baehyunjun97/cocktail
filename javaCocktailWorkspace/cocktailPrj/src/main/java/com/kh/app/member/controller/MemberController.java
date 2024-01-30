@@ -60,11 +60,13 @@ public class MemberController {
 	public Map<String, Object> edit(@RequestBody MemberVo vo) throws Exception {
 		System.out.println("fetch 통해서 받은 데이터:"+vo);
 		int result=ms.edit(vo);
-		
+		String pwd = vo.getPwd();
 		Map<String, Object> map=new HashMap<String, Object>();
 		
 		if(result==1) {
 			map.put("msg", "good");
+		}else if(!pwd.matches("^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$")) {
+			map.put("msg", "fail");
 		}else {
 			map.put("msg", "bad");
 		}
