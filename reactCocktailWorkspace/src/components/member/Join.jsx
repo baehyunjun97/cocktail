@@ -243,20 +243,23 @@ function blur(e) {
             return resp.text();
         })
         .then((data)=>{
-            console.log(data);
+            
             if(data==="good"){
                 alert("회원가입 성공");
                 navigate("/login");
                 
-            }else if(data==="overlap"){
+            }else if(data==="overlapId"){
                 alert("중복된 아이디 입니다.")
+            }
+            else if(data==="overlapEmail"){
+                alert("중복된 이메일 입니다.")
             }
             else{
                 alert("회원가입 실패");
             }
         })
         .catch((e)=>{
-            console.log(e);
+           
             alert("회원가입 실패!")
             navigate("/error");
         })

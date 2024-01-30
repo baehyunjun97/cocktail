@@ -131,17 +131,15 @@ const PwdCheck = () => {
 
     const navigate=useNavigate();
     const obj=useContext(MemberMemory);
-    console.log(obj.vo);
     const[vo,setVo]=useState(
         {
             pwd:'',
 
         }
     );
-    console.log(vo);
 
     const [isAlertShown2, setIsAlertShown2] = useState(false);
-   function blur2(e){
+    function blur2(e){
     const isValidPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$/.test(e.target.value);
     
     if (!isValidPwd && e.target.value.length === 0 && !isAlertShown2) {
@@ -173,7 +171,7 @@ const PwdCheck = () => {
             ...vo,
             ...obj.vo,
         }
-        console.log(x);
+        
         if(obj.vo.pwd!==vo.pwd){
             alert("비밀번호 불일치");
             return;

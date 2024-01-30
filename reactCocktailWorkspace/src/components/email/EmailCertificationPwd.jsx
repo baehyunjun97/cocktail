@@ -147,7 +147,7 @@ const EmailCertificationPwd = () => {
             email:'',
         }
     );
-    console.log(vo);
+    
 
 
     const handleInputChange=(event)=>{
@@ -161,15 +161,7 @@ const EmailCertificationPwd = () => {
 
     const emailAccord=(event)=>{
         event.preventDefault();
-        // const x = {
-        //     ...vo,
-        //      ...obj.vo,
-        // }
-        // console.log(x);
-        // if(obj.vo.email!==vo.email){
-        //     alert("이메일 불일치");
-        //     return;
-        // }
+      
 
         fetch("http://127.0.0.1:8888/app/email/pwdfind",{
             method:"POST",

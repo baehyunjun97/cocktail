@@ -352,7 +352,6 @@ const Mypage = () => {
     const navigate=useNavigate();
     
     const obj=useContext(MemberMemory);
-    console.log(obj.vo);
     const [upload, setUpload] = useState([]);
     const [like,setLike]= useState([]);
 
@@ -377,7 +376,6 @@ const Mypage = () => {
             .then((data) => {
                 setLike(data.bookmark);
                 setUpload(data.upload);
-                console.log(data);
             })
             .catch((e) => {
                 console.log(e);

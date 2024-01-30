@@ -143,16 +143,31 @@ const Edit = () => {
         nick: obj.vo ? obj.vo.nick : '',
     });
     const [nick,setNick] = useState(obj.vo.nick);
+    
+    //비밀번호 작성 조건
+    const [isAlertShown2, setIsAlertShown2] = useState(false);
+    function blur2(e){
+    const isValidPwd = /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{4,}$/.test(e.target.value);
+    
+    if (!isValidPwd && e.target.value.length === 0 && !isAlertShown2) {
+        e.target.focus();
+        alert("비밀번호를 입력하세요");
+        setIsAlertShown2(true);
+      } else if (!isValidPwd && !isAlertShown2) {
+        e.target.focus();
+        alert("비밀번호에는 영문 알파벳과 숫자,특수문자만 사용 가능합니다.");
+        setIsAlertShown2(true);
+      } else {
+        setIsAlertShown2(false);
+      }
+   };
+     
    
     useEffect(()=>{
         if(obj.vo.nick){
             setNick(obj.vo.nick);
         }
     },[obj.vo])
-    console.log(vo);
-
-    
-   
 
 
     const handleInputChange=(event)=>{
@@ -177,7 +192,6 @@ const Edit = () => {
             ...vo,
             
         }
-        console.log(x);
         //비밀번호 일치여부
         if(vo.pwd!==vo.pwd2){
             alert("비밀번호가 일치하지 않습니다");
@@ -217,6 +231,8 @@ const Edit = () => {
                     nick:vo.nick,
                   }));
                 navigate('/*');
+            }else if(data.msg==="fail"){
+                alert("비밀번호에는 영문 알파벳과 숫자,특수문자만 사용 가능합니다.");
             }
             else{
                 alert("회원정보 수정 실패");
@@ -232,7 +248,7 @@ const Edit = () => {
             <p className='text2'>회원정보는 언제든 변경할 수 있습니다.</p>
             <h3 class="text3">비밀번호</h3>
             <div class="editcollection">
-                <input type='password' placeholder="새 비밀번호" name="pwd" maxLength="15" className='edit' onChange={handleInputChange} />
+                <input type='password' placeholder="새 비밀번호" name="pwd" maxLength="15" className='edit' onChange={handleInputChange} onBlur={blur2} />
                 <div class="editnumber1">{vo.pwd.length}/15</div>
             </div>
 

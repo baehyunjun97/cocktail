@@ -42,12 +42,13 @@ public class MemberService {
 		String msg = null;
 
 		// 0아니면 1을 리턴
+		//아이디 중복확인
 		int idCheck = dao.idCheck(sst, vo);
-
+		
 //		 아이디가 없어야 성공이니 
 		if (idCheck == 1) {
 //			map.put("msg", "아이디 중복");
-			msg = "overlap";
+			msg = "overlapId";
 			return msg;
 		}
 
@@ -74,6 +75,15 @@ public class MemberService {
 		// 이메일 작성 조건
 		if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
 			msg = "bad";
+			return msg;
+		}
+		//이메일 중복확인
+		int emailCheck = dao.emailCheck(sst, vo);
+		System.out.println(emailCheck);
+		
+//		이메일이 없어야 성공이니 
+		if (emailCheck == 1) {
+			msg = "overlapEmail";
 			return msg;
 		}
 
@@ -127,6 +137,17 @@ public class MemberService {
 //
 //		return result;
 //	}
+	
+	// 즐겨찾기
+//	List<CocktailVo3> cocktailVoList = dao.bookmark(sst,cvo);
+//	
+//	Map<String, CocktailVo3> map = new HashMap<String, CocktailVo3>();
+//
+//	for (CocktailVo3 cocktailVo : cocktailVoList) {
+//		map.put(cocktailVo.getCocktailNo(), cocktailVo);
+//	}
+//	
+//	ArrayList<CocktailVo3> result = new ArrayList<CocktailVo3>(map.values());
 
 	// 마이페이지 통합
 	public Map<String, List<CocktailVo2>> myCocktails(CocktailVo2 cvo) {
@@ -147,16 +168,7 @@ public class MemberService {
 		map.put("bookmark", bookmarkVoList);
 		map.put("upload", uploadVoList);
 
-		// 즐겨찾기
-//		List<CocktailVo3> cocktailVoList = dao.bookmark(sst,cvo);
-//		
-//		Map<String, CocktailVo3> map = new HashMap<String, CocktailVo3>();
-//
-//		for (CocktailVo3 cocktailVo : cocktailVoList) {
-//			map.put(cocktailVo.getCocktailNo(), cocktailVo);
-//		}
-//		
-//		ArrayList<CocktailVo3> result = new ArrayList<CocktailVo3>(map.values());
+
 
 		return map;
 
@@ -169,8 +181,8 @@ public class MemberService {
 	}
 
 	// 이메일 인증
-	public MemberVo emailCheck(MemberVo vo) {
-		return dao.emailCheck(sst, vo);
+	public MemberVo emailCertification(MemberVo vo) {
+		return dao.emailCertification(sst, vo);
 	}
 
 	// 아이디 찾기
