@@ -24,13 +24,13 @@
 	    <where>
 	        <!-- 알콜 필터 -->
 	        <if test="alc == '무알콜'">
-	            AND C.ALC IS NULL
+	            AND C.ALC = 0
 	        </if>
 	        <if test="alc == '강한 도수'">
 	            AND C.ALC >= 20
 	        </if>
 	        <if test="alc == '약한 도수'">
-	            AND C.ALC &lt; 20
+	            AND C.ALC BETWEEN 0.1 AND 19.99999
 	        </if> 
 	        <!-- 재료수 필터 -->
 	        <if test="itemMin != null and itemMax != null and itemMin != '' and itemMax != ''">

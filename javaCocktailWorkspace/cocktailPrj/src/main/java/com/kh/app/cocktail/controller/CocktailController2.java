@@ -13,11 +13,13 @@ import com.kh.app.cocktail.vo.CocktailVo2;
 import com.kh.app.filter.vo.FilterVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("cocktail")
 @CrossOrigin
+@Slf4j
 public class CocktailController2 {
 	
 	private final CocktailService2 service;
@@ -25,6 +27,7 @@ public class CocktailController2 {
 	// 칵테일 전체 조회
 	@GetMapping("list")
 	public List<CocktailVo2> showCocktailList(FilterVo filterVo) throws Exception {
+		log.info("받은 파라미터 데이터 : {}",filterVo);
 		return service.list(filterVo);
 	}
 	
