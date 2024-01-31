@@ -155,7 +155,7 @@ const IngredientForm = ({ index, onDelete, handleChangeIng, isLast, ingredients 
         </div>
 
         <br />
-        {isLast && <button onClick={() => onDelete(index)}>재료 삭제</button>}
+        {isLast && <button onClick={(event) => {onDelete(index); event.preventDefault();} }>재료 삭제</button>}
       </div>
     </div>
   );
