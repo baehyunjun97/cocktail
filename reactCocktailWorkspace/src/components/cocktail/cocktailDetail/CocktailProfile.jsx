@@ -281,7 +281,7 @@ const CocktailProfile = ({ cocktailAndIngredientsVO }) => {
                     </div>
                     <div>{cocktailVo.commentary}</div>
                     <div>
-                        <div>도수 : {cocktailVo.alc}도</div>
+                        <div>도수 : {cocktailVo.alc < 1 ? '무알콜' : cocktailVo.alc+'도'}</div>
                         <div>{"@"+cocktailVo.writerName+"님의 레시피"}</div>
                     </div>
                     <div>
