@@ -201,23 +201,29 @@ function blur(e) {
     const handleJoinSubmit=(event)=>{
         event.preventDefault();
 
+         //아이디 글자수
+         if(vo.id.length<6){
+            alert("아이디는 6글자 이상 입력하세요")
+            return;
+        }
+
+        //비밀번호 글자수
+        if(vo.pwd.length<6){
+            alert("비밀번호는 6글자 이상 입력하세요")
+            return;
+        }
+
         //비밀번호 확인
         if(vo.pwd!==vo.pwd2){
             alert("비밀번호가 일치하지 않습니다");
             return;
         }
 
-        //아이디 글자수
-        if(vo.id.length<4){
-            alert("아이디는 4글자 이상 입력하세요")
-            return;
+        //admin 불가
+        if(vo.id==="admin"){
+            alert("아이디에 admin이 들어가면 안 됩니다.")
         }
 
-        //비밀번호 글자수
-        if(vo.pwd.length<4){
-            alert("비밀번호는 4글자 이상 입력하세요")
-            return;
-        }
 
         if(isFetching){
             return;
