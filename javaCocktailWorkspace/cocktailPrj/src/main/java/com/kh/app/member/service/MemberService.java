@@ -79,7 +79,7 @@ public class MemberService {
 		}
 		//이메일 중복확인
 		int emailCheck = dao.emailCheck(sst, vo);
-		System.out.println(emailCheck);
+//		System.out.println(emailCheck);
 		
 //		이메일이 없어야 성공이니 
 		if (emailCheck == 1) {
