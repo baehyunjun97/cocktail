@@ -1,4 +1,4 @@
-# cocktail
+# Project cocktail
 <br>
 주제 : 칵테일 추천 및 자작 칵테일 등록 사이트<br>
 일정 : 2023.12.19 ~ 2024.02.01<br>
