@@ -1,18 +1,17 @@
 # cocktail
-
-kh_파이널 프로젝트
-주제 : 칵테일 추천 및 자작 칵테일 등록 사이트
-일정 : 2023.12.19 ~ 2024.02.01
-
+<br>
+주제 : 칵테일 추천 및 자작 칵테일 등록 사이트<br>
+일정 : 2023.12.19 ~ 2024.02.01<br>
+<img width="609" alt="image" src="https://github.com/baehyunjun97/cocktail/assets/110373230/3bd290c3-7b62-4b29-8b4d-ac515dc436eb">
+<br>
+<hr>
+OS : window 11, Mac Os<br>
 사용 언어 : JAVA, JavaScript, CSS,HTML<br>
 FrameWork/ Library : Mybatis, Spring, React.js<br>
 DB : ORACLE DB<br>
 WAS : TOMCAT 9.0<br>
-
-<br>
-<img width="609" alt="image" src="https://github.com/baehyunjun97/cocktail/assets/110373230/3bd290c3-7b62-4b29-8b4d-ac515dc436eb">
-
-<br><hr>
+Collaboration : GIT, SourceTree<br>
+<hr>
 
 <h2>DB 모델링</h2>
 LINK : https://www.erdcloud.com/d/oeu55XbFC4gDqfCsC
